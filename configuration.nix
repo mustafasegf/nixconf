@@ -167,6 +167,77 @@
     nixpkgs.config.allowUnfree = true;
     services.kdeconnect.enable = true;
 
+
+
+
+    programs.zsh = {
+      enable = true;
+      autocd = true;
+
+      enableAutosuggestions = true;
+      enableCompletion = true;
+      enableSyntaxHighlighting = true;
+      defaultKeymap = "viins";
+      initExtraFirst = ''
+        # tmux auto start config
+        # change this
+        ZSH_TMUX_AUTOSTART=true
+        ZSH_TMUX_AUTOSTART_ONCE=false
+        ZSH_TMUX_AUTOCONNECT=true
+        ZSH_TMUX_CONFIG=/home/mustafa/.config/tmux/tmux.conf
+
+        # vi mode config
+        VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+        VI_MODE_SET_CURSOR=true
+        MODE_INDICATOR="%F{yellow}+%f"
+        KEYTIMEOUT=15
+        VI_MODE_PROMPT_INFO=true
+      '';
+      shellAliases = {
+        update = "sudo nixos-rebuild switch";
+        rm = "trash";
+        cat = "bat";
+        grep = "rg";
+        c = "clear";
+
+        ls = "lsd";
+        la = "ls -A";
+        l = "ls -Alh";
+        ll = "ls -Al";
+        lt = "ls --tree";
+        lta = "ls -A --tree";
+
+        g = "git";
+        lg = "lazygit";
+      };
+
+      history = {
+        size = 10000;
+      };
+
+      zplug = {
+        enable = true;
+        plugins = [
+          { name = "dracula/zsh"; tags = [ "as:theme" ]; }
+          { name = "agkozak/zsh-z"; }
+          { name = "plugins/tmux"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/vi-mode"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/docker"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/docker-compose"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/sudo"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/copyfile"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/copypath"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/dirhistory"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/history"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/fzf"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/history-substring-search"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/colored-man-pages"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/gcloud"; tags = [ from:oh-my-zsh ]; }
+          { name = "plugins/aws"; tags = [ from:oh-my-zsh ]; }
+        ];
+      };
+    };
+
     ## no program config yet: neofetch
 
     programs.tmux = {
@@ -180,26 +251,105 @@
             set -g @dracula-show-fahrenheit false
           '';
         }
+        {
+          plugin = resurrect;
+          extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+        }
+        {
+          plugin = continuum;
+          extraConfig = ''
+            set -g @continuum-restore 'on'
+            set -g @continuum-save-interval '60' # minutes
+          '';
+        }
+        {
+          plugin = open;
+        }
+        {
+          plugin = sidebar;
+        }
+        {
+          plugin = yank;
+          extraConfig = ''
+            set -g @yank_highlight 'true'
+            set -g @yank_highlight_cursor 'true'
+          '';
+        }
+        {
+          plugin = copycat;
+
+        }
         # {
-        #   plugin = resurrect;
-        #   extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+        #   plugin = sensible;
         # }
-        # {
-        #   plugin = continuum;
-        #   extraConfig = ''
-        #     set -g @continuum-restore 'on'
-        #     set -g @continuum-save-interval '60' # minutes
-        #   '';
-        # }
-        # sidebar
-        # prefix-highlight
-        # open
-        # yank
-        sensible
-        # copycat
-        # pain-control
-        # logging
+        {
+          plugin = logging;
+        }
       ];
+
+      shell = "${pkgs.zsh}/bin/zsh";
+
+      extraConfig = ''
+        # split panes using | and -, make sure they open in the same path
+        bind | split-window -h -c "#{pane_current_path}"
+        bind - split-window -v -c "#{pane_current_path}"
+
+        unbind '"'
+        unbind %
+
+        # open new windows in the current path
+        bind c new-window -c "#{pane_current_path}"
+        bind s new-session
+
+        # reload config file
+        bind r source-file ~/.config/tmux/tmux.conf \: display-message "Loaded tmux config"
+
+        unbind p
+        bind p previous-window
+
+        # vim key to switch window and session
+        bind -r j previous-window
+        bind -r k next-window
+        bind -r h switch-client -p
+        bind -r l switch-client -n
+
+        # vim key to move pane
+        bind -r K select-pane -U
+        bind -r J select-pane -D
+        bind -r H select-pane -R
+        bind -r L select-pane -L
+
+        set -g mouse on
+        # don't rename windows automatically
+        set -g allow-rename off
+
+        # for server
+        #Variables
+        color_status_text="colour245"
+        color_window_off_status_bg="colour238"
+        color_light="white" #colour015
+        color_dark="colour232" # black= colour232
+        color_window_off_status_current_bg="colour254"
+
+        bind -T root F12  \
+          set prefix None \;\
+          set key-table off \;\
+          set status-style "fg=$color_status_text,bg=$color_window_off_status_bg" \;\
+          set window-status-current-format "#[fg=$color_window_off_status_bg,bg=$color_window_off_status_current_bg]$separator_powerline_right#[default] #I:#W# #[fg=$color_window_off_status_current_bg,bg=$color_window_off_status_bg]$separator_powerline_right#[default]" \;\
+          set window-status-current-style "fg=$color_dark,bold,bg=$color_window_off_status_current_bg" \;\
+          if -F '#{pane_in_mode}' 'send-keys -X cancel' \;\
+          refresh-client -S \;\
+
+        bind -T off F12 \
+          set -u prefix \;\
+          set -u key-table \;\
+          set -u status-style \;\
+          set -u window-status-current-style \;\
+          set -u window-status-current-format \;\
+          refresh-client -S
+
+        wg_is_keys_off="#[fg=$color_light,bg=$color_window_off_indicator]#([ $(tmux show-option -qv key-table) = 'off' ] && echo 'OFF')#[default]"
+      '';
       prefix = "C-a";
       keyMode = "vi";
       historyLimit = 10000;
@@ -520,7 +670,7 @@
 
     programs.lsd = {
       enable = true;
-      enableAliases = true;
+      enableAliases = false;
       settings = {
         layout = "grid";
         blocks = [ "permission" "user" "group" "date" "size" "name" ];
@@ -629,8 +779,8 @@
 
     programs.neovim = {
       enable = true;
-      #viAlias = true;
-      #vimAlias = true;
+      viAlias = true;
+      vimAlias = true;
 
       plugins =
         let
@@ -767,7 +917,10 @@
     };
   };
 
+  users.defaultUserShell = pkgs.zsh;
+
   users.users.mustafa = {
+    shell = pkgs.zsh;
     isNormalUser = true;
     extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" ];
   };
@@ -935,6 +1088,7 @@
     usermount
     gnumake
     air
+    lazygit
   ];
 
 
@@ -972,6 +1126,3 @@
   system.stateVersion = "22.11"; # Did you read the comment?
 
 }
-
-
-
