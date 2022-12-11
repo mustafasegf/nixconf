@@ -169,45 +169,44 @@
 
     ## no program config yet: neofetch
 
-    # programs.tmux = {
-    #   enable = false;
-    #   plugins = with pkgs.tmuxPlugins; [
-    #     # {
-    #     #   plugin = dracula;
-    #     #   extraConfig = ''
-    #     #     set -g @dracula-plugins "git"
-    #     #     set -g @dracula-show-left-icon session
-    #     #     set -g @dracula-show-fahrenheit false
-    #     #   '';
-    #     # }
-    #     # {
-    #     #   plugin = resurrect;
-    #     #   extraConfig = "set -g @resurrect-strategy-nvim 'session'";
-    #     # }
-    #     # {
-    #     #   plugin = continuum;
-    #     #   extraConfig = ''
-    #     #     set -g @continuum-restore 'on'
-    #     #     set -g @continuum-save-interval '60' # minutes
-    #     #   '';
-    #     # }
-    #     sidebar
-    #     prefix-highlight
-    #     open
-    #     yank
-    #     sensible
-    #     copycat
-    #     # pain-control
-    #     logging
-    #     sensible
-    #   ];
-    #   prefix = "C-a";
-    #   keyMode = "vi";
-    #   historyLimit = 10000;
-    #   baseIndex = 1;
-    #   # escapeTime = 1;
-    #   # newSession = true;
-    # };
+    programs.tmux = {
+      enable = true;
+      plugins = with pkgs.tmuxPlugins; [
+        {
+          plugin = dracula;
+          extraConfig = ''
+            set -g @dracula-plugins "git"
+            set -g @dracula-show-left-icon session
+            set -g @dracula-show-fahrenheit false
+          '';
+        }
+        # {
+        #   plugin = resurrect;
+        #   extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+        # }
+        # {
+        #   plugin = continuum;
+        #   extraConfig = ''
+        #     set -g @continuum-restore 'on'
+        #     set -g @continuum-save-interval '60' # minutes
+        #   '';
+        # }
+        # sidebar
+        # prefix-highlight
+        # open
+        # yank
+        sensible
+        # copycat
+        # pain-control
+        # logging
+      ];
+      prefix = "C-a";
+      keyMode = "vi";
+      historyLimit = 10000;
+      baseIndex = 1;
+      # escapeTime = 1;
+      # newSession = true;
+    };
 
     programs.rofi =
       {
