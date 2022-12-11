@@ -5,8 +5,6 @@
 { config, modulesPath, lib, pkgs, hardware, nix, ... }:
 
 {
-
-
   imports =
     [
       # Include the results of the hardware scan.
@@ -14,9 +12,6 @@
       ./qtile.nix
       <home-manager/nixos>
     ];
-
-
-
 
   # Use the systemd-boot EFI boot loader.
   boot.loader.systemd-boot.enable = true;
@@ -174,48 +169,47 @@
 
     ## no program config yet: neofetch
 
-    programs.tmux = {
-      enable = false;
-      plugins = with pkgs.tmuxPlugins; [
-        # {
-        #   plugin = dracula;
-        #   extraConfig = ''
-        #     set -g @dracula-plugins "git"
-        #     set -g @dracula-show-left-icon session
-        #     set -g @dracula-show-fahrenheit false
-        #   '';
-        # }
-        # {
-        #   plugin = resurrect;
-        #   extraConfig = "set -g @resurrect-strategy-nvim 'session'";
-        # }
-        # {
-        #   plugin = continuum;
-        #   extraConfig = ''
-        #     set -g @continuum-restore 'on'
-        #     set -g @continuum-save-interval '60' # minutes
-        #   '';
-        # }
-        sidebar
-        prefix-highlight
-        open
-        yank
-        sensible
-        copycat
-        # pain-control
-        logging
-        sensible
-      ];
-      prefix = "C-a";
-      keyMode = "vi";
-      historyLimit = 10000;
-      baseIndex = 1;
-      # escapeTime = 1;
-      # newSession = true;
-    };
+    # programs.tmux = {
+    #   enable = false;
+    #   plugins = with pkgs.tmuxPlugins; [
+    #     # {
+    #     #   plugin = dracula;
+    #     #   extraConfig = ''
+    #     #     set -g @dracula-plugins "git"
+    #     #     set -g @dracula-show-left-icon session
+    #     #     set -g @dracula-show-fahrenheit false
+    #     #   '';
+    #     # }
+    #     # {
+    #     #   plugin = resurrect;
+    #     #   extraConfig = "set -g @resurrect-strategy-nvim 'session'";
+    #     # }
+    #     # {
+    #     #   plugin = continuum;
+    #     #   extraConfig = ''
+    #     #     set -g @continuum-restore 'on'
+    #     #     set -g @continuum-save-interval '60' # minutes
+    #     #   '';
+    #     # }
+    #     sidebar
+    #     prefix-highlight
+    #     open
+    #     yank
+    #     sensible
+    #     copycat
+    #     # pain-control
+    #     logging
+    #     sensible
+    #   ];
+    #   prefix = "C-a";
+    #   keyMode = "vi";
+    #   historyLimit = 10000;
+    #   baseIndex = 1;
+    #   # escapeTime = 1;
+    #   # newSession = true;
+    # };
 
     programs.rofi =
-
       {
         enable = false;
 
@@ -622,7 +616,6 @@
       };
     };
 
-    # program.
 
     programs.gh = {
       enable = true;
@@ -637,8 +630,8 @@
 
     programs.neovim = {
       enable = true;
-      viAlias = true;
-      vimAlias = true;
+      #viAlias = true;
+      #vimAlias = true;
 
       plugins =
         let
@@ -740,45 +733,37 @@
         ];
 
 
-      extraConfig = ''
-          set
-          number
-          set
-          rnu
-          set
-          ignorecase
-          set
-          smartcase
-          set
-          hidden
-          set
-          noerrorbells
-          set
-          tabstop=2 softtabstop=2 shiftwidth=2
-        set shiftwidth=2
-        set expandtab
-        set smartindent
-        set wrap
-        set noswapfile
-        set nobackup
-        set undodir=~/.vim/undodir
-        set undofile
-        set incsearch
-        set scrolloff=12
-        set noshowmode
-        set signcolumn=yes:2
-        set completeopt=menuone,noinsert
-        set cmdheight=1
-        set updatetime=50
-        set shortmess+=c
-        set termguicolors
-        set pumblend=15
-        set mouse=a
-        set winbar=%=%{expand('%:~:.')}
-        syntax on
-
-        lua require("start")
-      '';
+     # extraConfig = ''
+     #   set number
+     #   set rnu
+     #   set ignorecase
+     #   set smartcase
+     #   set hidden
+     #   set noerrorbells
+     #   set tabstop=2 softtabstop=2 shiftwidth=2
+     #   set shiftwidth=2
+     #   set expandtab
+     #   set smartindent
+     #   set wrap
+     #   set noswapfile
+     #   set nobackup
+     #   set undodir=~/.vim/undodir
+     #   set undofile
+     #   set incsearch
+     #   set scrolloff=12
+     #   set noshowmode
+     #   set signcolumn=yes:2
+     #   set completeopt=menuone,noinsert
+     #   set cmdheight=1
+     #   set updatetime=50
+     #   set shortmess+=c
+     #   set termguicolors
+     #   set pumblend=15
+     #   set mouse=a
+     #   set winbar=%=%{expand('%:~:.')}
+     #   syntax on
+     #   " lua require("start")
+     # '';
     };
   };
 
@@ -810,45 +795,7 @@
   environment.systemPackages = with pkgs; [
     vim
 
-    (neovim.override {
-      viAlias = true;
-      vimAlias = true;
-      configure = {
-
-        customRC = ''
-          set number
-          set rnu
-          set ignorecase
-          set smartcase
-          set hidden
-          set noerrorbells
-          set tabstop=2 softtabstop=2 shiftwidth=2
-          set shiftwidth=2
-          set expandtab
-          set smartindent
-          set wrap
-          set noswapfile
-          set nobackup
-          set undodir=~/.vim/undodir
-          set undofile
-          set incsearch
-          set scrolloff=12
-          set noshowmode
-          set signcolumn=yes:2
-          set completeopt=menuone,noinsert
-          set cmdheight=1
-          set updatetime=50
-          set shortmess+=c
-          set termguicolors
-          set pumblend=15
-          set mouse=a
-          set winbar=%=%{expand('%:~:.')}
-          syntax on
-
-          lua require("init")
-        '';
-      };
-    })
+    neovim
     vscode
 
     wget

@@ -3,8 +3,8 @@
 {
   imports = [ <home-manager/nixos> ];
 
-  home.username = "mustafa";
-  home.homeDirectory = "/home/mustafa";
+  # home.username = "mustafa";
+  # home.homeDirectory = "/home/mustafa";
 
   # home-manager.users.mustafa = {
   #   home.username = "mustafa";
@@ -594,7 +594,6 @@
   #   };
   # };
 
-  environment;
 
   home.stateVersion = "22.11";
   programs.home-manager.enable = true;

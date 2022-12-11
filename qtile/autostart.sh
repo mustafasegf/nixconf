@@ -1,4 +1,4 @@
-#! /run/current-system/sw/bin/bash
+#!/run/current-system/sw/bin/bash
 picom &
 nitrogen --restore &
 copyq &
