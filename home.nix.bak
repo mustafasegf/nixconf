@@ -1,0 +1,601 @@
+{ config, pkgs, lib, ... }:
+
+{
+  imports = [ <home-manager/nixos> ];
+
+  home.username = "mustafa";
+  home.homeDirectory = "/home/mustafa";
+
+  # home-manager.users.mustafa = {
+  #   home.username = "mustafa";
+  #   home.homeDirectory = "/home/mustafa";
+  #   home.stateVersion = "22.11";
+  #   programs.bash.enable = true;
+  #   nixpkgs.config.allowUnfree = true;
+  #   services.kdeconnect.enable = true;
+  #
+  #   ## no program config yet: neofetch
+  #
+  #   programs.tmux = {
+  #     enable = false;
+  #     plugins = with pkgs.tmuxPlugins; [
+  #       resurrect
+  #       continuum
+  #       sidebar
+  #       prefix-highlight
+  #       open
+  #       yank
+  #       sensible
+  #       copycat
+  #       # pain-control
+  #       logging
+  #       sensible
+  #     ];
+  #   };
+  #
+  #   programs.rofi =
+  #
+  #     {
+  #       enable = false;
+  #
+  #       plugins = with pkgs; [
+  #         rofi-calc
+  #         rofi-emoji
+  #         rofi-pass
+  #         rofi-systemd
+  #       ];
+  #       font = "IBM Plex Mono 12";
+  #
+  #       # theme = {
+  #       #   "*" = {
+  #       #     drac-bgd = "rgba (40, 42, 54, 50%)";
+  #       #     drac-cur = "#44475a";
+  #       #     drac-fgd = "#f8f8f2";
+  #       #     drac-cmt = "#6272a4";
+  #       #     drac-cya = "#8be9fd";
+  #       #     drac-grn = "#50fa7b";
+  #       #     drac-ora = "#ffb86c";
+  #       #     drac-pnk = "rgba (255, 121, 198, 17% )";
+  #       #     drac-pur = "#bd93f9";
+  #       #     drac-red = "rgba (255, 85, 85, 17%)";
+  #       #     drac-yel = "#f1fa8c";
+  #       #
+  #       #     foreground = "@drac-fgd";
+  #       #     background-color = "@drac-bgd";
+  #       #     active-background = "@drac-pnk";
+  #       #     urgent-background = "@drac-red";
+  #       #
+  #       #     selected-background = "@active-background";
+  #       #     selected-urgent-background = "@urgent-background";
+  #       #     selected-active-background = "@active-background";
+  #       #     separatorcolor = "@active-background";
+  #       #     bordercolor = "#6272a4";
+  #       #   };
+  #       #
+  #       #   "#window" = {
+  #       #     background-color = "@background-color";
+  #       #     border = 1;
+  #       #     border-radius = 6;
+  #       #     border-color = "@bordercolor";
+  #       #   };
+  #       #
+  #       #   "#mainbox" = {
+  #       #     border = 0;
+  #       #     padding = 5;
+  #       #   };
+  #       #   "#message" = {
+  #       #     border = "0px dash 0px 0px ";
+  #       #     border-color = "@separatorcolor";
+  #       #     padding = "0px ";
+  #       #   };
+  #       #   "#textbox" = {
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#listview" = {
+  #       #     lines = 10;
+  #       #     columns = 3;
+  #       #     fixed-height = 0;
+  #       #     border = "2px dash 0px 0px ";
+  #       #     border-color = "@bordercolor";
+  #       #     spacing = "0px ";
+  #       #     scrollbar = true;
+  #       #     padding = "2px 0px 0px ";
+  #       #   };
+  #       #   "#element" = {
+  #       #     border = 0;
+  #       #     padding = "1px ";
+  #       #   };
+  #       #   "#element.normal.normal" = {
+  #       #     background-color = "@background-color";
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#element.normal.urgent" = {
+  #       #     background-color = "@urgent-background";
+  #       #     text-color = "@urgent-foreground";
+  #       #   };
+  #       #   "#element.normal.active" = {
+  #       #     background-color = "@active-background";
+  #       #     text-color = "@background-color";
+  #       #   };
+  #       #   "#element.selected.normal" = {
+  #       #     background-color = "@selected-background";
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#element.selected.urgent" = {
+  #       #     background-color = "@selected-urgent-background";
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#element.selected.active" = {
+  #       #     background-color = "@selected-active-background";
+  #       #     text-color = "@background-color";
+  #       #   };
+  #       #   "#element.alternate.normal" = {
+  #       #     background-color = "@background-color";
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#element.alternate.urgent" = {
+  #       #     background-color = "@urgent-background";
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#element.alternate.active" = {
+  #       #     background-color = "@active-background";
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#scrollbar" = {
+  #       #     width = "1px ";
+  #       #     border = 0;
+  #       #     handle-width = "4px ";
+  #       #     padding = 0;
+  #       #   };
+  #       #   "#sidebar" = {
+  #       #     border = "2px dash 0px 0px ";
+  #       #     border-color = "@separatorcolor";
+  #       #   };
+  #       #   "#button.selected" = {
+  #       #     background-color = "@selected-background";
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#inputbar" = {
+  #       #     spacing = 0;
+  #       #     text-color = "@foreground";
+  #       #     padding = "1px ";
+  #       #   };
+  #       #   "#case-indicator" = {
+  #       #     spacing = 0;
+  #       #     text-color = "@foreground";
+  #       #   };
+  #       #   "#entry" = {
+  #       #     spacing = 0;
+  #       #     text-color = "@drac-cya";
+  #       #   };
+  #       #   "#prompt" = {
+  #       #     spacing = 0;
+  #       #     text-color = "@drac-grn";
+  #       #   };
+  #       #   "#inputbar" = {
+  #       #     children = "[ prompt,textbox-prompt-colon,entry,case-indicator ]";
+  #       #   };
+  #       #   "#textbox-prompt-colon" = {
+  #       #     expand = false;
+  #       #     str = ":";
+  #       #     margin = "0px 0.3em 0em 0em ";
+  #       #     text-color = "@drac-grn";
+  #       #   };
+  #       #   "element-text, element-icon" = {
+  #       #     background-color = "inherit";
+  #       #     text-color = "inherit";
+  #       #   };
+  #       # };
+  #       extraConfig = {
+  #         show-icons = true;
+  #         icon-theme = "Arc-X-D";
+  #         display-drun = "Apps";
+  #         drun-display-format = "{name}";
+  #         scroll-method = 0;
+  #         disable-history = false;
+  #         sidebar-mode = false;
+  #       };
+  #     };
+  #
+  #   services.picom = {
+  #     enable = true;
+  #     backend = "glx";
+  #     vSync = false;
+  #     shadow = false;
+  #
+  #     fade = true;
+  #     fadeDelta = 4;
+  #
+  #     opacityRules = [
+  #       "100:name *= 'Chrome' && focused"
+  #       "95:name *= 'Chrome' && !focused"
+  #       "100:class_g *= 'discord' && focused"
+  #       "95:class_g *= 'discord' && !focused"
+  #       "95:name *= 'Code' && !focused"
+  #       "100:name *= 'Postman' && focused"
+  #       "98:name *= 'Postman' && !focused"
+  #       "85:name *= 'Cisco'"
+  #     ];
+  #   };
+  #
+  #
+  #   gtk = {
+  #     enable = true;
+  #     theme = {
+  #       name = "Dracula";
+  #       package = pkgs.dracula-theme;
+  #     };
+  #   };
+  #
+  #   xdg.mimeApps = {
+  #     enable = true;
+  #     defaultApplications = {
+  #       "text/html" = "google-chrome.desktop";
+  #       "text/calendar" = "userapp-Thunderbird-OM4EI1.desktop";
+  #       "text/plain" = "nvim.desktop";
+  #       "text/csv" = "nvim.desktop";
+  #       "text/javascript" = "nvim.desktop";
+  #       "text/xml" = "nvim.desktop";
+  #       "text/x-shellscript" = "nvim.desktop";
+  #       "application/zip" = "tar.desktop";
+  #       "application/pdf" = "org.kde.okular.desktop";
+  #       "application/x-extension-ics" = "userapp-Thunderbird-OM4EI1.desktop";
+  #       "image/jpeg" = "pinta.desktop";
+  #       "image/jpg" = "pinta.desktop";
+  #       "image/png" = "pinta.desktop";
+  #       "inode/directory" = "thunar.desktop";
+  #       "audio/wav" = "mpv.desktop";
+  #       "x-scheme-handler/http" = "google-chrome.desktop";
+  #       "x-scheme-handler/https" = "google-chrome.desktop";
+  #       "x-scheme-handler/about" = "google-chrome.desktop";
+  #       "x-scheme-handler/unknown" = "google-chrome.desktop";
+  #       "x-scheme-handler/postman" = "Postman.desktop";
+  #       "x-scheme-handler/tg" = "userapp-Telegram Desktop-JPL1B1.desktop";
+  #       "x-scheme-handler/eclipse+command" = "_usr_lib_dbeaver_.desktop";
+  #       "x-scheme-handler/sidequest" = "SideQuest.desktop";
+  #       "x-scheme-handler/webcal" = "google-chrome.desktop";
+  #       "x-scheme-handler/mailto" = "userapp-Thunderbird-OQCEI1.desktop";
+  #       "x-scheme-handler/mid" = "userapp-Thunderbird-OQCEI1.desktop";
+  #       "x-scheme-handler/webcals" = "userapp-Thunderbird-OM4EI1.desktop";
+  #       "x-scheme-handler/discord-402572971681644545" = "discord-402572971681644545.desktop";
+  #       "message/rfc822" = "userapp-Thunderbird-OQCEI1.desktop";
+  #     };
+  #     associations.added = {
+  #       "text/html" = "firefox.desktop;code-oss.desktop;nvim.desktop;wine-extension-txt.desktop;";
+  #       "text/x-go" = "nvim.desktop;";
+  #       "application/pdf" = "okularApplication_pdf.desktop;";
+  #       "application/x-ms-dos-executable" = "wine.desktop;";
+  #       "application/x-java-archive" = "java-java11-openjdk.desktop;";
+  #       "application/sql" = "code-oss.desktop;nvim.desktop;";
+  #       "application/x-navi-animation" = "gimp.desktop;";
+  #       "image/png" = "pinta.desktop;";
+  #       "video/x-matroska" = "vlc.desktop;";
+  #       "video/mp4" = "vlc.desktop;mpv.desktop;";
+  #       "x-scheme-handler/tg" = "userapp-Telegram Desktop-JPL1B1.desktop;";
+  #       "x-scheme-handler/mailto" = "userapp-Thunderbird-OQCEI1.desktop;";
+  #       "x-scheme-handler/mid" = "userapp-Thunderbird-OQCEI1.desktop;";
+  #       "x-scheme-handler/webcal" = "userapp-Thunderbird-OM4EI1.desktop;";
+  #       "x-scheme-handler/webcals" = "userapp-Thunderbird-OM4EI1.desktop;";
+  #     };
+  #   };
+  #
+  #   programs.btop = {
+  #     enable = true;
+  #     settings = {
+  #       color_theme = "dracula";
+  #       theme_background = false;
+  #       truecolor = true;
+  #       force_tty = false;
+  #       presets = "cpu:1:default,proc:0:default cpu:0:default,mem:0:default,net:0:default cpu:0:block,net:0:tty";
+  #       vim_keys = false;
+  #       rounded_corners = true;
+  #       graph_symbol = "braille";
+  #       shown_boxes = "mem net proc cpu";
+  #       update_ms = 250;
+  #       proc_sorting = "cpu lazy";
+  #       proc_reversed = false;
+  #       proc_tree = false;
+  #       proc_colors = true;
+  #       proc_gradient = false;
+  #       proc_per_core = true;
+  #       proc_mem_bytes = true;
+  #       proc_cpu_graphs = true;
+  #       proc_info_smaps = false;
+  #       proc_left = true;
+  #       proc_filter_kernel = false;
+  #       cpu_graph_upper = "total";
+  #       cpu_graph_lower = "user";
+  #       cpu_invert_lower = true;
+  #       cpu_single_graph = false;
+  #       cpu_bottom = false;
+  #       show_uptime = true;
+  #       check_temp = true;
+  #       cpu_sensor = "Auto";
+  #       show_coretemp = true;
+  #       cpu_core_map = "";
+  #       temp_scale = "celsius";
+  #     };
+  #   };
+  #
+  #   programs.bat = {
+  #     enable = true;
+  #     config = {
+  #       theme = "Dracula";
+  #       tabs = "2";
+  #       style = "plain";
+  #       paging = "never";
+  #     };
+  #   };
+  #
+  #   programs.starship = {
+  #     enable = true;
+  #     enableZshIntegration = true;
+  #     settings = {
+  #       add_newline = true;
+  #       format = "[$symbol$version]($style)[$directory]($style)[$git_branch]($style)[$git_commit]($style)[$git_state]($style)[$git_status]($style)[$line_break]($style)[$username]($style)[$hostname]($style)[$shlvl]($style)[$jobs]($style)[$time]($style)[$status]($style)[$character]($style)";
+  #       line_break.disabled = true;
+  #       cmd_duration.disabled = true;
+  #       character = {
+  #         success_symbol = "[➜](bold green)";
+  #         error_symbol = "[✖](bold red)";
+  #         vicmd_symbol = "[❮](bold yellow)";
+  #       };
+  #       package.disabled = true;
+  #     };
+  #   };
+  #
+  #   programs.lsd = {
+  #     enable = true;
+  #     enableAliases = true;
+  #     settings = {
+  #       layout = "grid";
+  #       blocks = [ "permission" "user" "group" "date" "size" "name" ];
+  #       color.when = "auto";
+  #       date = "+%d %m(%b) %Y %a";
+  #       recursion = {
+  #         enable = false;
+  #         depth = 7;
+  #       };
+  #       size = "short";
+  #       permission = "rwx";
+  #       no-symlink = false;
+  #       total-size = false;
+  #       hyperlink = "auto";
+  #     };
+  #   };
+  #
+  #   programs.git = {
+  #     enable = true;
+  #     userName = "Mustafa Zaki Assagaf";
+  #     userEmail = "mustafa.segf@gmail.com";
+  #     extraConfig = {
+  #       core.editor = "nvim";
+  #       #credential."https://github.com" = {
+  #       #  helper = "!/run/current-system/sw/bin/gh auth git-credential";
+  #       #};
+  #       init.defaultBranch = "master";
+  #       pull.rebase = false;
+  #       pull.ff = true;
+  #     };
+  #   };
+  #
+  #   services.gromit-mpx = {
+  #     enable = true;
+  #
+  #     tools = [
+  #       {
+  #         device = "default";
+  #         type = "pen";
+  #         size = 3;
+  #       }
+  #       {
+  #         device = "default";
+  #         type = "pen";
+  #         color = "blue";
+  #         size = 3;
+  #         modifiers = [ "SHIFT" ];
+  #       }
+  #       {
+  #         device = "default";
+  #         type = "pen";
+  #         color = "black";
+  #         size = 3;
+  #         modifiers = [ "CONTROL" ];
+  #       }
+  #       {
+  #         device = "default";
+  #         type = "pen";
+  #         color = "white";
+  #         size = 3;
+  #         modifiers = [ "2" ];
+  #       }
+  #       {
+  #         device = "default";
+  #         type = "eraser";
+  #         size = 30;
+  #         modifiers = [ "3" ];
+  #       }
+  #     ];
+  #   };
+  #
+  #
+  #
+  #   programs.kitty = {
+  #     enable = true;
+  #     font = {
+  #       name = "IBM Plex Mono";
+  #       size = 10;
+  #     };
+  #     extraConfig = ''
+  #       include ./kitty/dracula.conf
+  #     '';
+  #
+  #     settings = {
+  #       background_opacity = "0.90";
+  #       enable_audio_bell = false;
+  #       confirm_os_window_close = "0";
+  #       bold_font = "auto";
+  #       italic_font = "auto";
+  #       bold_italic_font = "auto";
+  #       scrollback_lines = 5000;
+  #     };
+  #   };
+  #
+  #   # program.
+  #
+  #   programs.gh = {
+  #     enable = true;
+  #     settings = {
+  #       git_protocol = "ssh";
+  #       editor = "nvim";
+  #       prompt = "enable";
+  #       pager = "nvim";
+  #       http_unix_socket.browser = "google-chrome-stable";
+  #     };
+  #   };
+  #
+  #   programs.neovim = {
+  #     enable = true;
+  #     viAlias = true;
+  #     vimAlias = true;
+  #
+  #     plugins =
+  #       let
+  #         pluginGit = ref: repo: pkgs.vimUtils.buildVimPluginFrom2Nix {
+  #           pname = "${lib.strings.sanitizeDerivationName repo}";
+  #           version = ref;
+  #           src = builtins.fetchGit {
+  #             url = "https://github.com/${repo}.git";
+  #             ref = ref;
+  #           };
+  #         };
+  #       in
+  #
+  #       with pkgs.vimPlugins; [
+  #         # theme
+  #         dracula-vim
+  #
+  #         #lsp
+  #         nvim-lspconfig
+  #         cmp-nvim-lsp
+  #         cmp-buffer
+  #         nvim-cmp
+  #         luasnip
+  #         lspkind-nvim
+  #         null-ls-nvim
+  #         ## inlay-hints  
+  #
+  #         #language spesific
+  #         ## go-nvim
+  #         rust-tools-nvim
+  #
+  #         #file tree
+  #         nvim-tree-lua
+  #         nvim-web-devicons
+  #
+  #         # buffer
+  #         bufferline-nvim
+  #         toggleterm-nvim
+  #
+  #         #cosmetic
+  #         indent-blankline-nvim
+  #         nvim-ts-rainbow
+  #         lualine-nvim
+  #         nvim-colorizer-lua
+  #
+  #         #git
+  #         octo-nvim
+  #         vim-fugitive
+  #         {
+  #           plugin = (pluginGit "master" "APZelos/blamer.nvim");
+  #           type = "lua";
+  #         }
+  #         gitsigns-nvim
+  #         trouble-nvim
+  #
+  #         #addon app
+  #         vim-dadbod-ui
+  #         vim-dadbod
+  #         rest-nvim
+  #
+  #         #auto
+  #         cmp-tabnine
+  #         copilot-vim
+  #         nvim-autopairs
+  #
+  #         #quality of life
+  #         comment-nvim
+  #         nvim-ts-context-commentstring
+  #         nvim-ts-autotag
+  #         vim-move
+  #         vim-visual-multi
+  #         vim-surround
+  #         telescope-nvim
+  #         auto-save-nvim
+  #         refactoring-nvim
+  #         nvim-spectre
+  #
+  #         #session
+  #         auto-session
+  #         ## session-lens
+  #
+  #         #debugger
+  #         nvim-dap
+  #         nvim-dap-ui
+  #         nvim-dap-virtual-text
+  #         telescope-dap-nvim
+  #         nvim-dap-go
+  #         ##vim-maximizer
+  #
+  #         #misc
+  #         popup-nvim
+  #         plenary-nvim
+  #         # presence-nvim
+  #         registers-nvim
+  #         harpoon
+  #         vim-sneak
+  #
+  #         (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+  #       ];
+  #
+  #
+  #     extraConfig = '' 
+  #      set number
+  #      set rnu
+  #      set ignorecase
+  #      set smartcase
+  #      set hidden
+  #      set noerrorbells
+  #      set tabstop=2 softtabstop=2 shiftwidth=2
+  #      set shiftwidth=2
+  #      set expandtab
+  #      set smartindent
+  #      set wrap
+  #      set noswapfile
+  #      set nobackup
+  #      set undodir=~/.vim/undodir
+  #      set undofile
+  #      set incsearch
+  #      set scrolloff=12
+  #      set noshowmode
+  #      set signcolumn=yes:2
+  #      set completeopt=menuone,noinsert
+  #      set cmdheight=1
+  #      set updatetime=50
+  #      set shortmess+=c
+  #      set termguicolors
+  #      set pumblend=15
+  #      set mouse=a
+  #      set winbar=%=%{expand('%:~:.')}
+  #      syntax on
+  #
+  #      lua require("start")
+  #    '';
+  #   };
+  # };
+
+  environment;
+
+  home.stateVersion = "22.11";
+  programs.home-manager.enable = true;
+}
