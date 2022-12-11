@@ -733,37 +733,38 @@
         ];
 
 
-     # extraConfig = ''
-     #   set number
-     #   set rnu
-     #   set ignorecase
-     #   set smartcase
-     #   set hidden
-     #   set noerrorbells
-     #   set tabstop=2 softtabstop=2 shiftwidth=2
-     #   set shiftwidth=2
-     #   set expandtab
-     #   set smartindent
-     #   set wrap
-     #   set noswapfile
-     #   set nobackup
-     #   set undodir=~/.vim/undodir
-     #   set undofile
-     #   set incsearch
-     #   set scrolloff=12
-     #   set noshowmode
-     #   set signcolumn=yes:2
-     #   set completeopt=menuone,noinsert
-     #   set cmdheight=1
-     #   set updatetime=50
-     #   set shortmess+=c
-     #   set termguicolors
-     #   set pumblend=15
-     #   set mouse=a
-     #   set winbar=%=%{expand('%:~:.')}
-     #   syntax on
-     #   " lua require("start")
-     # '';
+      extraConfig = ''
+        set number
+        set rnu
+        set ignorecase
+        set smartcase
+        set hidden
+        set noerrorbells
+        set tabstop=2 softtabstop=2 shiftwidth=2
+        set shiftwidth=2
+        set expandtab
+        set smartindent
+        set wrap
+        set noswapfile
+        set nobackup
+        set undodir=~/.vim/undodir
+        set undofile
+        set incsearch
+        set scrolloff=12
+        set noshowmode
+        set signcolumn=yes:2
+        set completeopt=menuone,noinsert
+        set cmdheight=1
+        set updatetime=50
+        set shortmess+=c
+        set termguicolors
+        set pumblend=15
+        set mouse=a
+        set winbar=%=%{expand('%:~:.')}
+        syntax on
+
+        lua require("start")
+      '';
     };
   };
 
