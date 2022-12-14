@@ -220,10 +220,10 @@
       defaultKeymap = "viins";
       envExtra = ''
         #XDG 
-        # export XDG_DATA_HOME=$HOME/.local/share
-        # export XDG_CONFIG_HOME=$HOME/.config
-        # export XDG_STATE_HOME=$HOME/.local/state
-        # export XDG_CACHE_HOME=$HOME/.cache
+        export XDG_DATA_HOME=$HOME/.local/share
+        export XDG_CONFIG_HOME=$HOME/.config
+        export XDG_STATE_HOME=$HOME/.local/state
+        export XDG_CACHE_HOME=$HOME/.cache
 
         # home cleaning
         export ANDROID_HOME="$XDG_DATA_HOME"/android
@@ -564,7 +564,7 @@
         {
           plugin = continuum;
           extraConfig = ''
-            set -g @continuum-restore 'on'
+            set -g @continuum-restore 'off'
             set -g @continuum-save-interval '60' # minutes
           '';
         }
@@ -1442,5 +1442,5 @@
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
   system.stateVersion = "22.11"; # Did you read the comment?
-
 }
+
