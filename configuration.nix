@@ -32,6 +32,7 @@
   };
 
   services.udisks2.enable = true;
+  services.tailscale.enable = true;
 
   hardware.opengl = {
     enable = true;
@@ -47,6 +48,34 @@
       enable = true;
       enableExtensionPack = true;
     };
+    libvirtd.enable = true;
+  };
+
+  systemd.services.tailscale-autoconnect = {
+    description = "Automatic connection to Tailscale";
+
+    # make sure tailscale is running before trying to connect to tailscale
+    after = [ "network-pre.target" "tailscale.service" ];
+    wants = [ "network-pre.target" "tailscale.service" ];
+    wantedBy = [ "multi-user.target" ];
+
+    # set this service as a oneshot job
+    serviceConfig.Type = "oneshot";
+
+    # have the job run this shell script
+    script = with pkgs; ''
+      # wait for tailscaled to settle
+      sleep 2
+
+      # check if we are already authenticated to tailscale
+      status="$(${tailscale}/bin/tailscale status -json | ${jq}/bin/jq -r .BackendState)"
+      if [ $status = "Running" ]; then # if so, then do nothing
+        exit 0
+      fi
+
+      # otherwise authenticate with tailscale
+      ${tailscale}/bin/tailscale up
+    '';
   };
 
 
@@ -218,212 +247,217 @@
       enableCompletion = true;
       enableSyntaxHighlighting = true;
       defaultKeymap = "viins";
-      envExtra = ''
-        #XDG 
-        export XDG_DATA_HOME=$HOME/.local/share
-        export XDG_CONFIG_HOME=$HOME/.config
-        export XDG_STATE_HOME=$HOME/.local/state
-        export XDG_CACHE_HOME=$HOME/.cache
+      envExtra =
+        # let RUSTC_VERSION = pkgs.lib.strings.removeSuffix "\n" pkgs.lib.readFile ./rust-toolchain;
+        let RUSTC_VERSION = "nightly";
+        in
+        ''
+          #XDG 
+          export XDG_DATA_HOME=$HOME/.local/share
+          export XDG_CONFIG_HOME=$HOME/.config
+          export XDG_STATE_HOME=$HOME/.local/state
+          export XDG_CACHE_HOME=$HOME/.cache
 
-        # home cleaning
-        export ANDROID_HOME="$XDG_DATA_HOME"/android
-        export ASDF_DATA_DIR="$XDG_DATA_HOME"/asdf
-        export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
-        export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
-        export HISTFILE="$XDG_STATE_HOME"/zsh/history
-        export CARGO_HOME="$XDG_DATA_HOME"/cargo
-        export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
-        export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
-        export ELINKS_CONFDIR="$XDG_CONFIG_HOME"/elinks
-        export GEM_HOME="$XDG_DATA_HOME"/gem
-        export GEM_SPEC_CACHE="$XDG_CACHE_HOME"/gem
-        export GEM_SPEC_CACHE="$XDG_CACHE_HOME"/gem
-        export GNUPGHOME="$XDG_DATA_HOME"/gnupg
-        export GOPATH="$XDG_DATA_HOME"/go
-        export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
-        export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
-        export KDEHOME="$XDG_CONFIG_HOME"/kde
-        export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
-        export DVDCSS_CACHE="$XDG_DATA_HOME"/dvdcss
-        export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
-        export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
-        export NUGET_PACKAGES="$XDG_CACHE_HOME"/NuGetPackages
-        export PSQL_HISTORY="$XDG_DATA_HOME"/psql_history
-        export KERAS_HOME="$XDG_STATE_HOME"/keras
-        export REDISCLI_HISTFILE="$XDG_DATA_HOME"/redis/rediscli_history
-        export VAGRANT_HOME="$XDG_DATA_HOME"/vagrant
-        export WINEPREFIX="$XDG_DATA_HOME"/wine
-        export _Z_DATA="$XDG_DATA_HOME"/z
+          # home cleaning
+          export ANDROID_HOME="$XDG_DATA_HOME"/android
+          export ASDF_DATA_DIR="$XDG_DATA_HOME"/asdf
+          export AWS_SHARED_CREDENTIALS_FILE="$XDG_CONFIG_HOME"/aws/credentials
+          export AWS_CONFIG_FILE="$XDG_CONFIG_HOME"/aws/config
+          export HISTFILE="$XDG_STATE_HOME"/zsh/history
+          export CARGO_HOME="$XDG_DATA_HOME"/cargo
+          export CUDA_CACHE_PATH="$XDG_CACHE_HOME"/nv
+          export DOCKER_CONFIG="$XDG_CONFIG_HOME"/docker
+          export ELINKS_CONFDIR="$XDG_CONFIG_HOME"/elinks
+          export GEM_HOME="$XDG_DATA_HOME"/gem
+          export GEM_SPEC_CACHE="$XDG_CACHE_HOME"/gem
+          export GEM_SPEC_CACHE="$XDG_CACHE_HOME"/gem
+          export GNUPGHOME="$XDG_DATA_HOME"/gnupg
+          export GOPATH="$XDG_DATA_HOME"/go
+          export GRADLE_USER_HOME="$XDG_DATA_HOME"/gradle
+          export GTK2_RC_FILES="$XDG_CONFIG_HOME"/gtk-2.0/gtkrc
+          export KDEHOME="$XDG_CONFIG_HOME"/kde
+          export LESSHISTFILE="$XDG_CACHE_HOME"/less/history
+          export DVDCSS_CACHE="$XDG_DATA_HOME"/dvdcss
+          export NODE_REPL_HISTORY="$XDG_DATA_HOME"/node_repl_history
+          export NPM_CONFIG_USERCONFIG="$XDG_CONFIG_HOME"/npm/npmrc
+          export NUGET_PACKAGES="$XDG_CACHE_HOME"/NuGetPackages
+          export PSQL_HISTORY="$XDG_DATA_HOME"/psql_history
+          export KERAS_HOME="$XDG_STATE_HOME"/keras
+          export REDISCLI_HISTFILE="$XDG_DATA_HOME"/redis/rediscli_history
+          export VAGRANT_HOME="$XDG_DATA_HOME"/vagrant
+          export WINEPREFIX="$XDG_DATA_HOME"/wine
+          export _Z_DATA="$XDG_DATA_HOME"/z
 
-        # Path
-        export PATH=$PATH:$CARGO_HOME/bin
+          # Path
+          export PATH=$PATH:$CARGO_HOME/bin
+          export PATH=$PATH:$RUSTUP_HOME:~/.rustup/toolchains/${RUSTC_VERSION}-x86_64-unknown-linux-gnu/bin/
 
-        # misc
-        export CHTSH_QUERY_OPTIONS="style=rrt"
+          # misc
+          export CHTSH_QUERY_OPTIONS="style=rrt"
 
-        # lf icons
-        export LF_ICONS="\
-        di=:\
-        fi=:\
-        ln=:\
-        or=:\
-        ex=:\
-        *.vimrc=:\
-        *.viminfo=:\
-        *.gitignore=:\
-        *.c=:\
-        *.cc=:\
-        *.clj=:\
-        *.coffee=:\
-        *.cpp=:\
-        *.css=:\
-        *.d=:\
-        *.dart=:\
-        *.erl=:\
-        *.exs=:\
-        *.fs=:\
-        *.go=:\
-        *.h=:\
-        *.hh=:\
-        *.hpp=:\
-        *.hs=:\
-        *.html=:\
-        *.java=:\
-        *.jl=:\
-        *.js=:\
-        *.json=:\
-        *.lua=:\
-        *.md=:\
-        *.php=:\
-        *.pl=:\
-        *.pro=:\
-        *.py=:\
-        *.rb=:\
-        *.rs=:\
-        *.scala=:\
-        *.ts=:\
-        *.vim=:\
-        *.cmd=:\
-        *.ps1=:\
-        *.sh=:\
-        *.bash=:\
-        *.zsh=:\
-        *.fish=:\
-        *.tar=:\
-        *.tgz=:\
-        *.arc=:\
-        *.arj=:\
-        *.taz=:\
-        *.lha=:\
-        *.lz4=:\
-        *.lzh=:\
-        *.lzma=:\
-        *.tlz=:\
-        *.txz=:\
-        *.tzo=:\
-        *.t7z=:\
-        *.zip=:\
-        *.z=:\
-        *.dz=:\
-        *.gz=:\
-        *.lrz=:\
-        *.lz=:\
-        *.lzo=:\
-        *.xz=:\
-        *.zst=:\
-        *.tzst=:\
-        *.bz2=:\
-        *.bz=:\
-        *.tbz=:\
-        *.tbz2=:\
-        *.tz=:\
-        *.deb=:\
-        *.rpm=:\
-        *.jar=:\
-        *.war=:\
-        *.ear=:\
-        *.sar=:\
-        *.rar=:\
-        *.alz=:\
-        *.ace=:\
-        *.zoo=:\
-        *.cpio=:\
-        *.7z=:\
-        *.rz=:\
-        *.cab=:\
-        *.wim=:\
-        *.swm=:\
-        *.dwm=:\
-        *.esd=:\
-        *.jpg=:\
-        *.jpeg=:\
-        *.mjpg=:\
-        *.mjpeg=:\
-        *.gif=:\
-        *.bmp=:\
-        *.pbm=:\
-        *.pgm=:\
-        *.ppm=:\
-        *.tga=:\
-        *.xbm=:\
-        *.xpm=:\
-        *.tif=:\
-        *.tiff=:\
-        *.png=:\
-        *.svg=:\
-        *.svgz=:\
-        *.mng=:\
-        *.pcx=:\
-        *.mov=:\
-        *.mpg=:\
-        *.mpeg=:\
-        *.m2v=:\
-        *.mkv=:\
-        *.webm=:\
-        *.ogm=:\
-        *.mp4=:\
-        *.m4v=:\
-        *.mp4v=:\
-        *.vob=:\
-        *.qt=:\
-        *.nuv=:\
-        *.wmv=:\
-        *.asf=:\
-        *.rm=:\
-        *.rmvb=:\
-        *.flc=:\
-        *.avi=:\
-        *.fli=:\
-        *.flv=:\
-        *.gl=:\
-        *.dl=:\
-        *.xcf=:\
-        *.xwd=:\
-        *.yuv=:\
-        *.cgm=:\
-        *.emf=:\
-        *.ogv=:\
-        *.ogx=:\
-        *.aac=:\
-        *.au=:\
-        *.flac=:\
-        *.m4a=:\
-        *.mid=:\
-        *.midi=:\
-        *.mka=:\
-        *.mp3=:\
-        *.mpc=:\
-        *.ogg=:\
-        *.ra=:\
-        *.wav=:\
-        *.oga=:\
-        *.opus=:\
-        *.spx=:\
-        *.xspf=:\
-        *.pdf=:\
-        *.nix=:\
-        "
-      '';
+          # lf icons
+          export LF_ICONS="\
+          di=:\
+          fi=:\
+          ln=:\
+          or=:\
+          ex=:\
+          *.vimrc=:\
+          *.viminfo=:\
+          *.gitignore=:\
+          *.c=:\
+          *.cc=:\
+          *.clj=:\
+          *.coffee=:\
+          *.cpp=:\
+          *.css=:\
+          *.d=:\
+          *.dart=:\
+          *.erl=:\
+          *.exs=:\
+          *.fs=:\
+          *.go=:\
+          *.h=:\
+          *.hh=:\
+          *.hpp=:\
+          *.hs=:\
+          *.html=:\
+          *.java=:\
+          *.jl=:\
+          *.js=:\
+          *.json=:\
+          *.lua=:\
+          *.md=:\
+          *.php=:\
+          *.pl=:\
+          *.pro=:\
+          *.py=:\
+          *.rb=:\
+          *.rs=:\
+          *.scala=:\
+          *.ts=:\
+          *.vim=:\
+          *.cmd=:\
+          *.ps1=:\
+          *.sh=:\
+          *.bash=:\
+          *.zsh=:\
+          *.fish=:\
+          *.tar=:\
+          *.tgz=:\
+          *.arc=:\
+          *.arj=:\
+          *.taz=:\
+          *.lha=:\
+          *.lz4=:\
+          *.lzh=:\
+          *.lzma=:\
+          *.tlz=:\
+          *.txz=:\
+          *.tzo=:\
+          *.t7z=:\
+          *.zip=:\
+          *.z=:\
+          *.dz=:\
+          *.gz=:\
+          *.lrz=:\
+          *.lz=:\
+          *.lzo=:\
+          *.xz=:\
+          *.zst=:\
+          *.tzst=:\
+          *.bz2=:\
+          *.bz=:\
+          *.tbz=:\
+          *.tbz2=:\
+          *.tz=:\
+          *.deb=:\
+          *.rpm=:\
+          *.jar=:\
+          *.war=:\
+          *.ear=:\
+          *.sar=:\
+          *.rar=:\
+          *.alz=:\
+          *.ace=:\
+          *.zoo=:\
+          *.cpio=:\
+          *.7z=:\
+          *.rz=:\
+          *.cab=:\
+          *.wim=:\
+          *.swm=:\
+          *.dwm=:\
+          *.esd=:\
+          *.jpg=:\
+          *.jpeg=:\
+          *.mjpg=:\
+          *.mjpeg=:\
+          *.gif=:\
+          *.bmp=:\
+          *.pbm=:\
+          *.pgm=:\
+          *.ppm=:\
+          *.tga=:\
+          *.xbm=:\
+          *.xpm=:\
+          *.tif=:\
+          *.tiff=:\
+          *.png=:\
+          *.svg=:\
+          *.svgz=:\
+          *.mng=:\
+          *.pcx=:\
+          *.mov=:\
+          *.mpg=:\
+          *.mpeg=:\
+          *.m2v=:\
+          *.mkv=:\
+          *.webm=:\
+          *.ogm=:\
+          *.mp4=:\
+          *.m4v=:\
+          *.mp4v=:\
+          *.vob=:\
+          *.qt=:\
+          *.nuv=:\
+          *.wmv=:\
+          *.asf=:\
+          *.rm=:\
+          *.rmvb=:\
+          *.flc=:\
+          *.avi=:\
+          *.fli=:\
+          *.flv=:\
+          *.gl=:\
+          *.dl=:\
+          *.xcf=:\
+          *.xwd=:\
+          *.yuv=:\
+          *.cgm=:\
+          *.emf=:\
+          *.ogv=:\
+          *.ogx=:\
+          *.aac=:\
+          *.au=:\
+          *.flac=:\
+          *.m4a=:\
+          *.mid=:\
+          *.midi=:\
+          *.mka=:\
+          *.mp3=:\
+          *.mpc=:\
+          *.ogg=:\
+          *.ra=:\
+          *.wav=:\
+          *.oga=:\
+          *.opus=:\
+          *.spx=:\
+          *.xspf=:\
+          *.pdf=:\
+          *.nix=:\
+          "
+        '';
       initExtraFirst = ''
         # tmux auto start config
         # change this
@@ -1224,11 +1258,13 @@
   };
 
   users.defaultUserShell = pkgs.zsh;
+  users.extraGroups.vboxusers.members = [ "mustafa" ];
 
   users.users.mustafa = {
     shell = pkgs.zsh;
     isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" ];
+    extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
+    openssh.authorizedKeys.keyFiles = [ "${config.users.users.mustafa.home}/.ssh/id_ed25519.pub" ];
   };
 
   fonts.fonts = with pkgs; [
@@ -1277,6 +1313,7 @@
     fzf-zsh
 
     zip
+    unzip
     bind
     bat
     btop
@@ -1315,6 +1352,7 @@
     nitrogen
     nmap
     notion-app-enhanced
+    nvtop
     obs-studio
     p7zip
     pinta
@@ -1393,6 +1431,7 @@
     ##jsonls
     sumneko-lua-language-server
     nodePackages.diagnostic-languageserver
+    nodePackages.bash-language-server
 
     kdeconnect
     rnix-lsp
@@ -1403,11 +1442,46 @@
     udisks
     usermount
     gnumake
-    air
     lazygit
+    air
     most
     ripgrep
+    steam
+    rescuetime
+    tailscale
+    libsecret
+    dbeaver
+    beekeeper-studio
+    (appimage-run.override {
+      extraPkgs = pkgs: [ pkgs.xorg.libxshmfence pkgs.libsecret ];
+    })
+
+    jdk11
+    rclone
+
+    llvmPackages_latest.llvm
+    llvmPackages_latest.bintools
+    zlib.out
+    xorriso
+    grub2
+    qemu
+    llvmPackages_latest.lld
+    SDL2
+    SDL2_ttf
+    SDL2_net
+    SDL2_gfx
+    SDL2_sound
+    SDL2_mixer
+    SDL2_image
+    radare2
+    iaito
+    minecraft
+    virtualbox
+    virt-manager
+    qemu_full
+    libreoffice
   ];
+
 
 
   # Some programs need SUID wrappers, can be configured further or are
