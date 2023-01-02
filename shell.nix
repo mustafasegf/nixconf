@@ -6,26 +6,29 @@ pkgs.mkShell rec {
     llvmPackages_latest.bintools
     zlib.out
     rustup
-    xorriso
+    # xorriso
     grub2
     qemu
     llvmPackages_latest.lld
     python3
   ];
 
-  RUSTC_VERSION = pkgs.lib.readFile ./rust-toolchain;
+  # RUSTC_VERSION = pkgs.lib.readFile ./rust-toolchain;
+  RUSTC_VERSION = "nightly";
   # https://github.com/rust-lang/rust-bindgen#environment-variables
 
-  LIBCLANG_PATH = pkgs.lib.makeLibraryPath [ pkgs.llvmPackages_latest.libclang.lib ];
+  # LIBCLANG_PATH = pkgs.lib.makeLibraryPath [ pkgs.llvmPackages_latest.libclang.lib ];
   HISTFILE = toString ./.history;
   shellHook = ''
-    export PATH=$PATH:${CARGO_HOME:-~/.cargo}/bin
-    export PATH=$PATH:${RUSTUP_HOME:-~/.rustup}/toolchains/$RUSTC_VERSION-x86_64-unknown-linux-gnu/bin/
+    export PATH=$PATH:$CARGO_HOME:-~/.cargo/bin
+    export PATH=$PATH:$RUSTUP_HOME:-~/.rustup/toolchains/${RUSTC_VERSION}-x86_64-unknown-linux-gnu/bin/
   '';
+
   # Add libvmi precompiled library to rustc search path
   RUSTFLAGS = (builtins.map (a: ''-L ${a}/lib'') [
     pkgs.libvmi
   ]);
+
   # Add libvmi, glibc, clang, glib headers to bindgen search path
   BINDGEN_EXTRA_CLANG_ARGS =
     # Includes with normal include path

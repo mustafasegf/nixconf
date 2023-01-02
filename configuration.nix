@@ -2,7 +2,7 @@
 # Edit this configuration file to define what should be installed on
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
-{ config, modulesPath, lib, pkgs, hardware, nix, ... }:
+{ config, modulesPath, lib, pkgs, hardware, nix, fetchPypi, ... }:
 
 {
   imports =
@@ -38,6 +38,17 @@
     enable = true;
     driSupport32Bit = true;
   };
+
+  nix.settings = {
+    keep-outputs = true;
+    keep-derivations = true;
+  };
+  environment.pathsToLink = [
+    "/share/nix-direnv"
+  ];
+  nixpkgs.overlays = [
+    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
+  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
@@ -131,7 +142,7 @@
         enable = true;
         package = pkgs.qtile;
         backend = "x11";
-        configFile = ./qtile/config.py;
+        # configFile = ./qtile/config.py;
       };
     };
   };
@@ -181,7 +192,11 @@
     jack.enable = true;
   };
 
-  hardware.bluetooth.enable = true;
+  hardware.bluetooth = {
+    enable = true;
+    powerOnBoot = pkgs.lib.mkForce true;
+  };
+
   services.blueman.enable = true;
   services.picom.enable = true;
 
@@ -495,6 +510,9 @@
 
         function cdg() { cd "$(git rev-parse --show-toplevel)"  }
 
+        #dir env
+        #eval "$(direnv hook zsh)"
+
         #Git
         function gsts (){git status}
         function gc (){git commit -am "$@"}
@@ -579,6 +597,11 @@
     };
 
     ## no program config yet: neofetch
+
+    programs.direnv = {
+      enable = true;
+      nix-direnv.enable = true;
+    };
 
     programs.tmux = {
       enable = true;
@@ -1117,6 +1140,18 @@
       };
     };
 
+    programs.obs-studio = {
+      enable = true;
+      plugins = with pkgs.obs-studio-plugins; [
+        # obs-multi-rtmp
+        obs-backgroundremoval
+        obs-pipewire-audio-capture
+        obs-move-transition
+        input-overlay
+        obs-vkcapture
+      ];
+    };
+
     programs.neovim = {
       enable = true;
       viAlias = true;
@@ -1372,7 +1407,32 @@
     xcolor
     youtube-dl
     yt-dlp
-    python39
+    (
+
+      let
+        packagePypi = name: ver: ref: deps: python39.pkgs.buildPythonPackage rec {
+          pname = "${lib.strings.sanitizeDerivationName name}";
+          version = ver;
+
+          src = python39.pkgs.fetchPypi {
+            inherit pname version;
+            hash = ref;
+          };
+
+          buildInputs = deps;
+          doCheck = false;
+        };
+      in
+      python39.withPackages (ps: [
+        # (
+        #   packagePypi
+        #     "iwlib"
+        #     "1.7.0"
+        #     "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE="
+        #     [ ps.cffi ]
+        # )
+      ])
+    )
     poetry
     rustup
     go
@@ -1474,12 +1534,20 @@
     SDL2_mixer
     SDL2_image
     radare2
-    iaito
+    # iaito
     minecraft
     virtualbox
     virt-manager
     qemu_full
     libreoffice
+    gcc
+    gdb
+    gnome.gedit
+    libsForQt5.kate
+    screenkey
+    k6
+    direnv
+    nix-direnv
   ];
 
 
