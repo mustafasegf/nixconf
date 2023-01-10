@@ -1548,6 +1548,8 @@
     k6
     direnv
     nix-direnv
+    pciutils
+    usbutils
   ];
 
 
