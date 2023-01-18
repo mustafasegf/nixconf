@@ -3,7 +3,10 @@
 # and in the NixOS manual (accessible by running ‘nixos-help’).
 
 { config, modulesPath, lib, pkgs, hardware, nix, fetchPypi, ... }:
-
+let
+  baseconfig = { allowUnfree = true; };
+  unstable = import <nixos-unstable> { config = baseconfig; };
+in
 {
   imports =
     [
@@ -24,7 +27,14 @@
   boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "ntfs" "cifs" ];
 
   boot.initrd.kernelModules = [ "amdgpu" ];
-  boot.kernelModules = [ "i2c-dev" "i2c-piix4" ];
+
+  boot.extraModulePackages = with config.boot.kernelPackages;
+    [ v4l2loopback.out ];
+  boot.kernelModules = [ "i2c-dev" "i2c-piix4" "hid-playstasion" "v4l2loopback" ];
+  nixpkgs.config.permittedInsecurePackages = [
+    "python-2.7.18.6"
+  ];
+
 
   services.hardware.openrgb = {
     enable = true;
@@ -34,24 +44,48 @@
   services.udisks2.enable = true;
   services.tailscale.enable = true;
 
-  hardware.opengl = {
-    enable = true;
-    driSupport32Bit = true;
-  };
+  hardware.opengl.package =
+    let
+      staging-next = import (builtins.fetchTarball "https://github.com/nixos/nixpkgs/tarball/staging-next") { config = config.nixpkgs.config; };
+      llvm15 = import (builtins.fetchTarball "https://github.com/rrbutani/nixpkgs/tarball/feature/llvm-15") { config = config.nixpkgs.config; };
+    in
+    (staging-next.mesa.override {
+      llvmPackages = llvm15.llvmPackages_15;
+      enableOpenCL = false;
+    }).drivers;
+
+  # hardware.opengl.package = mesa.drivers;
+
+  hardware.opengl =
+    {
+      # package = (unstable.pkgs.mesa.override {
+      #   enableOpenCL = false;
+      # }).drivers;
+
+      enable = true;
+      driSupport32Bit = true;
+    };
+
+  # service.fwupd.enable = true;
 
   nix.settings = {
     keep-outputs = true;
     keep-derivations = true;
   };
+
   environment.pathsToLink = [
     "/share/nix-direnv"
   ];
+
   nixpkgs.overlays = [
     (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
+
+  documentation.man.generateCaches = true;
+  documentation.dev.enable = true;
 
   virtualisation = {
     docker.enable = true;
@@ -127,7 +161,8 @@
   services.xserver = {
     enable = true;
     digimend.enable = true;
-    videoDrivers = [ "amdgpu" ];
+    videoDrivers = [ "modesetting" ];
+    # videoDrivers = [ "amdgpu" ];
     autorun = true;
     displayManager = {
       defaultSession = "none+qtile";
@@ -149,10 +184,11 @@
 
   # Configure keymap in X11
   # services.xserver.layout = "us";
-  # services.xserver.xkbOptions = {
-  #   "eurosign:e";
-  #   "caps:escape" # map caps to escape.
-  # };
+  services.xserver.xkbOptions = builtins.concatStringsSep "," [
+    # "eurosign:e";
+    # "caps:escape" # map caps to escape.
+    # "f13:f13"
+  ];
 
   services.printing.enable = true;
 
@@ -1144,7 +1180,7 @@
       enable = true;
       plugins = with pkgs.obs-studio-plugins; [
         # obs-multi-rtmp
-        obs-backgroundremoval
+        # obs-backgroundremoval
         obs-pipewire-audio-capture
         obs-move-transition
         input-overlay
@@ -1336,7 +1372,8 @@
     vim
 
     neovim
-    vscode
+    # vscode
+    vscode-fhs
 
     wget
     glxinfo
@@ -1462,6 +1499,7 @@
     tmux
     terraform
     clang
+    clang-tools
 
     black
     stylua
@@ -1550,6 +1588,13 @@
     nix-direnv
     pciutils
     usbutils
+    uwufetch
+    webcamoid
+    glade
+    man-pages
+    man-pages-posix
+    unstable.soundux
+    fwupd
   ];
 
 
