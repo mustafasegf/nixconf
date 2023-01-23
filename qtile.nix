@@ -33,6 +33,14 @@ in
         '';
       };
 
+      extraSessionCommands = mkOption {
+        default = "";
+        type = types.lines;
+        description = lib.mdDoc ''
+          Shell commands executed just before qtile is started.
+        '';
+      };
+
       backend = mkOption {
         type = types.enum [ "x11" "wayland" ];
         default = "x11";
@@ -48,6 +56,7 @@ in
     services.xserver.windowManager.session = [{
       name = "qtile";
       start = ''
+        ${cfg.extraSessionCommands}
         ${qtile}/bin/qtile start -b ${cfg.backend} \
         ${optionalString (cfg.configFile != null)
         "--config \"${cfg.configFile}\""} &

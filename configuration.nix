@@ -14,6 +14,7 @@ in
       ./hardware-configuration.nix
       ./qtile.nix
       <home-manager/nixos>
+      # <nix-ld/modules/nix-ld.nix>
     ];
 
   # Use the systemd-boot EFI boot loader.
@@ -54,14 +55,9 @@ in
       enableOpenCL = false;
     }).drivers;
 
-  # hardware.opengl.package = mesa.drivers;
 
   hardware.opengl =
     {
-      # package = (unstable.pkgs.mesa.override {
-      #   enableOpenCL = false;
-      # }).drivers;
-
       enable = true;
       driSupport32Bit = true;
     };
@@ -78,7 +74,15 @@ in
   ];
 
   nixpkgs.overlays = [
-    (self: super: { nix-direnv = super.nix-direnv.override { enableFlakes = true; }; })
+    (self: super: {
+      nix-direnv = super.nix-direnv.override {
+        enableFlakes = true;
+      };
+
+      # dwm = super.dwm.overrideAttrs (old: {
+      #   src = builtins.pat h{ path = "${config.users.users.mustafa.home}/project/dwm-flexipatch"; };
+      # });
+    })
   ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
@@ -165,23 +169,54 @@ in
     # videoDrivers = [ "amdgpu" ];
     autorun = true;
     displayManager = {
+      # defaultSession = "none+dwm";
       defaultSession = "none+qtile";
+      # startx.enable = true;
       lightdm = {
+        # enable = false;
         enable = true;
         greeter.enable = true;
       };
+      sessionCommands =
+        let
+          functionkey = pkgs.writeText "xkb-layout" ''
+            keycode 191 = F13 F13 F13
+            keycode 192 = F14 F14 F14
+            keycode 193 = F15 F15 F15
+            keycode 194 = F16 F16 F16
+            keycode 195 = F17 F17 F17
+            keycode 196 = F18 F18 F18
+            keycode 197 = F19 F19 F19
+            keycode 198 = F20 F20 F20
+            keycode 199 = F21 F21 F21
+            keycode 200 = F22 F22 F22
+            keycode 201 = F23 F23 F23
+            keycode 202 = F24 F24 F24
+          '';
+        in
+        "sleep 5 && ${pkgs.xorg.xmodmap}/bin/xmodmap ${functionkey}";
     };
 
     windowManager = {
       qtile = {
         enable = true;
+        extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
         package = pkgs.qtile;
         backend = "x11";
         # configFile = ./qtile/config.py;
       };
+      dwm = {
+        enable = true;
+        package = pkgs.dwm.overrideAttrs (old: rec {
+          src = builtins.path { path = "${config.users.users.mustafa.home}/project/dwm"; };
+        });
+      };
     };
   };
 
+  services.gnome = {
+    gnome-keyring.enable = true;
+  };
   # Configure keymap in X11
   # services.xserver.layout = "us";
   services.xserver.xkbOptions = builtins.concatStringsSep "," [
@@ -228,6 +263,81 @@ in
     jack.enable = true;
   };
 
+  # ln -sfn ${pkgs.glibc.out}/lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2.tmp
+  # mv -f /lib64/ld-linux-x86-64.so.2.tmp /lib64/ld-linux-x86-64.so.2 # atomically replace
+  # ln -sfn ${pkgs.gcc.out}/lib64/ /lib64
+
+  system.activationScripts.ldso = lib.stringAfter [ "usrbinenv" ] ''
+    rm -rf /lib64
+    rm -rf /lib
+    # mkdir /lib64
+    # mkdir /lib
+    # for i in ${pkgs.glibc.out}/lib64/*; do
+    #   ln -sfn $i /lib64/
+    # done
+    #
+    # for i in ${pkgs.gcc11.cc.lib}/lib64/*; do
+    #   ln -sfn $i /lib64/
+    # done
+    #
+    # for i in ${pkgs.gcc11.cc.lib}/lib/*; do
+    #   ln -sfn $i /lib/
+    # done
+
+    # ln -sfn ${pkgs.gcc11.cc.lib}/lib64/ /
+  '';
+
+  # programs.nix-ld.enable = true;
+  # programs.nix-ld.libraries = with pkgs; [
+  #   stdenv.cc.cc
+  #   zlib
+  #   fuse3
+  #   alsa-lib
+  #   at-spi2-atk
+  #   at-spi2-core
+  #   atk
+  #   cairo
+  #   cups
+  #   curl
+  #   dbus
+  #   expat
+  #   fontconfig
+  #   freetype
+  #   gdk-pixbuf
+  #   glib
+  #   gtk3
+  #   gtk4
+  #   libGL
+  #   libappindicator-gtk3
+  #   libdrm
+  #   libnotify
+  #   libpulseaudio
+  #   libuuid
+  #   xorg.libxcb
+  #   libxkbcommon
+  #   mesa
+  #   nspr
+  #   nss
+  #   pango
+  #   pipewire
+  #   systemd
+  #   icu
+  #   openssl
+  #   xorg.libX11
+  #   xorg.libXScrnSaver
+  #   xorg.libXcomposite
+  #   xorg.libXcursor
+  #   xorg.libXdamage
+  #   xorg.libXext
+  #   xorg.libXfixes
+  #   xorg.libXi
+  #   xorg.libXrandr
+  #   xorg.libXrender
+  #   xorg.libXtst
+  #   xorg.libxkbfile
+  #   xorg.libxshmfence
+  # ];
+
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = pkgs.lib.mkForce true;
@@ -237,7 +347,7 @@ in
   services.picom.enable = true;
 
   programs.dconf.enable = true;
-  services.dbus.packages = with pkgs; [ dconf ];
+  services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];
 
   home-manager.users.mustafa = { pkgs, ... }: {
     home.username = "mustafa";
@@ -529,6 +639,7 @@ in
         export FZF_DEFAULT_COMMAND='fd --hidden --follow --ignore-file=$HOME/.gitignore --exclude .git'
         export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type f"
         export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
+        export FZF_CTRL_R_OPTS="$FZF_DEFAULT_COMMAND"
         export FZF_DEFAULT_OPTS="--layout=reverse --inline-info --height=90%"
 
         # LF
@@ -1372,8 +1483,12 @@ in
     vim
 
     neovim
-    # vscode
     vscode-fhs
+    # (vscode-with-extensions.override {
+    #   vscodeExtensions = with vscode-extensions; [
+    #
+    #   ];
+    # })
 
     wget
     glxinfo
@@ -1477,6 +1592,7 @@ in
     nodejs-16_x
     nodePackages.npm
     nodePackages.pnpm
+    nodePackages.sass
     git
     docker
     pavucontrol
@@ -1595,6 +1711,21 @@ in
     man-pages-posix
     unstable.soundux
     fwupd
+    prismlauncher
+    gnome.seahorse
+    xorg.xkbcomp
+    xorg.xkbutils
+    xorg.xmodmap
+    xorg.xinput
+    xorg.libX11
+    xorg.libXft
+    xorg.libXinerama
+
+    clang-tools
+    clang
+    pkg-config
+    gtk3
+    gtk4
   ];
 
 
