@@ -1728,6 +1728,7 @@ in
     gtk4
     vlc
     mpv
+    psmisc
   ];
 
 
