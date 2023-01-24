@@ -1726,6 +1726,8 @@ in
     pkg-config
     gtk3
     gtk4
+    vlc
+    mpv
   ];
 
 
