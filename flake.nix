@@ -5,9 +5,13 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
+    llvm15 = {
+      url = "github:rrbutani/nixpkgs/feature/llvm-15";
+      # flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
+  outputs = { self, llvm15, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -58,7 +62,10 @@
               };
 
               hardware.opengl.package =
-                nixpkgs-unstable.legacyPackages.x86_64-linux.mesa_drivers;
+                nixpkgs-unstable.legacyPackages.x86_64-linux.mesa.override {
+                  llvmPackages = llvm15.legacyPackages.x86_64-linux.llvmPackages_15;
+                  enableOpenCL = false;
+                };
               # let
               #   staging-next = import
               #     (builtins.fetchTarball {

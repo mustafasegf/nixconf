@@ -21,6 +21,22 @@
         "type": "github"
       }
     },
+    "llvm15": {
+      "locked": {
+        "lastModified": 1673828791,
+        "narHash": "sha256-vd4YWanTK4m+vK7ORNLySV2U0uPopxw473KuKY/rjwE=",
+        "owner": "rrbutani",
+        "repo": "nixpkgs",
+        "rev": "72ffeb9cf7b393607e0f4757dc7e868583c9bd49",
+        "type": "github"
+      },
+      "original": {
+        "owner": "rrbutani",
+        "ref": "feature/llvm-15",
+        "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
     "nixpkgs": {
       "locked": {
         "lastModified": 1673226411,
@@ -56,6 +72,7 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
+        "llvm15": "llvm15",
         "nixpkgs": "nixpkgs",
         "nixpkgs-unstable": "nixpkgs-unstable"
       }
