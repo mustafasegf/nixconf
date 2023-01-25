@@ -22,6 +22,13 @@
         };
       };
 
+      upkgs = import nixpkgs-unstable {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+      };
+
       lib = nixpkgs.lib;
     in
     {
@@ -51,10 +58,6 @@
               system.stateVersion = "22.11";
 
               #hardware
-              hardware.opengl = {
-                enable = true;
-                driSupport32Bit = true;
-              };
 
               hardware.bluetooth = {
                 enable = true;
@@ -62,10 +65,21 @@
               };
 
               hardware.opengl.package =
-                nixpkgs-unstable.legacyPackages.x86_64-linux.mesa.override {
-                  llvmPackages = llvm15.legacyPackages.x86_64-linux.llvmPackages_15;
+                (upkgs.mesa.override {
+                  llvmPackages = llvm15.legacyPackages."${system}".llvmPackages_15;
                   enableOpenCL = false;
-                };
+                }).drivers;
+
+              hardware.opengl = {
+                enable = true;
+                driSupport32Bit = true;
+              };
+              # hardware.opengl.package =
+              #   nixpkgs-unstable.legacyPackages.x86_64-linux.mesa.override {
+              #     llvmPackages = llvm15.legacyPackages.x86_64-linux.llvmPackages_15;
+              #     enableOpenCL = false;
+              #   };
+
               # let
               #   staging-next = import
               #     (builtins.fetchTarball {
