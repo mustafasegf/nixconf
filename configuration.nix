@@ -1453,15 +1453,15 @@ in
   #   };
   # };
 
-   users.defaultUserShell = pkgs.zsh;
-   users.extraGroups.vboxusers.members = [ "mustafa" ];
-  
-   users.users.mustafa = {
-     shell = pkgs.zsh;
-     isNormalUser = true;
-     extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
-     # openssh.authorizedKeys.keyFiles = [ "${config.users.users.mustafa.home}/.ssh/id_ed25519.pub" ];
-   };
+  #  users.defaultUserShell = pkgs.zsh;
+  #  users.extraGroups.vboxusers.members = [ "mustafa" ];
+  # 
+  #  users.users.mustafa = {
+  #    shell = pkgs.zsh;
+  #    isNormalUser = true;
+  #    extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
+  #    # openssh.authorizedKeys.keyFiles = [ "${config.users.users.mustafa.home}/.ssh/id_ed25519.pub" ];
+  #  };
 
   # fonts.fonts = with pkgs; [
   #   noto-fonts

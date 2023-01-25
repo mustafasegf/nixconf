@@ -42,7 +42,7 @@
             (import ./hardware-configuration.nix)
             (import ./configuration.nix)
             (import ./qtile.nix)
-            ({ config, pkgs, users, ... }: {
+            ({ config, pkgs, ... }: {
 
               system.stateVersion = "22.11";
 
@@ -430,7 +430,7 @@
                 vlc
                 mpv
                 psmisc
-		hello
+                hello
               ];
 
               # network
@@ -591,19 +591,21 @@
                 libvirtd.enable = true;
               };
 
+              # user
+
+              users.defaultUserShell = pkgs.zsh;
+              users.extraGroups.vboxusers.members = [ "mustafa" ];
+
+              users.users.mustafa = {
+                shell = pkgs.zsh;
+                isNormalUser = true;
+                extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
+                # openssh.authorizedKeys.keyFiles = [ "${config.users.users.mustafa.home}/.ssh/id_ed25519.pub" ];
+              };
+
             })
           ];
 
-          # user
-          #users.defaultUserShell = pkgs.zsh;
-          #users.extraGroups.vboxusers.members = [ "mustafa" ];
-
-          users.users.mustafa = {
-            shell = pkgs.zsh;
-            isNormalUser = true;
-            extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
-            # openssh.authorizedKeys.keyFiles = [ "${config.users.users.mustafa.home}/.ssh/id_ed25519.pub" ];
-          };
 
 
           # modules = [
