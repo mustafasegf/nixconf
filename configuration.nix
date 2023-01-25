@@ -11,8 +11,8 @@ in
   imports =
     [
       # Include the results of the hardware scan.
-      ./hardware-configuration.nix
-      ./qtile.nix
+      # ./hardware-configuration.nix
+      # ./qtile.nix
       # <home-manager/nixos>
       # <nix-ld/modules/nix-ld.nix>
     ];
@@ -69,12 +69,12 @@ in
   #     enableOpenCL = false;
   #   }).drivers;
 
-
-  hardware.opengl =
-    {
-      enable = true;
-      driSupport32Bit = true;
-    };
+  #
+  # hardware.opengl =
+  #   {
+  #     enable = true;
+  #     driSupport32Bit = true;
+  #   };
 
   # service.fwupd.enable = true;
 
@@ -102,17 +102,17 @@ in
 
   # nixpkgs.config.allowUnfree = true;
 
-  documentation.man.generateCaches = true;
-  documentation.dev.enable = true;
+  # documentation.man.generateCaches = true;
+  # documentation.dev.enable = true;
 
-  virtualisation = {
-    docker.enable = true;
-    virtualbox.host = {
-      enable = true;
-      enableExtensionPack = true;
-    };
-    libvirtd.enable = true;
-  };
+  # virtualisation = {
+  #   docker.enable = true;
+  #   virtualbox.host = {
+  #     enable = true;
+  #     enableExtensionPack = true;
+  #   };
+  #   libvirtd.enable = true;
+  # };
 
   # systemd.services.tailscale-autoconnect = {
   #   description = "Automatic connection to Tailscale";
@@ -142,39 +142,39 @@ in
   # };
 
 
-  networking.hostName = "mustafa-pc"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  # networking.hostName = "mustafa-pc"; # Define your hostname.
+  # networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
-  time.timeZone = "Asia/Jakarta";
+  # time.timeZone = "Asia/Jakarta";
+  #
+  # i18n.defaultLocale = "en_US.UTF-8";
+  # i18n.extraLocaleSettings = {
+  #   LC_ADDRESS = "id_ID.utf8";
+  #   LC_IDENTIFICATION = "id_ID.utf8";
+  #   LC_MEASUREMENT = "id_ID.utf8";
+  #   LC_MONETARY = "id_ID.utf8";
+  #   LC_NAME = "id_ID.utf8";
+  #   LC_NUMERIC = "id_ID.utf8";
+  #   LC_PAPER = "id_ID.utf8";
+  #   LC_TELEPHONE = "id_ID.utf8";
+  #   LC_TIME = "id_ID.utf8";
+  # };
 
-  i18n.defaultLocale = "en_US.UTF-8";
-  i18n.extraLocaleSettings = {
-    LC_ADDRESS = "id_ID.utf8";
-    LC_IDENTIFICATION = "id_ID.utf8";
-    LC_MEASUREMENT = "id_ID.utf8";
-    LC_MONETARY = "id_ID.utf8";
-    LC_NAME = "id_ID.utf8";
-    LC_NUMERIC = "id_ID.utf8";
-    LC_PAPER = "id_ID.utf8";
-    LC_TELEPHONE = "id_ID.utf8";
-    LC_TIME = "id_ID.utf8";
-  };
+  # console = {
+  #   font = "Lat2-Terminus16";
+  #   useXkbConfig = true; # use xkbOptions in tty.
+  # };
 
-  console = {
-    font = "Lat2-Terminus16";
-    useXkbConfig = true; # use xkbOptions in tty.
-  };
-
-  xdg = {
-    portal = {
-      enable = true;
-      extraPortals = with pkgs; [
-        xdg-desktop-portal-wlr
-        xdg-desktop-portal-gtk
-      ];
-      # gtkUsePortal = true;
-    };
-  };
+  # xdg = {
+  #   portal = {
+  #     enable = true;
+  #     extraPortals = with pkgs; [
+  #       xdg-desktop-portal-wlr
+  #       xdg-desktop-portal-gtk
+  #     ];
+  #     # gtkUsePortal = true;
+  #   };
+  # };
 
   # services.xserver = {
   #   enable = true;
@@ -239,67 +239,67 @@ in
   #   # "f13:f13"
   # ];
 
-  services.printing.enable = true;
+  # services.printing.enable = true;
 
-  programs.noisetorch.enable = true;
-
-  sound.enable = true;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    media-session.config.bluez-monitor.rules = [
-      {
-        # Matches all cards
-        matches = [{ "device.name" = "~bluez_card.*"; }];
-        actions = {
-          "update-props" = {
-            "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
-            # mSBC is not expected to work on all headset + adapter combinations.
-            "bluez5.msbc-support" = true;
-            # SBC-XQ is not expected to work on all headset + adapter combinations.
-            "bluez5.sbc-xq-support" = true;
-          };
-        };
-      }
-      {
-        matches = [
-          # Matches all sources
-          { "node.name" = "~bluez_input.*"; }
-          # Matches all outputs
-          { "node.name" = "~bluez_output.*"; }
-        ];
-      }
-    ];
-
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
-    jack.enable = true;
-  };
+  # programs.noisetorch.enable = true;
+  #
+  # sound.enable = true;
+  # security.rtkit.enable = true;
+  # services.pipewire = {
+  #   media-session.config.bluez-monitor.rules = [
+  #     {
+  #       # Matches all cards
+  #       matches = [{ "device.name" = "~bluez_card.*"; }];
+  #       actions = {
+  #         "update-props" = {
+  #           "bluez5.reconnect-profiles" = [ "hfp_hf" "hsp_hs" "a2dp_sink" ];
+  #           # mSBC is not expected to work on all headset + adapter combinations.
+  #           "bluez5.msbc-support" = true;
+  #           # SBC-XQ is not expected to work on all headset + adapter combinations.
+  #           "bluez5.sbc-xq-support" = true;
+  #         };
+  #       };
+  #     }
+  #     {
+  #       matches = [
+  #         # Matches all sources
+  #         { "node.name" = "~bluez_input.*"; }
+  #         # Matches all outputs
+  #         { "node.name" = "~bluez_output.*"; }
+  #       ];
+  #     }
+  #   ];
+  #
+  #   enable = true;
+  #   alsa.enable = true;
+  #   alsa.support32Bit = true;
+  #   pulse.enable = true;
+  #   jack.enable = true;
+  # };
 
   # ln -sfn ${pkgs.glibc.out}/lib64/ld-linux-x86-64.so.2 /lib64/ld-linux-x86-64.so.2.tmp
   # mv -f /lib64/ld-linux-x86-64.so.2.tmp /lib64/ld-linux-x86-64.so.2 # atomically replace
   # ln -sfn ${pkgs.gcc.out}/lib64/ /lib64
 
-  system.activationScripts.ldso = lib.stringAfter [ "usrbinenv" ] ''
-    rm -rf /lib64
-    rm -rf /lib
-    # mkdir /lib64
-    # mkdir /lib
-    # for i in ${pkgs.glibc.out}/lib64/*; do
-    #   ln -sfn $i /lib64/
-    # done
-    #
-    # for i in ${pkgs.gcc11.cc.lib}/lib64/*; do
-    #   ln -sfn $i /lib64/
-    # done
-    #
-    # for i in ${pkgs.gcc11.cc.lib}/lib/*; do
-    #   ln -sfn $i /lib/
-    # done
-
-    # ln -sfn ${pkgs.gcc11.cc.lib}/lib64/ /
-  '';
+  # system.activationScripts.ldso = lib.stringAfter [ "usrbinenv" ] ''
+  #   rm -rf /lib64
+  #   rm -rf /lib
+  #   # mkdir /lib64
+  #   # mkdir /lib
+  #   # for i in ${pkgs.glibc.out}/lib64/*; do
+  #   #   ln -sfn $i /lib64/
+  #   # done
+  #   #
+  #   # for i in ${pkgs.gcc11.cc.lib}/lib64/*; do
+  #   #   ln -sfn $i /lib64/
+  #   # done
+  #   #
+  #   # for i in ${pkgs.gcc11.cc.lib}/lib/*; do
+  #   #   ln -sfn $i /lib/
+  #   # done
+  #
+  #   # ln -sfn ${pkgs.gcc11.cc.lib}/lib64/ /
+  # '';
 
   # programs.nix-ld.enable = true;
   # programs.nix-ld.libraries = with pkgs; [
@@ -352,16 +352,16 @@ in
   #   xorg.libxshmfence
   # ];
 
-  hardware.bluetooth = {
-    enable = true;
-    powerOnBoot = pkgs.lib.mkForce true;
-  };
+  # hardware.bluetooth = {
+  #   enable = true;
+  #   powerOnBoot = pkgs.lib.mkForce true;
+  # };
 
-  services.blueman.enable = true;
-  services.picom.enable = true;
+  # services.blueman.enable = true;
+  # services.picom.enable = true;
 
-  programs.dconf.enable = true;
-  services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];
+  # programs.dconf.enable = true;
+  # services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];
 
   # home-manager.users.mustafa = { pkgs, ... }: {
   #   home.username = "mustafa";
@@ -1453,33 +1453,33 @@ in
   #   };
   # };
 
-  users.defaultUserShell = pkgs.zsh;
-  users.extraGroups.vboxusers.members = [ "mustafa" ];
+   users.defaultUserShell = pkgs.zsh;
+   users.extraGroups.vboxusers.members = [ "mustafa" ];
+  
+   users.users.mustafa = {
+     shell = pkgs.zsh;
+     isNormalUser = true;
+     extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
+     # openssh.authorizedKeys.keyFiles = [ "${config.users.users.mustafa.home}/.ssh/id_ed25519.pub" ];
+   };
 
-  users.users.mustafa = {
-    shell = pkgs.zsh;
-    isNormalUser = true;
-    extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
-    # openssh.authorizedKeys.keyFiles = [ "${config.users.users.mustafa.home}/.ssh/id_ed25519.pub" ];
-  };
+  # fonts.fonts = with pkgs; [
+  #   noto-fonts
+  #   noto-fonts-cjk
+  #   noto-fonts-emoji
+  #   liberation_ttf
+  #   fira-code
+  #   fira-code-symbols
+  #   mplus-outline-fonts.githubRelease
+  #   dina-font
+  #   proggyfonts
+  #   ibm-plex
+  #   nerdfonts
+  # ];
 
-  fonts.fonts = with pkgs; [
-    noto-fonts
-    noto-fonts-cjk
-    noto-fonts-emoji
-    liberation_ttf
-    fira-code
-    fira-code-symbols
-    mplus-outline-fonts.githubRelease
-    dina-font
-    proggyfonts
-    ibm-plex
-    nerdfonts
-  ];
-
-  security.sudo.configFile = ''
-    mustafa ALL = NOPASSWD: /sbin/halt, /sbin/reboot, /sbin/poweroff
-  '';
+  # security.sudo.configFile = ''
+  #   mustafa ALL = NOPASSWD: /sbin/halt, /sbin/reboot, /sbin/poweroff
+  # '';
 
   # environment.variables = {
   #   SUDO_EDITOR = "neovim";
@@ -1493,254 +1493,256 @@ in
 
   # List packages installed in system profile. To search, run:
   # $ nix search wget
-  environment.systemPackages = with pkgs; [
-    vim
-
-    neovim
-    vscode-fhs
-    # (vscode-with-extensions.override {
-    #   vscodeExtensions = with vscode-extensions; [
-    #
-    #   ];
-    # })
-
-    wget
-    glxinfo
-
-    kitty
-    zsh
-    oh-my-zsh
-    fzf
-    fzf-zsh
-
-    zip
-    unzip
-    bind
-    bat
-    btop
-    blueman
-    dunst
-    gh
-    htop
-    input-remapper
-    lf
-    lsd
-    neofetch
-    picom
-    rofi
-    starship
-    arandr
-    awscli2
-    copyq
-    cloc
-    dbeaver
-    dos2unix
-    fd
-    ffmpeg_5-full
-    ffmpegthumbnailer
-    find-cursor
-    flameshot
-    gdu
-    git-annex
-    glab
-    google-cloud-sdk
-    gromit-mpx
-    handbrake
-    httpie
-    inxi
-    jq
-    man
-    nitrogen
-    nmap
-    notion-app-enhanced
-    nvtop
-    obs-studio
-    p7zip
-    pinta
-    postman
-    qpwgraph
-    libsForQt5.qt5ct
-    radeontop
-    scrcpy
-    speedtest-cli
-    trashy
-    wine
-    wine64
-    winetricks
-    wireplumber
-    x11vnc
-    xclip
-    xcolor
-    youtube-dl
-    yt-dlp
-    (
-
-      let
-        packagePypi = name: ver: ref: deps: python39.pkgs.buildPythonPackage rec {
-          pname = "${lib.strings.sanitizeDerivationName name}";
-          version = ver;
-
-          src = python39.pkgs.fetchPypi {
-            inherit pname version;
-            hash = ref;
-          };
-
-          buildInputs = deps;
-          doCheck = false;
-        };
-      in
-      python39.withPackages (ps: [
-        # (
-        #   packagePypi
-        #     "iwlib"
-        #     "1.7.0"
-        #     "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE="
-        #     [ ps.cffi ]
-        # )
-      ])
-    )
-    poetry
-    rustup
-    go
-    gofumpt
-    nodejs-16_x
-    nodePackages.npm
-    nodePackages.pnpm
-    nodePackages.sass
-    git
-    docker
-    pavucontrol
-    ncpamixer
-    pulseaudioFull
-    slack
-    zoom-us
-    tdesktop
-    google-chrome
-    thunderbird
-    alsa-utils
-    pulseaudio-ctl
-    home-manager
-    openrgb
-    discord
-    killall
-    libnotify
-    noisetorch
-    statix
-    tmux
-    terraform
-    clang
-    clang-tools
-
-    black
-    stylua
-    gofumpt
-    gotools
-    ##terrafmt
-    shfmt
-    ##fourmolu
-
-    gopls
-    nodePackages.pyright
-    nodePackages.typescript-language-server
-    tflint
-    ##yamlls
-    ##vimls
-    texlab
-    nodePackages.vscode-langservers-extracted
-    ##emmet-ls
-    nodePackages_latest.tailwindcss
-    taplo
-    nodePackages.graphql-language-service-cli
-    sqls
-    ##jdtls
-    nodePackages.svelte-language-server
-    ##astro
-    ##prisma
-    ##jsonls
-    sumneko-lua-language-server
-    nodePackages.diagnostic-languageserver
-    nodePackages.bash-language-server
-
-    kdeconnect
-    rnix-lsp
-    xfce.thunar
-    xfce.thunar-volman
-    xfce.thunar-archive-plugin
-    gvfs
-    udisks
-    usermount
-    gnumake
-    lazygit
-    air
-    most
-    ripgrep
-    steam
-    rescuetime
-    tailscale
-    libsecret
-    dbeaver
-    beekeeper-studio
-    (appimage-run.override {
-      extraPkgs = pkgs: [ pkgs.xorg.libxshmfence pkgs.libsecret ];
-    })
-
-    jdk11
-    rclone
-
-    llvmPackages_latest.llvm
-    llvmPackages_latest.bintools
-    zlib.out
-    xorriso
-    grub2
-    qemu
-    llvmPackages_latest.lld
-    SDL2
-    SDL2_ttf
-    SDL2_net
-    SDL2_gfx
-    SDL2_sound
-    SDL2_mixer
-    SDL2_image
-    radare2
-    # iaito
-    minecraft
-    virtualbox
-    virt-manager
-    qemu_full
-    libreoffice
-    gcc
-    gdb
-    gnome.gedit
-    libsForQt5.kate
-    screenkey
-    k6
-    direnv
-    nix-direnv
-    pciutils
-    usbutils
-    uwufetch
-    webcamoid
-    glade
-    man-pages
-    man-pages-posix
-    # unstable.soundux
-    fwupd
-    prismlauncher
-    gnome.seahorse
-    xorg.xkbcomp
-    xorg.xkbutils
-    xorg.xmodmap
-    xorg.xinput
-    xorg.libX11
-    xorg.libXft
-    xorg.libXinerama
-
-    clang-tools
-    clang
-    pkg-config
-    gtk3
-    gtk4
-  ];
+  # environment.systemPackages = with pkgs; [
+  #   vim
+  #
+  #   neovim
+  #   vscode-fhs
+  #   # (vscode-with-extensions.override {
+  #   #   vscodeExtensions = with vscode-extensions; [
+  #   #
+  #   #   ];
+  #   # })
+  #
+  #   wget
+  #   glxinfo
+  #
+  #   kitty
+  #   zsh
+  #   oh-my-zsh
+  #   fzf
+  #   fzf-zsh
+  #
+  #   zip
+  #   unzip
+  #   bind
+  #   bat
+  #   btop
+  #   blueman
+  #   dunst
+  #   gh
+  #   htop
+  #   input-remapper
+  #   lf
+  #   lsd
+  #   neofetch
+  #   picom
+  #   rofi
+  #   starship
+  #   arandr
+  #   awscli2
+  #   copyq
+  #   cloc
+  #   dbeaver
+  #   dos2unix
+  #   fd
+  #   ffmpeg_5-full
+  #   ffmpegthumbnailer
+  #   find-cursor
+  #   flameshot
+  #   gdu
+  #   git-annex
+  #   glab
+  #   google-cloud-sdk
+  #   gromit-mpx
+  #   handbrake
+  #   httpie
+  #   inxi
+  #   jq
+  #   man
+  #   nitrogen
+  #   nmap
+  #   notion-app-enhanced
+  #   nvtop
+  #   obs-studio
+  #   p7zip
+  #   pinta
+  #   postman
+  #   qpwgraph
+  #   libsForQt5.qt5ct
+  #   radeontop
+  #   scrcpy
+  #   speedtest-cli
+  #   trashy
+  #   wine
+  #   wine64
+  #   winetricks
+  #   wireplumber
+  #   x11vnc
+  #   xclip
+  #   xcolor
+  #   youtube-dl
+  #   yt-dlp
+  #   (
+  #     let
+  #       packagePypi = name: ver: ref: deps: python39.pkgs.buildPythonPackage rec {
+  #         pname = "${lib.strings.sanitizeDerivationName name}";
+  #         version = ver;
+  #
+  #         src = python39.pkgs.fetchPypi {
+  #           inherit pname version;
+  #           hash = ref;
+  #         };
+  #
+  #         buildInputs = deps;
+  #         doCheck = false;
+  #       };
+  #     in
+  #     python39.withPackages (ps: [
+  #       # (
+  #       #   packagePypi
+  #       #     "iwlib"
+  #       #     "1.7.0"
+  #       #     "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE="
+  #       #     [ ps.cffi ]
+  #       # )
+  #     ])
+  #   )
+  #   poetry
+  #   rustup
+  #   go
+  #   gofumpt
+  #   nodejs-16_x
+  #   nodePackages.npm
+  #   nodePackages.pnpm
+  #   nodePackages.sass
+  #   git
+  #   docker
+  #   pavucontrol
+  #   ncpamixer
+  #   pulseaudioFull
+  #   slack
+  #   zoom-us
+  #   tdesktop
+  #   google-chrome
+  #   thunderbird
+  #   alsa-utils
+  #   pulseaudio-ctl
+  #   home-manager
+  #   openrgb
+  #   discord
+  #   killall
+  #   libnotify
+  #   noisetorch
+  #   statix
+  #   tmux
+  #   terraform
+  #   clang
+  #   clang-tools
+  #
+  #   black
+  #   stylua
+  #   gofumpt
+  #   gotools
+  #   ##terrafmt
+  #   shfmt
+  #   ##fourmolu
+  #
+  #   gopls
+  #   nodePackages.pyright
+  #   nodePackages.typescript-language-server
+  #   tflint
+  #   ##yamlls
+  #   ##vimls
+  #   texlab
+  #   nodePackages.vscode-langservers-extracted
+  #   ##emmet-ls
+  #   nodePackages_latest.tailwindcss
+  #   taplo
+  #   nodePackages.graphql-language-service-cli
+  #   sqls
+  #   ##jdtls
+  #   nodePackages.svelte-language-server
+  #   ##astro
+  #   ##prisma
+  #   ##jsonls
+  #   sumneko-lua-language-server
+  #   nodePackages.diagnostic-languageserver
+  #   nodePackages.bash-language-server
+  #
+  #   kdeconnect
+  #   rnix-lsp
+  #   xfce.thunar
+  #   xfce.thunar-volman
+  #   xfce.thunar-archive-plugin
+  #   gvfs
+  #   udisks
+  #   usermount
+  #   gnumake
+  #   lazygit
+  #   air
+  #   most
+  #   ripgrep
+  #   steam
+  #   rescuetime
+  #   tailscale
+  #   libsecret
+  #   dbeaver
+  #   beekeeper-studio
+  #   (appimage-run.override {
+  #     extraPkgs = pkgs: [ pkgs.xorg.libxshmfence pkgs.libsecret ];
+  #   })
+  #
+  #   jdk11
+  #   rclone
+  #
+  #   llvmPackages_latest.llvm
+  #   llvmPackages_latest.bintools
+  #   zlib.out
+  #   xorriso
+  #   grub2
+  #   qemu
+  #   llvmPackages_latest.lld
+  #   SDL2
+  #   SDL2_ttf
+  #   SDL2_net
+  #   SDL2_gfx
+  #   SDL2_sound
+  #   SDL2_mixer
+  #   SDL2_image
+  #   radare2
+  #   # iaito
+  #   minecraft
+  #   virtualbox
+  #   virt-manager
+  #   qemu_full
+  #   libreoffice
+  #   gcc
+  #   gdb
+  #   gnome.gedit
+  #   libsForQt5.kate
+  #   screenkey
+  #   k6
+  #   direnv
+  #   nix-direnv
+  #   pciutils
+  #   usbutils
+  #   uwufetch
+  #   webcamoid
+  #   glade
+  #   man-pages
+  #   man-pages-posix
+  #   # unstable.soundux
+  #   fwupd
+  #   prismlauncher
+  #   gnome.seahorse
+  #   xorg.xkbcomp
+  #   xorg.xkbutils
+  #   xorg.xmodmap
+  #   xorg.xinput
+  #   xorg.libX11
+  #   xorg.libXft
+  #   xorg.libXinerama
+  #
+  #   clang-tools
+  #   clang
+  #   pkg-config
+  #   gtk3
+  #   gtk4
+  #   vlc
+  #   mpv
+  #   psmisc
+  # ];
 
 
 
@@ -1755,14 +1757,14 @@ in
   # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
-  services.openssh.enable = true;
+  # services.openssh.enable = true;
 
 
   # Open ports in the firewall.
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
-  networking.firewall.enable = false;
+# networking.firewall.enable = false;
 
   # Copy the NixOS configuration file and link it from the resulting system
   # (/run/current-system/configuration.nix). This is useful in case you
@@ -1775,6 +1777,6 @@ in
   # this value at the release version of the first install of this system.
   # Before changing this value read the documentation for this option
   # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "22.11"; # Did you read the comment?
+  # system.stateVersion = "22.11"; # Did you read the comment?
 }
 
