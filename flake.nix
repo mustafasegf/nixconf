@@ -52,7 +52,8 @@
           modules = [
             (import ./hardware-configuration.nix)
             (import ./configuration.nix)
-            (import ./qtile.nix)
+            # (import ./qtile.nix)
+            (import ./penrose.nix)
             ({ config, pkgs, ... }: {
 
               system.stateVersion = "22.11";
@@ -490,11 +491,23 @@
                 digimend.enable = true;
                 videoDrivers = [ "modesetting" ];
                 # videoDrivers = [ "amdgpu" ];
+
                 autorun = true;
                 displayManager = {
+                  # defaultSession = "none+qtile";
                   # defaultSession = "none+dwm";
-                  defaultSession = "none+qtile";
                   # startx.enable = true;
+
+                  defaultSession = "none+qtile";
+                  # session = [
+                  #   {
+                  #     manage = "window";
+                  #     name = "penrose";
+                  #     # start = ''exec /home/mustafa/project/penrose-wm/result/bin/penrose_wm'';
+                  #     start = ''exec /home/mustafa/project/penrose-wm/target/release/penrose-wm'';
+                  #   }
+                  # ];
+
                   lightdm = {
                     # enable = false;
                     enable = true;
@@ -517,16 +530,22 @@
                         keycode 202 = F24 F24 F24
                       '';
                     in
-                    "sleep 5 && ${pkgs.xorg.xmodmap}/bin/xmodmap ${functionkey}";
+                    ''sleep 3 && ${pkgs.xorg.xmodmap}/bin/xmodmap ${functionkey} &&
+                    gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh
+                    '';
                 };
 
                 windowManager = {
                   qtile = {
                     enable = true;
-                    extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
-                    package = pkgs.qtile;
-                    backend = "x11";
+                    # extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
+                    # backend = "x11";
                     # configFile = ./qtile/config.py;
+                  };
+
+                  penrose = {
+                    enable = true;
+                    path = ''/home/mustafa/project/penrose-wm/target/release/penrose-wm'';
                   };
 
                   # dwm = {
