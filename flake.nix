@@ -25,10 +25,20 @@
         config = {
           allowUnfree = true;
         };
+
+      };
+
+      llvm15pkgs = import llvm15 {
+        inherit system;
+        config = {
+          allowUnfree = true;
+        };
+
       };
 
       lib = nixpkgs.lib;
     in
+    rec
     {
       # homeConfigurations = {
       #   "mustafa" = home-manager.lib.homeManagerConfiguration {
@@ -43,38 +53,25 @@
       #   };
       # };
 
+      inputs.pkgs = pkgs;
+      inputs.upkgs = pkgs;
+      inputs.llvm15pkgs = llvm15pkgs;
+
       nixosConfigurations = {
         mustafa-pc = lib.nixosSystem {
           inherit system;
 
           modules = [
-            (import ./hardware-configuration.nix)
-            # (import ./configuration.nix)
+            ./hardware-configuration.nix
             # (import ./qtile.nix)
-            (import ./penrose.nix)
+            ./penrose.nix
+            (import ./extra-hardware-configuration.nix (inputs // { inherit (self) hardware; }))
             ({ config, pkgs, ... }: {
 
               system.stateVersion = "22.11";
 
               #hardware
 
-              hardware.bluetooth = {
-                enable = true;
-                powerOnBoot = pkgs.lib.mkForce true;
-              };
-
-              hardware.opengl.package =
-                (upkgs.mesa.override {
-                  llvmPackages = llvm15.legacyPackages."${system}".llvmPackages_15;
-                  enableOpenCL = false;
-                }).drivers;
-
-              hardware.opengl = {
-                enable = true;
-                driSupport32Bit = true;
-              };
-
-              sound.enable = true;
 
               # Use the systemd-boot EFI boot loader.
               boot.loader.systemd-boot.enable = true;
