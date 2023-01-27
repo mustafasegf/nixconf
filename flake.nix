@@ -55,6 +55,7 @@
 
       inputs.pkgs = pkgs;
       inputs.upkgs = pkgs;
+      inputs.lib = lib;
       inputs.llvm15pkgs = llvm15pkgs;
 
       nixosConfigurations = {
@@ -69,22 +70,6 @@
             ({ config, pkgs, ... }: {
 
               system.stateVersion = "22.11";
-
-              #hardware
-
-
-              # Use the systemd-boot EFI boot loader.
-              boot.loader.systemd-boot.enable = true;
-              boot.loader.efi.canTouchEfiVariables = true;
-              boot.loader.grub.device = "nodev";
-              boot.loader.grub.efiSupport = true;
-
-              boot.kernelPackages = pkgs.linuxPackages_latest;
-              boot.initrd.kernelModules = [ "amdgpu" ];
-              boot.kernelModules = [ "i2c-dev" "i2c-piix4" "hid-playstasion" "v4l2loopback" ];
-              boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "ntfs" "cifs" ];
-
-              boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback.out ];
 
               # localization
               time.timeZone = "Asia/Jakarta";
@@ -146,6 +131,7 @@
                   };
                 })
               ];
+
               nixpkgs.config.allowUnfree = true;
 
               # nix 
@@ -422,11 +408,6 @@
                 hello
               ];
 
-              # network
-
-              networking.firewall.enable = false;
-              networking.hostName = "mustafa-pc"; # Define your hostname.
-              networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 
               # services        
               services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];

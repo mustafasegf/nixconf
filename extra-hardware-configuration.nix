@@ -1,4 +1,4 @@
-{ hardware, pkgs, upkgs, llvm15pkgs, ... }: {
+{ hardware, pkgs, upkgs, llvm15pkgs, lib, ... }: {
 
   hardware.bluetooth = {
     enable = true;
@@ -17,4 +17,11 @@
   };
 
   sound.enable = true;
+
+  # network
+
+  networking.firewall.enable = false;
+  networking.hostName = "mustafa-pc"; # Define your hostname.
+  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
 }
+
