@@ -1,4 +1,4 @@
-{ config, pkgs, ... }:
+{ config, pkgs, lib, ... }:
 
 {
   home.username = "mustafa";
@@ -473,6 +473,7 @@
 
       wg_is_keys_off="#[fg=$color_light,bg=$color_window_off_indicator]#([ $(tmux show-option -qv key-table) = 'off' ] && echo 'OFF')#[default]"
     '';
+
     prefix = "C-a";
     keyMode = "vi";
     historyLimit = 10000;
@@ -481,168 +482,167 @@
     # newSession = true;
   };
 
-  programs.rofi =
-    {
-      enable = false;
+  programs.rofi = {
+    enable = false;
 
-      plugins = with pkgs; [
-        rofi-calc
-        rofi-emoji
-        rofi-pass
-        rofi-systemd
-      ];
-      font = "IBM Plex Mono 12";
+    plugins = with pkgs; [
+      rofi-calc
+      rofi-emoji
+      rofi-pass
+      rofi-systemd
+    ];
+    font = "IBM Plex Mono 12";
 
-      # theme = {
-      #   "*" = {
-      #     drac-bgd = "rgba (40, 42, 54, 50%)";
-      #     drac-cur = "#44475a";
-      #     drac-fgd = "#f8f8f2";
-      #     drac-cmt = "#6272a4";
-      #     drac-cya = "#8be9fd";
-      #     drac-grn = "#50fa7b";
-      #     drac-ora = "#ffb86c";
-      #     drac-pnk = "rgba (255, 121, 198, 17% )";
-      #     drac-pur = "#bd93f9";
-      #     drac-red = "rgba (255, 85, 85, 17%)";
-      #     drac-yel = "#f1fa8c";
-      #
-      #     foreground = "@drac-fgd";
-      #     background-color = "@drac-bgd";
-      #     active-background = "@drac-pnk";
-      #     urgent-background = "@drac-red";
-      #
-      #     selected-background = "@active-background";
-      #     selected-urgent-background = "@urgent-background";
-      #     selected-active-background = "@active-background";
-      #     separatorcolor = "@active-background";
-      #     bordercolor = "#6272a4";
-      #   };
-      #
-      #   "#window" = {
-      #     background-color = "@background-color";
-      #     border = 1;
-      #     border-radius = 6;
-      #     border-color = "@bordercolor";
-      #   };
-      #
-      #   "#mainbox" = {
-      #     border = 0;
-      #     padding = 5;
-      #   };
-      #   "#message" = {
-      #     border = "0px dash 0px 0px ";
-      #     border-color = "@separatorcolor";
-      #     padding = "0px ";
-      #   };
-      #   "#textbox" = {
-      #     text-color = "@foreground";
-      #   };
-      #   "#listview" = {
-      #     lines = 10;
-      #     columns = 3;
-      #     fixed-height = 0;
-      #     border = "2px dash 0px 0px ";
-      #     border-color = "@bordercolor";
-      #     spacing = "0px ";
-      #     scrollbar = true;
-      #     padding = "2px 0px 0px ";
-      #   };
-      #   "#element" = {
-      #     border = 0;
-      #     padding = "1px ";
-      #   };
-      #   "#element.normal.normal" = {
-      #     background-color = "@background-color";
-      #     text-color = "@foreground";
-      #   };
-      #   "#element.normal.urgent" = {
-      #     background-color = "@urgent-background";
-      #     text-color = "@urgent-foreground";
-      #   };
-      #   "#element.normal.active" = {
-      #     background-color = "@active-background";
-      #     text-color = "@background-color";
-      #   };
-      #   "#element.selected.normal" = {
-      #     background-color = "@selected-background";
-      #     text-color = "@foreground";
-      #   };
-      #   "#element.selected.urgent" = {
-      #     background-color = "@selected-urgent-background";
-      #     text-color = "@foreground";
-      #   };
-      #   "#element.selected.active" = {
-      #     background-color = "@selected-active-background";
-      #     text-color = "@background-color";
-      #   };
-      #   "#element.alternate.normal" = {
-      #     background-color = "@background-color";
-      #     text-color = "@foreground";
-      #   };
-      #   "#element.alternate.urgent" = {
-      #     background-color = "@urgent-background";
-      #     text-color = "@foreground";
-      #   };
-      #   "#element.alternate.active" = {
-      #     background-color = "@active-background";
-      #     text-color = "@foreground";
-      #   };
-      #   "#scrollbar" = {
-      #     width = "1px ";
-      #     border = 0;
-      #     handle-width = "4px ";
-      #     padding = 0;
-      #   };
-      #   "#sidebar" = {
-      #     border = "2px dash 0px 0px ";
-      #     border-color = "@separatorcolor";
-      #   };
-      #   "#button.selected" = {
-      #     background-color = "@selected-background";
-      #     text-color = "@foreground";
-      #   };
-      #   "#inputbar" = {
-      #     spacing = 0;
-      #     text-color = "@foreground";
-      #     padding = "1px ";
-      #   };
-      #   "#case-indicator" = {
-      #     spacing = 0;
-      #     text-color = "@foreground";
-      #   };
-      #   "#entry" = {
-      #     spacing = 0;
-      #     text-color = "@drac-cya";
-      #   };
-      #   "#prompt" = {
-      #     spacing = 0;
-      #     text-color = "@drac-grn";
-      #   };
-      #   "#inputbar" = {
-      #     children = "[ prompt,textbox-prompt-colon,entry,case-indicator ]";
-      #   };
-      #   "#textbox-prompt-colon" = {
-      #     expand = false;
-      #     str = ":";
-      #     margin = "0px 0.3em 0em 0em ";
-      #     text-color = "@drac-grn";
-      #   };
-      #   "element-text, element-icon" = {
-      #     background-color = "inherit";
-      #     text-color = "inherit";
-      #   };
-      # };
-      extraConfig = {
-        show-icons = true;
-        icon-theme = "Arc-X-D";
-        display-drun = "Apps";
-        drun-display-format = "{name}";
-        scroll-method = 0;
-        disable-history = false;
-        sidebar-mode = false;
-      };
+    # theme = {
+    #   "*" = {
+    #     drac-bgd = "rgba (40, 42, 54, 50%)";
+    #     drac-cur = "#44475a";
+    #     drac-fgd = "#f8f8f2";
+    #     drac-cmt = "#6272a4";
+    #     drac-cya = "#8be9fd";
+    #     drac-grn = "#50fa7b";
+    #     drac-ora = "#ffb86c";
+    #     drac-pnk = "rgba (255, 121, 198, 17% )";
+    #     drac-pur = "#bd93f9";
+    #     drac-red = "rgba (255, 85, 85, 17%)";
+    #     drac-yel = "#f1fa8c";
+    #
+    #     foreground = "@drac-fgd";
+    #     background-color = "@drac-bgd";
+    #     active-background = "@drac-pnk";
+    #     urgent-background = "@drac-red";
+    #
+    #     selected-background = "@active-background";
+    #     selected-urgent-background = "@urgent-background";
+    #     selected-active-background = "@active-background";
+    #     separatorcolor = "@active-background";
+    #     bordercolor = "#6272a4";
+    #   };
+    #
+    #   "#window" = {
+    #     background-color = "@background-color";
+    #     border = 1;
+    #     border-radius = 6;
+    #     border-color = "@bordercolor";
+    #   };
+    #
+    #   "#mainbox" = {
+    #     border = 0;
+    #     padding = 5;
+    #   };
+    #   "#message" = {
+    #     border = "0px dash 0px 0px ";
+    #     border-color = "@separatorcolor";
+    #     padding = "0px ";
+    #   };
+    #   "#textbox" = {
+    #     text-color = "@foreground";
+    #   };
+    #   "#listview" = {
+    #     lines = 10;
+    #     columns = 3;
+    #     fixed-height = 0;
+    #     border = "2px dash 0px 0px ";
+    #     border-color = "@bordercolor";
+    #     spacing = "0px ";
+    #     scrollbar = true;
+    #     padding = "2px 0px 0px ";
+    #   };
+    #   "#element" = {
+    #     border = 0;
+    #     padding = "1px ";
+    #   };
+    #   "#element.normal.normal" = {
+    #     background-color = "@background-color";
+    #     text-color = "@foreground";
+    #   };
+    #   "#element.normal.urgent" = {
+    #     background-color = "@urgent-background";
+    #     text-color = "@urgent-foreground";
+    #   };
+    #   "#element.normal.active" = {
+    #     background-color = "@active-background";
+    #     text-color = "@background-color";
+    #   };
+    #   "#element.selected.normal" = {
+    #     background-color = "@selected-background";
+    #     text-color = "@foreground";
+    #   };
+    #   "#element.selected.urgent" = {
+    #     background-color = "@selected-urgent-background";
+    #     text-color = "@foreground";
+    #   };
+    #   "#element.selected.active" = {
+    #     background-color = "@selected-active-background";
+    #     text-color = "@background-color";
+    #   };
+    #   "#element.alternate.normal" = {
+    #     background-color = "@background-color";
+    #     text-color = "@foreground";
+    #   };
+    #   "#element.alternate.urgent" = {
+    #     background-color = "@urgent-background";
+    #     text-color = "@foreground";
+    #   };
+    #   "#element.alternate.active" = {
+    #     background-color = "@active-background";
+    #     text-color = "@foreground";
+    #   };
+    #   "#scrollbar" = {
+    #     width = "1px ";
+    #     border = 0;
+    #     handle-width = "4px ";
+    #     padding = 0;
+    #   };
+    #   "#sidebar" = {
+    #     border = "2px dash 0px 0px ";
+    #     border-color = "@separatorcolor";
+    #   };
+    #   "#button.selected" = {
+    #     background-color = "@selected-background";
+    #     text-color = "@foreground";
+    #   };
+    #   "#inputbar" = {
+    #     spacing = 0;
+    #     text-color = "@foreground";
+    #     padding = "1px ";
+    #   };
+    #   "#case-indicator" = {
+    #     spacing = 0;
+    #     text-color = "@foreground";
+    #   };
+    #   "#entry" = {
+    #     spacing = 0;
+    #     text-color = "@drac-cya";
+    #   };
+    #   "#prompt" = {
+    #     spacing = 0;
+    #     text-color = "@drac-grn";
+    #   };
+    #   "#inputbar" = {
+    #     children = "[ prompt,textbox-prompt-colon,entry,case-indicator ]";
+    #   };
+    #   "#textbox-prompt-colon" = {
+    #     expand = false;
+    #     str = ":";
+    #     margin = "0px 0.3em 0em 0em ";
+    #     text-color = "@drac-grn";
+    #   };
+    #   "element-text, element-icon" = {
+    #     background-color = "inherit";
+    #     text-color = "inherit";
+    #   };
+    # };
+    extraConfig = {
+      show-icons = true;
+      icon-theme = "Arc-X-D";
+      display-drun = "Apps";
+      drun-display-format = "{name}";
+      scroll-method = 0;
+      disable-history = false;
+      sidebar-mode = false;
     };
+  };
 
   services.picom = {
     enable = true;
@@ -873,9 +873,76 @@
       name = "IBM Plex Mono";
       size = 10;
     };
-    extraConfig = ''
-      include /etc/nixos/kitty/dracula.conf
-    '';
+    extraConfig =
+      let
+        dracula = pkgs.writeText "dracula.conf" '' 
+        # https://draculatheme.com/kitty
+        #
+        # Installation instructions:
+        #
+        #  cp dracula.conf ~/.config/kitty/
+        #  echo "include dracula.conf" >> ~/.config/kitty/kitty.conf
+        #
+        # Then reload kitty for the config to take affect.
+        # Alternatively copy paste below directly into kitty.conf
+        
+        foreground            #f8f8f2
+        background            #282a36
+        selection_foreground  #ffffff
+        selection_background  #44475a
+        
+        url_color #8be9fd
+        
+        # black
+        color0  #21222c
+        color8  #6272a4
+        
+        # red
+        color1  #ff5555
+        color9  #ff6e6e
+        
+        # green
+        color2  #50fa7b
+        color10 #69ff94
+        
+        # yellow
+        color3  #f1fa8c
+        color11 #ffffa5
+        
+        # blue
+        color4  #bd93f9
+        color12 #d6acff
+        
+        # magenta
+        color5  #ff79c6
+        color13 #ff92df
+        
+        # cyan
+        color6  #8be9fd
+        color14 #a4ffff
+        
+        # white
+        color7  #f8f8f2
+        color15 #ffffff
+        
+        # Cursor colors
+        cursor            #f8f8f2
+        cursor_text_color background
+        
+        # Tab bar colors
+        active_tab_foreground   #282a36
+        active_tab_background   #f8f8f2
+        inactive_tab_foreground #282a36
+        inactive_tab_background #6272a4
+        
+        # Marks
+        mark1_foreground #282a36
+        mark1_background #ff5555
+      '';
+      in
+      ''
+        include ${dracula}
+      '';
 
     settings = {
       background_opacity = "0.90";
@@ -884,7 +951,7 @@
       bold_font = "auto";
       italic_font = "auto";
       bold_italic_font = "auto";
-      scrollback_lines = 5000;
+      scrollback_lines = 6000;
     };
   };
 
@@ -919,12 +986,15 @@
 
     plugins =
       let
-        pluginGit = ref: repo: pkgs.vimUtils.buildVimPluginFrom2Nix {
-          pname = "${lib.strings.sanitizeDerivationName repo}";
-          version = ref;
-          src = builtins.fetchGit {
-            url = "https://github.com/${repo}.git";
-            ref = ref;
+        pluginGit = owner: repo: rev: sha256: pkgs.vimUtils.buildVimPluginFrom2Nix {
+
+          pname = repo;
+          version = rev;
+          src = pkgs.fetchFromGitHub {
+            owner = owner;
+            repo = repo;
+            rev = rev;
+            sha256 = sha256;
           };
         };
       in
@@ -965,7 +1035,7 @@
         octo-nvim
         vim-fugitive
         {
-          plugin = (pluginGit "master" "APZelos/blamer.nvim");
+          plugin = (pluginGit "APZelos" "blamer.nvim" "master" "etLCmzOMi7xjYc43ZBqjPnj2gqrrSbmtcKdw6eZT8rM=");
           type = "lua";
         }
         gitsigns-nvim

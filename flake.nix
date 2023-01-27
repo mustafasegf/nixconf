@@ -3,12 +3,10 @@
   inputs = {
     nixpkgs.url = "github:NixOS/nixpkgs/aa1d74709f5dac623adb4d48fdfb27cc2c92a4d4";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
-    home-manager.url = "github:nix-community/home-manager/release-21.11";
+    # home-manager.url = "github:nix-community/home-manager/release-21.11";
+    home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    llvm15 = {
-      url = "github:rrbutani/nixpkgs/feature/llvm-15";
-      # flake = false;
-    };
+    llvm15.url = "github:rrbutani/nixpkgs/feature/llvm-15";
   };
 
   outputs = { self, llvm15, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
@@ -32,18 +30,18 @@
       lib = nixpkgs.lib;
     in
     {
-      homeConfigurations = {
-        "mustafa" = home-manager.lib.homeManagerConfiguration {
-          inherit system pkgs;
-          username = "mustafa";
-          homeDirectory = "/home/mustafa";
-          configuration = {
-            imports = [
-              ./home.nix
-            ];
-          };
-        };
-      };
+      # homeConfigurations = {
+      #   "mustafa" = home-manager.lib.homeManagerConfiguration {
+      #     inherit system pkgs;
+      #     username = "mustafa";
+      #     homeDirectory = "/home/mustafa";
+      #     configuration = {
+      #       imports = [
+      #         ./home.nix
+      #       ];
+      #     };
+      #   };
+      # };
 
       nixosConfigurations = {
         mustafa-pc = lib.nixosSystem {
@@ -51,7 +49,7 @@
 
           modules = [
             (import ./hardware-configuration.nix)
-            (import ./configuration.nix)
+            # (import ./configuration.nix)
             # (import ./qtile.nix)
             (import ./penrose.nix)
             ({ config, pkgs, ... }: {
@@ -75,34 +73,6 @@
                 enable = true;
                 driSupport32Bit = true;
               };
-              # hardware.opengl.package =
-              #   nixpkgs-unstable.legacyPackages.x86_64-linux.mesa.override {
-              #     llvmPackages = llvm15.legacyPackages.x86_64-linux.llvmPackages_15;
-              #     enableOpenCL = false;
-              #   };
-
-              # let
-              #   staging-next = import
-              #     (builtins.fetchTarball {
-              #       url = "https://github.com/nixos/nixpkgs/tarball/staging-next";
-              #       sha256 = "06fp8hxrg4r9slslcvds4qflkmi42is1vkcnv00srdqax9qkj0p1";
-              #     })
-              #     {
-              #       config = config.nixpkgs.config;
-              #     };
-              #   llvm15 = import
-              #     (builtins.fetchTarball {
-              #       url = "https://github.com/rrbutani/nixpkgs/tarball/feature/llvm-15";
-              #       sha256 = "05yhljmjw3iw7pmj4nvjvlh3sfmg0d993x54bbcs5wm30qflnxk8";
-              #     })
-              #     {
-              #       config = config.nixpkgs.config;
-              #     };
-              # in
-              # (staging-next.mesa.override {
-              #   llvmPackages = llvm15.llvmPackages_15;
-              #   enableOpenCL = false;
-              # }).drivers;
 
               sound.enable = true;
 
@@ -495,21 +465,8 @@
                 autorun = true;
                 displayManager = {
                   # defaultSession = "none+qtile";
-                  # defaultSession = "none+dwm";
-                  # startx.enable = true;
-
                   defaultSession = "none+qtile";
-                  # session = [
-                  #   {
-                  #     manage = "window";
-                  #     name = "penrose";
-                  #     # start = ''exec /home/mustafa/project/penrose-wm/result/bin/penrose_wm'';
-                  #     start = ''exec /home/mustafa/project/penrose-wm/target/release/penrose-wm'';
-                  #   }
-                  # ];
-
                   lightdm = {
-                    # enable = false;
                     enable = true;
                     greeter.enable = true;
                   };
@@ -544,16 +501,9 @@
                   };
 
                   penrose = {
-                    enable = true;
+                    enable = false;
                     path = ''/home/mustafa/project/penrose-wm/target/release/penrose-wm'';
                   };
-
-                  # dwm = {
-                  #   enable = true;
-                  #   package = pkgs.dwm.overrideAttrs (old: rec {
-                  #     src = builtins.path { path = "${config.users.users.mustafa.home}/project/dwm"; };
-                  #   });
-                  # };
                 };
               };
 
@@ -644,18 +594,15 @@
               };
 
             })
+
+            home-manager.nixosModules.home-manager
+            {
+              home-manager.useGlobalPkgs = true;
+              home-manager.useUserPackages = true;
+              home-manager.users.mustafa = import ./home.nix;
+
+            }
           ];
-
-
-
-          # modules = [
-          #
-          #   (import ./configuration.nix)
-          #   home-manager.nixosModules.home-manager
-          #   {
-          #     home-manager.useGlobalPkgs = true;
-          #   }
-          # ];
         };
       };
     };
