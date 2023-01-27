@@ -17,6 +17,10 @@
         inherit system;
         config = {
           allowUnfree = true;
+          permittedInsecurePackages = [
+            "python-2.7.18.6"
+          ];
+
         };
       };
 
@@ -120,10 +124,6 @@
 
 
               # nixpkgs
-              nixpkgs.config.permittedInsecurePackages = [
-                "python-2.7.18.6"
-              ];
-
               nixpkgs.overlays = [
                 (self: super: {
                   nix-direnv = super.nix-direnv.override {
@@ -156,261 +156,12 @@
                 MANPAGER = "nvim +Man!";
               };
 
-              environment.systemPackages = with pkgs; [
-                vim
-
-                neovim
-                vscode-fhs
-                # (vscode-with-extensions.override {
-                #   vscodeExtensions = with vscode-extensions; [
-                #
-                #   ];
-                # })
-
-                wget
-                glxinfo
-
-                kitty
-                zsh
-                oh-my-zsh
-                fzf
-                fzf-zsh
-
-                zip
-                unzip
-                bind
-                bat
-                btop
-                blueman
-                dunst
-                gh
-                htop
-                input-remapper
-                lf
-                lsd
-                neofetch
-                picom
-                rofi
-                starship
-                arandr
-                awscli2
-                copyq
-                cloc
-                dbeaver
-                dos2unix
-                fd
-                ffmpeg_5-full
-                ffmpegthumbnailer
-                find-cursor
-                flameshot
-                gdu
-                git-annex
-                glab
-                google-cloud-sdk
-                gromit-mpx
-                handbrake
-                httpie
-                inxi
-                jq
-                man
-                nitrogen
-                nmap
-                notion-app-enhanced
-                nvtop
-                obs-studio
-                p7zip
-                pinta
-                postman
-                qpwgraph
-                libsForQt5.qt5ct
-                radeontop
-                scrcpy
-                speedtest-cli
-                trashy
-                wine
-                wine64
-                winetricks
-                wireplumber
-                x11vnc
-                xclip
-                xcolor
-                youtube-dl
-                yt-dlp
-                (
-                  let
-                    packagePypi = name: ver: ref: deps: python39.pkgs.buildPythonPackage rec {
-                      pname = "${lib.strings.sanitizeDerivationName name}";
-                      version = ver;
-
-                      src = python39.pkgs.fetchPypi {
-                        inherit pname version;
-                        hash = ref;
-                      };
-
-                      buildInputs = deps;
-                      doCheck = false;
-                    };
-                  in
-                  python39.withPackages (ps: [
-                    # (
-                    #   packagePypi
-                    #     "iwlib"
-                    #     "1.7.0"
-                    #     "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE="
-                    #     [ ps.cffi ]
-                    # )
-                  ])
-                )
-                poetry
-                rustup
-                go
-                gofumpt
-                nodejs-16_x
-                nodePackages.npm
-                nodePackages.pnpm
-                nodePackages.sass
-                git
-                docker
-                pavucontrol
-                ncpamixer
-                pulseaudioFull
-                slack
-                zoom-us
-                tdesktop
-                google-chrome
-                thunderbird
-                alsa-utils
-                pulseaudio-ctl
-                home-manager
-                openrgb
-                discord
-                killall
-                libnotify
-                noisetorch
-                statix
-                tmux
-                terraform
-                clang
-                clang-tools
-
-                black
-                stylua
-                gofumpt
-                gotools
-                ##terrafmt
-                shfmt
-                ##fourmolu
-
-                gopls
-                nodePackages.pyright
-                nodePackages.typescript-language-server
-                tflint
-                ##yamlls
-                ##vimls
-                texlab
-                nodePackages.vscode-langservers-extracted
-                ##emmet-ls
-                nodePackages_latest.tailwindcss
-                taplo
-                nodePackages.graphql-language-service-cli
-                sqls
-                ##jdtls
-                nodePackages.svelte-language-server
-                ##astro
-                ##prisma
-                ##jsonls
-                sumneko-lua-language-server
-                nodePackages.diagnostic-languageserver
-                nodePackages.bash-language-server
-
-                kdeconnect
-                rnix-lsp
-                xfce.thunar
-                xfce.thunar-volman
-                xfce.thunar-archive-plugin
-                gvfs
-                udisks
-                usermount
-                gnumake
-                lazygit
-                air
-                most
-                ripgrep
-                steam
-                rescuetime
-                tailscale
-                libsecret
-                dbeaver
-                beekeeper-studio
-                (appimage-run.override {
-                  extraPkgs = pkgs: [ pkgs.xorg.libxshmfence pkgs.libsecret ];
-                })
-
-                jdk11
-                rclone
-
-                llvmPackages_latest.llvm
-                llvmPackages_latest.bintools
-                zlib.out
-                xorriso
-                grub2
-                qemu
-                llvmPackages_latest.lld
-                SDL2
-                SDL2_ttf
-                SDL2_net
-                SDL2_gfx
-                SDL2_sound
-                SDL2_mixer
-                SDL2_image
-                radare2
-                # iaito
-                minecraft
-                virtualbox
-                virt-manager
-                qemu_full
-                libreoffice
-                gcc
-                gdb
-                gnome.gedit
-                libsForQt5.kate
-                screenkey
-                k6
-                direnv
-                nix-direnv
-                pciutils
-                usbutils
-                uwufetch
-                webcamoid
-                glade
-                man-pages
-                man-pages-posix
-                # unstable.soundux
-                fwupd
-                prismlauncher
-                gnome.seahorse
-                xorg.xkbcomp
-                xorg.xkbutils
-                xorg.xmodmap
-                xorg.xinput
-                xorg.libX11
-                xorg.libXft
-                xorg.libXinerama
-
-                clang-tools
-                clang
-                pkg-config
-                gtk3
-                gtk4
-                vlc
-                mpv
-                psmisc
-                hello
-              ];
+              environment.systemPackages = (import ./packages inputs).packages;
 
 
               # services        
               services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];
+
               services.hardware.openrgb = {
                 enable = true;
                 motherboard = "amd";
