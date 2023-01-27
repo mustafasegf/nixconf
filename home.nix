@@ -442,6 +442,12 @@
       bind -r H select-pane -R
       bind -r L select-pane -L
 
+      # resize pane
+      bind -r C-k resize-pane -U 5
+      bind -r C-j resize-pane -D 5
+      bind -r C-h resize-pane -L 5
+      bind -r C-l resize-pane -R 5
+
       set -g mouse on
       # don't rename windows automatically
       set -g allow-rename off
@@ -478,7 +484,7 @@
     keyMode = "vi";
     historyLimit = 10000;
     baseIndex = 1;
-    # escapeTime = 1;
+    escapeTime = 1;
     # newSession = true;
   };
 
