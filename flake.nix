@@ -7,9 +7,12 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
     llvm15.url = "github:rrbutani/nixpkgs/feature/llvm-15";
+
+    nix-ld.url = "github:Mic92/nix-ld";
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
   };
 
-  outputs = { self, llvm15, nixpkgs, nixpkgs-unstable, home-manager, ... }@inputs:
+  outputs = { self, llvm15, nixpkgs, nixpkgs-unstable, nix-ld, home-manager, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -68,10 +71,11 @@
 
           modules = [
             ./hardware-configuration.nix
-            # (import ./qtile.nix)
+            ./qtile/qtile.nix
             ./penrose.nix
             (import ./extra-hardware-configuration.nix (inputs // { inherit (self) hardware; }))
-            ({ config, pkgs, ... }: {
+            nix-ld.nixosModules.nix-ld
+            ({
 
               system.stateVersion = "22.11";
 
@@ -132,8 +136,6 @@
                 })
               ];
 
-              nixpkgs.config.allowUnfree = true;
-
               # nix 
               nix.settings = {
                 keep-outputs = true;
@@ -154,6 +156,7 @@
                 BROWSER = "google-chrome-stable";
                 QT_QPA_PLATFORMTHEME = "qt5ct";
                 MANPAGER = "nvim +Man!";
+                TERMINAL = "kitty";
               };
 
               environment.systemPackages = (import ./packages inputs).packages;
@@ -216,16 +219,14 @@
                         keycode 202 = F24 F24 F24
                       '';
                     in
-                    ''sleep 3 && ${pkgs.xorg.xmodmap}/bin/xmodmap ${functionkey} &&
-                    gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh
-                    '';
+                    ''gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh'';
                 };
 
                 windowManager = {
                   qtile = {
                     enable = true;
-                    # extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
-                    # backend = "x11";
+                    extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
+                    backend = "x11";
                     # configFile = ./qtile/config.py;
                   };
 
@@ -326,10 +327,7 @@
 
             home-manager.nixosModules.home-manager
             {
-              home-manager.useGlobalPkgs = true;
-              home-manager.useUserPackages = true;
               home-manager.users.mustafa = import ./home.nix;
-
             }
           ];
         };

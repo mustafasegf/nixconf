@@ -66,6 +66,7 @@
     postman
     qpwgraph
     libsForQt5.qt5ct
+    libsForQt5.okular
     radeontop
     scrcpy
     speedtest-cli
@@ -249,5 +250,6 @@
     mpv
     psmisc
     hello
+
   ];
 }
