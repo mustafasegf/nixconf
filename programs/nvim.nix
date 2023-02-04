@@ -108,7 +108,8 @@
         harpoon
         vim-sneak
 
-        (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+        # (nvim-treesitter.withPlugins (plugins: pkgs.tree-sitter.allGrammars))
+        nvim-treesitter.withAllGrammars
       ];
 
 

@@ -1,0 +1,9 @@
+# Created by lxqt-config-appearance (DO NOT EDIT!)
+gtk-theme-name = "Dracula"
+gtk-icon-theme-name = "Papirus"
+gtk-font-name = "Poppins 10"
+gtk-button-images = 1
+gtk-menu-images = 1
+gtk-toolbar-style = GTK_TOOLBAR_BOTH_HORIZ
+gtk-cursor-theme-name = breeze_cursors
+gtk-cursor-theme-size = 20

@@ -34,6 +34,8 @@ from libqtile.lazy import lazy
 import os
 from libqtile.log_utils import logger
 
+from floating_window_snapping import move_snap_window
+
 
 mod = "mod4"
 # terminal = guess_terminal()
@@ -149,7 +151,7 @@ for i in groups:
             Key(
                 [mod, "shift"],
                 i.name,
-                lazy.window.togroup(i.name, switch_group=True),
+                lazy.window.togroup(i.name, switch_group=False),
                 desc="Switch to & move focused window to group {}".format(i.name),
             ),
             # Or, use below if you prefer not to switch to that group.
@@ -263,7 +265,8 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    # Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    Drag([mod], "Button1", move_snap_window(snap_dist=20), start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front()),
     Click([mod, "shift"], "Button2", lazy.window.toggle_minimize()),

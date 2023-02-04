@@ -8,11 +8,11 @@
         "utils": "utils"
       },
       "locked": {
-        "lastModified": 1674771519,
-        "narHash": "sha256-U0W3S1nX6yEvLh3Vq70EORbmXecAKXfmEfCfaA4A+I8=",
+        "lastModified": 1675462931,
+        "narHash": "sha256-JiOUSERBtA1lN/s9YTKGZoZ3XUicHDwr+C8swaPSh3M=",
         "owner": "nix-community",
         "repo": "home-manager",
-        "rev": "bb4b25b302dbf0f527f190461b080b5262871756",
+        "rev": "e2c1756e3ae001ca8696912016dd31cb1503ccf3",
         "type": "github"
       },
       "original": {
@@ -23,11 +23,11 @@
     },
     "llvm15": {
       "locked": {
-        "lastModified": 1673828791,
-        "narHash": "sha256-vd4YWanTK4m+vK7ORNLySV2U0uPopxw473KuKY/rjwE=",
+        "lastModified": 1674859898,
+        "narHash": "sha256-gQo1ycDWn2qf30iNHYoNTLnHscKMdMMXB8toa6qASc8=",
         "owner": "rrbutani",
         "repo": "nixpkgs",
-        "rev": "72ffeb9cf7b393607e0f4757dc7e868583c9bd49",
+        "rev": "d231d18e4aa5e1d00f86b4f484f9e4344538e3ea",
         "type": "github"
       },
       "original": {
@@ -76,11 +76,11 @@
     },
     "nixpkgs-unstable": {
       "locked": {
-        "lastModified": 1674459583,
-        "narHash": "sha256-L0UZl/u2H3HGsrhN+by42c5kNYeKtdmJiPzIRvEVeiM=",
+        "lastModified": 1675362331,
+        "narHash": "sha256-VmcnKPj5gJLxWK7Bxlhg2LoQvhKRss7Ax+uoFjd3qKY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "1b1f50645af2a70dc93eae18bfd88d330bfbcf7f",
+        "rev": "a100acd7bbf105915b0004427802286c37738fef",
         "type": "github"
       },
       "original": {
@@ -90,13 +90,30 @@
         "type": "github"
       }
     },
+    "pypi-fetcher": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1669568973,
+        "narHash": "sha256-DGzSjoKAFsgZdOlFcFlnqzxPkxCAKXNvB25BsrehMn8=",
+        "owner": "DavHau",
+        "repo": "nix-pypi-fetcher",
+        "rev": "17f523a15e819fae41ab8a55b5f2851872e4c20b",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DavHau",
+        "repo": "nix-pypi-fetcher",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
         "llvm15": "llvm15",
         "nix-ld": "nix-ld",
         "nixpkgs": "nixpkgs",
-        "nixpkgs-unstable": "nixpkgs-unstable"
+        "nixpkgs-unstable": "nixpkgs-unstable",
+        "pypi-fetcher": "pypi-fetcher"
       }
     },
     "utils": {

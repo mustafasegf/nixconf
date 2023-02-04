@@ -296,9 +296,15 @@
 
       function gpob (){gpo "$(git symbolic-ref --short HEAD)"}
       function gpub (){gpu "$(git symbolic-ref --short HEAD)"}
+
+      function update () {
+        pushd $HOME/.config/nixpkgs
+        sudo nixos-rebuild switch --flake .#
+        popd
+      }
     '';
     shellAliases = {
-      update = "sudo nixos-rebuild switch";
+      # update = "sudo nixos-rebuild switch";
       rm = "trash";
       cat = "bat";
       grep = "rg";

@@ -1,4 +1,4 @@
-{ pkgs, upkgs, ... }: {
+{ pkgs, upkgs, pypi-fetcher, ... }: {
   packages = with pkgs; [
     vim
 
@@ -83,26 +83,56 @@
     (
       let
         packagePypi = name: ver: ref: deps: python39.pkgs.buildPythonPackage rec {
-          pname = "${lib.strings.sanitizeDerivationName name}";
+          pname = name;
           version = ver;
 
           src = python39.pkgs.fetchPypi {
             inherit pname version;
             hash = ref;
           };
+          # src = pypi-fetcher.fetchPypi name ver;
+
 
           buildInputs = deps;
           doCheck = false;
         };
       in
       python39.withPackages (ps: [
-        # (
-        #   packagePypi
-        #     "iwlib"
-        #     "1.7.0"
-        #     "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE="
-        #     [ ps.cffi ]
-        # )
+        # sha from nix store prefetch-file 
+        (
+          packagePypi
+            "iwlib"
+            "1.7.0"
+            "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE="
+            [ wirelesstools ps.setuptools ps.cffi ]
+        )
+        (
+          packagePypi
+            "qtile"
+            "0.22.1"
+            "sha256-J8PLTXQjEWIs9aJ4Fnw76Z6kdafe9dQe6GC9PoZHj4s="
+            [
+              pkg-config
+              libinput
+              wayland
+              wlroots
+              libxkbcommon
+              ps.setuptools-scm
+              ps.xcffib
+              (ps.cairocffi.override { withXcffib = true; })
+              ps.setuptools
+              ps.python-dateutil
+              ps.dbus-python
+              ps.dbus-next
+              ps.mpd2
+              ps.psutil
+              ps.pyxdg
+              ps.pygobject3
+              ps.pywayland
+              ps.pywlroots
+              ps.xkbcommon
+            ]
+        )
       ])
     )
     poetry
@@ -147,14 +177,15 @@
 
     gopls
     nodePackages.pyright
-    nodePackages.typescript-language-server
+    upkgs.nodePackages.typescript-language-server
+    nodePackages.typescript
     tflint
     ##yamlls
     ##vimls
     texlab
     nodePackages.vscode-langservers-extracted
     ##emmet-ls
-    nodePackages_latest.tailwindcss
+    nodePackages_latest."@tailwindcss/language-server"
     taplo
     nodePackages.graphql-language-service-cli
     sqls
@@ -250,6 +281,17 @@
     mpv
     psmisc
     hello
+    sqlite
+    tunnelto
+    scc
 
+    libsForQt5.qtstyleplugin-kvantum
+    lxqt.lxqt-qtplugin
+    papirus-icon-theme
+    openssl
+    musl
+    hexedit
+    file
+    devmem2
   ];
 }

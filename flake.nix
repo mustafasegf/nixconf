@@ -10,9 +10,12 @@
 
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
+
+    pypi-fetcher.url = "github:DavHau/nix-pypi-fetcher";
+    pypi-fetcher.flake = false;
   };
 
-  outputs = { self, llvm15, nixpkgs, nixpkgs-unstable, nix-ld, home-manager, ... }@inputs:
+  outputs = { self, llvm15, nixpkgs, nixpkgs-unstable, nix-ld, pypi-fetcher, home-manager, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -64,6 +67,8 @@
       inputs.upkgs = pkgs;
       inputs.lib = lib;
       inputs.llvm15pkgs = llvm15pkgs;
+      inputs.nix-ld = nix-ld;
+      inputs.pypi-fetcher = pypi-fetcher;
 
       nixosConfigurations = {
         mustafa-pc = lib.nixosSystem {
@@ -121,6 +126,10 @@
                   extraPortals = with pkgs; [
                     xdg-desktop-portal-wlr
                     xdg-desktop-portal-gtk
+                    xdg-desktop-portal
+                    xdg-desktop-portal-gnome
+                    libsForQt5.xdg-desktop-portal-kde
+                    lxqt.xdg-desktop-portal-lxqt
                   ];
                   # gtkUsePortal = true;
                 };
@@ -149,12 +158,14 @@
               ];
 
               environment.variables = {
-                SUDO_EDITOR = "neovim";
-                EDITOR = "neovim";
-                VISUAL = "neovim";
+                SUDO_EDITOR = "nvim";
+                EDITOR = "nvim";
+                VISUAL = "nvim";
                 PAGER = "less";
                 BROWSER = "google-chrome-stable";
-                QT_QPA_PLATFORMTHEME = "qt5ct";
+                # QT_QPA_PLATFORMTHEME = "qt5ct";
+                QT_QPA_PLATFORMTHEME = "lxqt";
+                GTK_USE_PORTAL = "1";
                 MANPAGER = "nvim +Man!";
                 TERMINAL = "kitty";
               };
