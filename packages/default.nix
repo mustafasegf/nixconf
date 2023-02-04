@@ -178,7 +178,7 @@
     gopls
     nodePackages.pyright
     upkgs.nodePackages.typescript-language-server
-    nodePackages.typescript
+    # nodePackages.typescript
     tflint
     ##yamlls
     ##vimls

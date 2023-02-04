@@ -64,7 +64,7 @@
       # };
 
       inputs.pkgs = pkgs;
-      inputs.upkgs = pkgs;
+      inputs.upkgs = upkgs;
       inputs.lib = lib;
       inputs.llvm15pkgs = llvm15pkgs;
       inputs.nix-ld = nix-ld;

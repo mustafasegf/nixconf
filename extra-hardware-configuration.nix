@@ -6,7 +6,7 @@
   };
 
   hardware.opengl.package =
-    (upkgs.mesa.override {
+    (pkgs.mesa.override {
       llvmPackages = llvm15pkgs.llvmPackages_15;
       enableOpenCL = false;
     }).drivers;
