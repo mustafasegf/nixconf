@@ -1,4 +1,4 @@
-{ hardware, pkgs, upkgs, llvm15pkgs, lib, ... }: {
+{ hardware, pkgs, upkgs, lib, ... }: {
 
   hardware.bluetooth = {
     enable = true;
@@ -7,7 +7,8 @@
 
   hardware.opengl.package =
     (pkgs.mesa.override {
-      llvmPackages = llvm15pkgs.llvmPackages_15;
+      llvmPackages = upkgs.llvmPackages_15;
+
       enableOpenCL = false;
     }).drivers;
 

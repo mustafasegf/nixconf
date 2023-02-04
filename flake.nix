@@ -6,8 +6,6 @@
     # home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    llvm15.url = "github:rrbutani/nixpkgs/feature/llvm-15";
-
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -15,7 +13,7 @@
     pypi-fetcher.flake = false;
   };
 
-  outputs = { self, llvm15, nixpkgs, nixpkgs-unstable, nix-ld, pypi-fetcher, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nix-ld, pypi-fetcher, home-manager, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -31,14 +29,6 @@
       };
 
       upkgs = import nixpkgs-unstable {
-        inherit system;
-        config = {
-          allowUnfree = true;
-        };
-
-      };
-
-      llvm15pkgs = import llvm15 {
         inherit system;
         config = {
           allowUnfree = true;
@@ -66,7 +56,6 @@
       inputs.pkgs = pkgs;
       inputs.upkgs = upkgs;
       inputs.lib = lib;
-      inputs.llvm15pkgs = llvm15pkgs;
       inputs.nix-ld = nix-ld;
       inputs.pypi-fetcher = pypi-fetcher;
 
