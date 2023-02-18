@@ -8,7 +8,7 @@
     enable = true;
     font = {
       name = "IBM Plex Mono";
-      size = 10;
+      size = 9;
     };
     extraConfig =
       let
@@ -76,10 +76,9 @@
         mark1_foreground #282a36
         mark1_background #ff5555
       '';
+
       in
-      ''
-        include ${dracula}
-      '';
+      "include ${dracula}";
 
     settings = {
       background_opacity = "0.90";
