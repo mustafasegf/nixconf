@@ -27,15 +27,18 @@ in
   #   driSupport32Bit = true;
   # };
 
-  hardware.opengl.package = mesa-bleeding.drivers;
-  hardware.opengl.package32 = lib32-mesa-bleeding.drivers;
-  hardware.opengl.extraPackages = [ mesa-bleeding.opencl ];
+
+  hardware.opengl = {
+    enable = true;
+    driSupport32Bit = true;
+    package = mesa-bleeding.drivers;
+    package32 = lib32-mesa-bleeding.drivers;
+    extraPackages = [ mesa-bleeding.opencl ];
+  };
 
   # Creates a second boot entry without latest drivers
   specialisation.stable-mesa.configuration = {
     system.nixos.tags = [ "stable-mesa" ];
-    # hardware.opengl.package = lib.mkForce pkgs.mesa.drivers;
-    # hardware.opengl.package32 = lib.mkForce pkgs.pkgsi686Linux.mesa.drivers;
     hardware.opengl = {
       package = lib.mkForce upkgs.mesa.drivers;
       enable = true;
