@@ -1,8 +1,11 @@
 {
   description = "A very basic flake";
   inputs = {
-    nixpkgs.url = "github:NixOS/nixpkgs/aa1d74709f5dac623adb4d48fdfb27cc2c92a4d4";
+    # nixpkgs.url = "github:NixOS/nixpkgs/aa1d74709f5dac623adb4d48fdfb27cc2c92a4d4";
+    nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
+    staging-next.url = "github:NixOS/nixpkgs/staging-next";
+
     # home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
@@ -11,9 +14,14 @@
 
     pypi-fetcher.url = "github:DavHau/nix-pypi-fetcher";
     pypi-fetcher.flake = false;
+
+    mesa-git-src = {
+      url = "github:chaotic-aur/mesa-mirror/23.0";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nix-ld, pypi-fetcher, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, staging-next, mesa-git-src, nix-ld, pypi-fetcher, home-manager, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -31,9 +39,8 @@
       upkgs = import nixpkgs-unstable {
         inherit system;
         config = {
-          allowUnfree = true;
+          allowunfree = true;
         };
-
       };
 
       lib = nixpkgs.lib;
@@ -58,6 +65,8 @@
       inputs.lib = lib;
       inputs.nix-ld = nix-ld;
       inputs.pypi-fetcher = pypi-fetcher;
+      inputs.staging-next = staging-next;
+      inputs.mesa-git-src = mesa-git-src;
 
       nixosConfigurations = {
         mustafa-pc = lib.nixosSystem {
@@ -267,6 +276,12 @@
                 alsa.support32Bit = true;
                 pulse.enable = true;
                 jack.enable = true;
+              };
+
+              services.zerotierone = {
+                package = pkgs.zerotierone;
+                enable = true;
+                joinNetworks = [ "35c192ce9b045898" ];
               };
 
               systemd.services.tailscale-autoconnect = {

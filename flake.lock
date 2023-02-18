@@ -24,16 +24,16 @@
     "mesa-git-src": {
       "flake": false,
       "locked": {
-        "lastModified": 1676681083,
-        "narHash": "sha256-gVgHohkmHuQngAPPEHH6SeJOQ9nAIPdtPVj+clny6b0=",
+        "lastModified": 1676327293,
+        "narHash": "sha256-HMukL2QBcvUBAn7op7Bq3khV2ZgN7GHtWmtfMAHeDkE=",
         "owner": "chaotic-aur",
         "repo": "mesa-mirror",
-        "rev": "e60f3795451cd3941745c28d6c74c33cd4e4e82a",
+        "rev": "95b9a13e27093dcf960a35c44492ae57ce20e4e2",
         "type": "github"
       },
       "original": {
         "owner": "chaotic-aur",
-        "ref": "main",
+        "ref": "23.0",
         "repo": "mesa-mirror",
         "type": "github"
       }
