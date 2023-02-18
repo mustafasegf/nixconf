@@ -223,6 +223,7 @@
         *.nix=:\
         "
       '';
+
     initExtraFirst = ''
       # tmux auto start config
       # change this
@@ -238,14 +239,6 @@
       KEYTIMEOUT=15
       VI_MODE_PROMPT_INFO=true
 
-      #FZF
-      [ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
-      export FZF_DEFAULT_COMMAND='fd --hidden --follow --ignore-file=$HOME/.gitignore --exclude .git'
-      export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND --type f"
-      export FZF_ALT_C_COMMAND="$FZF_DEFAULT_COMMAND --type d"
-      export FZF_CTRL_R_OPTS="$FZF_DEFAULT_COMMAND"
-      export FZF_DEFAULT_OPTS="--layout=reverse --inline-info --height=90%"
-
       # LF
       LFCD="$HOME/.config/lf/lfcd.sh"                                
       #  pre-built binary, make sure to use absolute path
@@ -253,16 +246,12 @@
           source "$LFCD"
       fi
 
-      function mkcdir ()
-      {
+      function mkcdir() {
           mkdir -p -- "$1" &&
           cd -P -- "$1"
       }
 
       function cdg() { cd "$(git rev-parse --show-toplevel)"  }
-
-      #dir env
-      #eval "$(direnv hook zsh)"
 
       #Git
       function gsts (){git status}
@@ -297,7 +286,7 @@
       function gpob (){gpo "$(git symbolic-ref --short HEAD)"}
       function gpub (){gpu "$(git symbolic-ref --short HEAD)"}
 
-      function update () {
+      function update() {
         pushd $HOME/.config/nixpkgs
         sudo nixos-rebuild switch --flake .#
         popd
@@ -322,7 +311,7 @@
       wget = ''wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'';
       xbindkeys = ''xbindkeys -f "$XDG_CONFIG_HOME"/xbindkeys/config'';
 
-      mans = '' 'man -k  . | cut -d " " -f 1 | fzf -m --preview "man {1}"' '';
+      mans = '' man -k  . | cut -d " " -f 1 | fzf -m --preview "man {1}" '';
       m = "make";
     };
 
@@ -335,6 +324,8 @@
       plugins = [
         { name = "dracula/zsh"; tags = [ "as:theme" ]; }
         { name = "agkozak/zsh-z"; }
+        { name = "lib/history"; tags = [ from:oh-my-zsh ]; }
+        { name = "lib/key-bindings"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/tmux"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/vi-mode"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/docker"; tags = [ from:oh-my-zsh ]; }
@@ -344,7 +335,7 @@
         { name = "plugins/copypath"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/dirhistory"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/history"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/fzf"; tags = [ from:oh-my-zsh ]; }
+        # { name = "plugins/fzf"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/history-substring-search"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/colored-man-pages"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/gcloud"; tags = [ from:oh-my-zsh ]; }

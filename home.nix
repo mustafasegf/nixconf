@@ -1,4 +1,4 @@
-{ config, pkgs, lib, pypi-fetcher, ... }:
+{ pkgs, upkgs, pypi-fetcher, ... }:
 let
   dracula-gtk = pkgs.fetchFromGitHub {
     owner = "dracula";
@@ -143,6 +143,22 @@ in
     };
   };
 
+  programs.fzf =
+    let
+      cmd = "fd --hidden --follow --ignore-file=$HOME/.gitignore --exclude .git";
+    in
+    {
+      enable = true;
+      enableBashIntegration = true;
+      enableZshIntegration = true;
+      defaultOptions = [ "--layout=reverse --inline-info --height=90%" ];
+      defaultCommand = cmd;
+
+      fileWidgetCommand = "${cmd} --type f";
+      changeDirWidgetCommand = "${cmd} --type d";
+
+    };
+
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
@@ -208,6 +224,7 @@ in
 
   programs.obs-studio = {
     enable = true;
+    package = upkgs.obs-studio;
     plugins = with pkgs.obs-studio-plugins; [
       # obs-multi-rtmp
       # obs-backgroundremoval
