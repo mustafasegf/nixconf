@@ -60,7 +60,6 @@
     nmap
     notion-app-enhanced
     nvtop
-    obs-studio
     p7zip
     pinta
     postman
@@ -207,6 +206,8 @@
     udisks
     usermount
     gnumake
+    cmake
+    fontconfig
     lazygit
     air
     most
@@ -293,5 +294,13 @@
     hexedit
     file
     devmem2
+    nasm
+    bear
+    zerotierone
+    lsof
+    gnome-frog
+    vulkan-tools
+    clinfo
+    firefox
   ];
 }
