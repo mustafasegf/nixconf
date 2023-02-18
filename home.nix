@@ -31,7 +31,7 @@ in
     (import ./programs/btop.nix)
     (import ./programs/kitty.nix)
     (import ./programs/mimeapps.nix)
-    (import ./programs/nvim/nvim.nix)
+    (import ./programs/nvim.nix)
     (import ./programs/rofi.nix)
     (import ./programs/tmux.nix)
     (import ./programs/zsh.nix)
