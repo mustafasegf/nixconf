@@ -327,7 +327,7 @@
 
             home-manager.nixosModules.home-manager
             {
-              home-manager.users.mustafa = import ./home.nix;
+              home-manager.users.mustafa = (import ./home.nix inputs);
             }
           ];
         };
