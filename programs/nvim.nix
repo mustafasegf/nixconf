@@ -70,6 +70,9 @@
 
         #language spesific
         ## go-nvim
+        {
+          plugin = (pluginGit "mechatroner" "rainbow_csv" "master" "kNjEjIOyWViQ6hLyTwP9no7ZF0Iv/TGW0oXPlBM4eu4=");
+        }
         rust-tools-nvim
 
         #file tree
@@ -197,12 +200,13 @@
         nvim-dap-virtual-text
         telescope-dap-nvim
         nvim-dap-go
-        ##vim-maximizer
+        {
+          plugin = (pluginGit "szw" "vim-maximizer" "master" "+VPcMn4NuxLRpY1nXz7APaXlRQVZD3Y7SprB/hvNKww=");
+        }
 
         #misc
         popup-nvim
         plenary-nvim
-        # presence-nvim
         registers-nvim
         {
           plugin = harpoon;
