@@ -1,4 +1,4 @@
-{ pkgs, upkgs, pypi-fetcher, ... }: {
+{ ppkgs, pkgs, upkgs, pypi-fetcher, ... }: {
   packages = with pkgs; [
     vim
 
@@ -302,5 +302,6 @@
     vulkan-tools
     clinfo
     firefox
+    ppkgs.blender
   ];
 }
