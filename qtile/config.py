@@ -130,7 +130,7 @@ keys = [
         ),
     ),
     Key([mod, "shift"], "p", lazy.spawn("bwmenu")),
-    Key([mod, "control"], "p", lazy.spawn("find-cursor")),
+    Key([mod, "control"], "p", lazy.spawn("find-cursor -o 2 -l 6 -w 500")),
     # Key([mod], "-", lazy.screen.prev_group()),
     # Key([mod], "`" lazy.hide_show_bar("top")),
 ]
