@@ -86,30 +86,13 @@ end
 local null_ls = require("null-ls")
 local formatting = null_ls.builtins.formatting
 
--- local augroup = vim.api.nvim_create_augroup("LspFormatting", {})
 require("null-ls").setup({
-	-- you can reuse a shared lspconfig on_attach callback here
-	--[[ on_attach = function(client, bufnr)
-                on_attach(client, bufnr) ]]
-	--[[ if client.supports_method("textDocument/formatting") then
-                  vim.api.nvim_clear_autocmds({ group = augroup, buffer = bufnr })
-                  vim.api.nvim_create_autocmd("BufWritePre", {
-                    group = augroup,
-                    buffer = bufnr,
-                    callback = function()
-                      -- on 0.8, you should use vim.lsp.buf.format({ bufnr = bufnr }) instead
-                      vim.lsp.buf.format({ bufnr = bufnr })
-                    end,
-                  })
-                end ]]
-	-- end,
 	sources = {
 		formatting.stylua,
 		formatting.prettier,
 		formatting.gofumpt,
 		formatting.goimports,
 		formatting.jq,
-		-- formatting.rustfmt,
 		formatting.black.with({
 			args = {
 				"--stdin-filename",
@@ -138,58 +121,6 @@ lsp.diagnosticls.setup({
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
--- lsp.ltex.setup({
--- 	capabilities = capabilities,
--- 	on_attach = on_attach,
--- 	filetypes = { "bib", "gitcommit", "markdown", "org", "plaintex", "rst", "rnoweb", "tex", "text" },
--- 	settings = {
--- 		ltex = {
--- 			additionalRules = {
--- 				languageModel = "~Downloads/ngrams/",
--- 			},
--- 		},
--- 	},
--- })
-
--- local ih = require("inlay-hints")
---
--- ih.setup()
-
-lsp.clangd.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.rust_analyzer.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	settings = {
-		rust = {
-			inlayHints = {
-				includeInlayEnumMemberValueHints = true,
-				includeInlayFunctionLikeReturnTypeHints = true,
-				includeInlayFunctionParameterTypeHints = true,
-				includeInlayParameterNameHints = "all", -- 'none' | 'literals' | 'all';
-				includeInlayParameterNameHintsWhenArgumentMatchesName = true,
-				includeInlayPropertyDeclarationTypeHints = true,
-				includeInlayVariableTypeHints = true,
-			},
-		},
-	},
-})
-
-require("rust-tools").setup({
-	server = {
-		on_attach = on_attach,
-		capabilities = capabilities,
-	},
-	tools = {
-		inlay_hints = {
-			auto = false,
-		},
-	},
-})
-
 require("lsp-inlayhints").setup()
 vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -202,24 +133,52 @@ vim.api.nvim_create_autocmd("LspAttach", {
 		local bufnr = args.buf
 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-	  vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>h", ":lua require('lsp-inlayhints').toggle()<CR>", opts)
+		vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>h", ":lua require('lsp-inlayhints').toggle()<CR>", opts)
 		require("lsp-inlayhints").on_attach(client, bufnr)
 	end,
 })
 
-lsp.hls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
+local servers = {
+	"clangd",
+	"hls",
+	"gopls",
+	"pyright",
+	"tflint",
+	"yamlls",
+	"vimls",
+	"texlab",
+	"html",
+	"emmet_ls",
+	"tailwindcss",
+	"taplo",
+	"graphql",
+	"dockerls",
+	"bashls",
+	"sqls",
+	"jdtls",
+	"svelte",
+	"astro",
+	"prismals",
+	"rnix",
+}
 
-lsp.gopls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
+for _, server in ipairs(servers) do
+	lsp[server].setup({
+		capabilities = capabilities,
+		on_attach = on_attach,
+	})
+end
 
-lsp.pyright.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
+require("rust-tools").setup({
+	server = {
+		on_attach = on_attach,
+		capabilities = capabilities,
+	},
+	tools = {
+		inlay_hints = {
+			auto = false,
+		},
+	},
 })
 
 lsp.tsserver.setup({
@@ -251,108 +210,6 @@ lsp.tsserver.setup({
 			},
 		},
 	},
-})
-
-lsp.tflint.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.yamlls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.vimls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.texlab.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.html.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.emmet_ls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.tailwindcss.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-	-- root_dir = function(fname)
-	-- 	return lsp.util.root_pattern(
-	--      "tailwind.config.cjs",
-	-- 		"tailwind.config.js",
-	-- 		"tailwind.config.ts",
-	-- 		"tailwind.config.mjs",
-	-- 		"tailwind.config.json",
-	-- 		"package.json",
-	-- 		"postcss.config.js",
-	-- 		"postcss.config.ts",
-	-- 		"postcss.config.cjs",
-	-- 		"postcss.config.mjs",
-	-- 		"postcss.config.json",
-	-- 		".git"
-	-- 	)(fname) or vim.loop.os_homedir()
-	-- end,
-})
-
-lsp.taplo.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.graphql.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.dockerls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.bashls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.sqls.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.jdtls.setup({
-	cmd = { "jdtls" },
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.svelte.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.astro.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.prismals.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
-})
-
-lsp.rnix.setup({
-	capabilities = capabilities,
-	on_attach = on_attach,
 })
 
 lsp.jsonls.setup({
