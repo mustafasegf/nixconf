@@ -66,10 +66,16 @@
         luasnip
         lspkind-nvim
         null-ls-nvim
-        ## inlay-hints  
+        {
+          plugin = (pluginGit "lvimuser" "lsp-inlayhints.nvim" "master" "0fx0swsagjdng9m9x73wkfqnk464qk63q9wi32rhywllbm7gsflf");
+          type = "lua";
+        }
 
         #language spesific
-        ## go-nvim
+        {
+          plugin = (pluginGit "ray-x" "go.nvim" "master" "z65o3cOoxWILDKjEUWNTK1X7riQjxAS7BGeo29049Ms=");
+          type = "lua";
+        }
         {
           plugin = (pluginGit "mechatroner" "rainbow_csv" "master" "kNjEjIOyWViQ6hLyTwP9no7ZF0Iv/TGW0oXPlBM4eu4=");
         }
@@ -188,7 +194,6 @@
           type = "lua";
           config = builtins.readFile ../config/nvim/session.lua;
         }
-        ## session-lens
 
         #debugger
         {

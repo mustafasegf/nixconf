@@ -303,5 +303,6 @@
     clinfo
     firefox
     ppkgs.blender
+    nix-prefetch-scripts
   ];
 }
