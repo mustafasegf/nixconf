@@ -32,7 +32,6 @@ from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
 import os
-from libqtile.log_utils import logger
 
 from floating_window_snapping import move_snap_window
 
