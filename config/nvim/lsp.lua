@@ -160,6 +160,7 @@ local servers = {
 	"astro",
 	"prismals",
 	"rnix",
+  "ocamllsp"
 }
 
 for _, server in ipairs(servers) do
