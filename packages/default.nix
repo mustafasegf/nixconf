@@ -81,11 +81,11 @@
     yt-dlp
     (
       let
-        packagePypi = name: ver: ref: deps: python39.pkgs.buildPythonPackage rec {
+        packagePypi = name: ver: ref: deps: python310.pkgs.buildPythonPackage rec {
           pname = name;
           version = ver;
 
-          src = python39.pkgs.fetchPypi {
+          src = python310.pkgs.fetchPypi {
             inherit pname version;
             hash = ref;
           };
@@ -96,7 +96,7 @@
           doCheck = false;
         };
       in
-      python39.withPackages (ps: [
+      python310.withPackages (ps: [
         # sha from nix store prefetch-file 
         (
           packagePypi
@@ -132,6 +132,18 @@
               ps.xkbcommon
             ]
         )
+        ps.jupyterlab
+        ps.ipykernel
+        ps.pandas
+        ps.scikitlearn
+        ps.matplotlib
+        ps.numpy
+        ps.scipy
+        ps.pip
+        ps.seaborn
+        ps.plotly
+        ps.statsmodels
+
       ])
     )
     poetry
@@ -142,6 +154,7 @@
     nodePackages.npm
     nodePackages.pnpm
     nodePackages.sass
+    nodePackages.vercel
     git
     docker
     pavucontrol
@@ -226,6 +239,7 @@
     rclone
 
     llvmPackages_latest.llvm
+    lldb
     llvmPackages_latest.bintools
     zlib.out
     xorriso
@@ -304,5 +318,25 @@
     firefox
     ppkgs.blender
     nix-prefetch-scripts
+    gnome.file-roller
+    libsForQt5.ark
+    libsForQt5.kdenlive
+    qalculate-qt
+    libsForQt5.kcalc
+    qbittorrent
+    gnome.cheese
+    libsForQt5.kamoso
+    alacritty
+    xournalpp
+    du-dust
+    exa
+    exercism
+    # dune-release
+    dune_3
+    ocaml
+    opam
+    ocamlPackages.findlib
+    ocamlPackages.ocaml-lsp
+
   ];
 }
