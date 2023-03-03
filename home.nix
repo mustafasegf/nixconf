@@ -1,4 +1,4 @@
-{ pkgs, upkgs, pypi-fetcher, ... }:
+{ pkgs, upkgs, ... }:
 let
   dracula-gtk = pkgs.fetchFromGitHub {
     owner = "dracula";

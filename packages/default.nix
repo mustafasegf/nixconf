@@ -1,4 +1,4 @@
-{ ppkgs, pkgs, upkgs, pypi-fetcher, ... }: {
+{ ppkgs, pkgs, upkgs, ... }: {
   packages = with pkgs; [
     vim
 
@@ -89,7 +89,6 @@
             inherit pname version;
             hash = ref;
           };
-          # src = pypi-fetcher.fetchPypi name ver;
 
 
           buildInputs = deps;
@@ -205,6 +204,36 @@
     nodePackages.svelte-language-server
     ##astro
     ##prisma
+
+    # buildNpmPackage
+    # rec {
+    #   pname = "@prisma/language-server";
+    #   version = "4.11.0";
+    #
+    #   src = pkgs.fetchFromGitHub {
+    #     owner = "prisma";
+    #     repo = "language-tools";
+    #     rev = "${version}";
+    #     hash = "18xii6qsn0kzp53ln445ks83sqps27ihbqagnkn3ba3n88hgplys";
+    #   };
+    #
+    #   npmDepsHash = "sha256-K46lLc6SsBF/ByYb3l1gQNfOrdW2XMazCZXLDuxEjmk=";
+    #   buildInputs = [ nodejs typescript ];
+    #   buildPhase = ''
+    #     tsc --outDir $out/lib/dist
+    #     cp -r node_modules $out/lib
+    #     cp package.json $out/lib
+    #   '';
+    #
+    #   installPhase = ''
+    #     EXPAND_ARGS='$@'
+    #     mkdir $out/bin
+    #     echo '#!/bin/bash' >> $out/bin/prisma-language-server
+    #     echo "${nodejs}/bin/node $out/lib/dist/src/bin.js $EXPAND_ARGS" >> $out/bin/prisma-language-server
+    #     chmod +x $out/bin/prisma-language-server
+    #   '';
+    # }
+
     ##jsonls
     sumneko-lua-language-server
     nodePackages.diagnostic-languageserver
@@ -275,7 +304,7 @@
     glade
     man-pages
     man-pages-posix
-    # unstable.soundux
+    upkgs.soundux
     fwupd
     prismlauncher
     gnome.seahorse
@@ -331,12 +360,16 @@
     du-dust
     exa
     exercism
-    # dune-release
+
     dune_3
     ocaml
     opam
     ocamlPackages.findlib
     ocamlPackages.ocaml-lsp
 
+    dotnet-sdk
+    wakatime
+    microsoft-edge
+    prefetch-npm-deps
   ];
 }

@@ -13,16 +13,13 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
-    pypi-fetcher.url = "github:DavHau/nix-pypi-fetcher";
-    pypi-fetcher.flake = false;
-
     mesa-git-src = {
       url = "github:chaotic-aur/mesa-mirror/23.0";
       flake = false;
     };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-prev, staging-next, mesa-git-src, nix-ld, pypi-fetcher, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-prev, staging-next, mesa-git-src, nix-ld, home-manager, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -73,7 +70,6 @@
       inputs.ppkgs = ppkgs;
       inputs.lib = lib;
       inputs.nix-ld = nix-ld;
-      inputs.pypi-fetcher = pypi-fetcher;
       inputs.staging-next = staging-next;
       inputs.mesa-git-src = mesa-git-src;
 
@@ -290,7 +286,7 @@
               services.zerotierone = {
                 package = pkgs.zerotierone;
                 enable = true;
-                joinNetworks = [ "35c192ce9b045898" ];
+                joinNetworks = [ ];
               };
 
               systemd.services.tailscale-autoconnect = {

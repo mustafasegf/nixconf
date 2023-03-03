@@ -225,6 +225,7 @@
           type = "lua";
           config = builtins.readFile ../config/nvim/treesitter.lua;
         }
+        # vim-wakatime
       ];
   };
 }

@@ -107,22 +107,6 @@
         "type": "github"
       }
     },
-    "pypi-fetcher": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1669568973,
-        "narHash": "sha256-DGzSjoKAFsgZdOlFcFlnqzxPkxCAKXNvB25BsrehMn8=",
-        "owner": "DavHau",
-        "repo": "nix-pypi-fetcher",
-        "rev": "17f523a15e819fae41ab8a55b5f2851872e4c20b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "DavHau",
-        "repo": "nix-pypi-fetcher",
-        "type": "github"
-      }
-    },
     "root": {
       "inputs": {
         "home-manager": "home-manager",
@@ -131,7 +115,6 @@
         "nixpkgs": "nixpkgs",
         "nixpkgs-prev": "nixpkgs-prev",
         "nixpkgs-unstable": "nixpkgs-unstable",
-        "pypi-fetcher": "pypi-fetcher",
         "staging-next": "staging-next"
       }
     },
