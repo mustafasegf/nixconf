@@ -53,6 +53,7 @@
         export WINEPREFIX="$XDG_DATA_HOME"/wine
         export _Z_DATA="$XDG_DATA_HOME"/z
         export WAKATIME_HOME="$XDG_CONFIG_HOME/wakatime"
+        export ZSH_WAKATIME_BIN="${pkgs.wakatime}/bin/wakatime"
 
         # Path
         export PATH=$PATH:$CARGO_HOME/bin
@@ -341,6 +342,7 @@
         { name = "plugins/colored-man-pages"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/gcloud"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/aws"; tags = [ from:oh-my-zsh ]; }
+        { name = "sobolevn/wakatime-zsh-plugin"; }
       ];
     };
   };
