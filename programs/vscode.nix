@@ -40,6 +40,12 @@
       twxs.cmake
       vadimcn.vscode-lldb
       vscjava.vscode-java-dependency
+      (WakaTime.vscode-wakatime.overrideAttrs (old: {
+        postPatch = ''
+          mkdir wakatime-cli
+          ln -s ${pkgs.wakatime}/bin/wakatime ./wakatime-cli/wakatime-cli
+        '';
+      }))
 
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
       {
