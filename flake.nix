@@ -83,7 +83,7 @@
             ./penrose.nix
             (import ./extra-hardware-configuration.nix (inputs // { inherit (self) hardware; }))
             nix-ld.nixosModules.nix-ld
-            ({
+            ({ config, ... }: {
 
               system.stateVersion = "22.11";
 
@@ -289,6 +289,8 @@
                 joinNetworks = [ ];
               };
 
+              systemd.services.NetworkManager-wait-online.enable = false;
+
               systemd.services.tailscale-autoconnect = {
                 description = "Automatic connection to Tailscale";
 
@@ -340,7 +342,9 @@
                 shell = pkgs.zsh;
                 isNormalUser = true;
                 extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
-                # openssh.authorizedKeys.keyFiles = [ "${config.users.users.mustafa.home}/.ssh/id_ed25519.pub" ];
+                openssh.authorizedKeys.keys = [
+                  "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNEKM6YnhuLcLfy5FkCt+rX1M10vMS00zynI6tsta1s mustafa.segf@gmail.com"
+                ];
               };
 
             })

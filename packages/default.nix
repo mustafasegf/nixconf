@@ -1,15 +1,7 @@
 { ppkgs, pkgs, upkgs, ... }: {
   packages = with pkgs; [
     vim
-
     neovim
-    vscode-fhs
-    # (vscode-with-extensions.override {
-    #   vscodeExtensions = with vscode-extensions; [
-    #
-    #   ];
-    # })
-
     wget
     glxinfo
 
@@ -371,5 +363,6 @@
     wakatime
     microsoft-edge
     prefetch-npm-deps
+    go-swag
   ];
 }

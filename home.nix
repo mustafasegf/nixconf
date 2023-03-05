@@ -35,6 +35,7 @@ in
     (import ./programs/rofi.nix)
     (import ./programs/tmux.nix)
     (import ./programs/zsh.nix)
+    (import ./programs/vscode.nix)
   ];
 
   xresources.extraConfig = builtins.readFile ("${dracula-xresources}/Xresources");

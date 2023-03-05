@@ -52,6 +52,7 @@
         export VAGRANT_HOME="$XDG_DATA_HOME"/vagrant
         export WINEPREFIX="$XDG_DATA_HOME"/wine
         export _Z_DATA="$XDG_DATA_HOME"/z
+        export WAKATIME_HOME="$XDG_CONFIG_HOME/wakatime"
 
         # Path
         export PATH=$PATH:$CARGO_HOME/bin
