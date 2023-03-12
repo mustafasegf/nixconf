@@ -86,8 +86,15 @@ in
       "95:name *= 'Code' && !focused"
       "100:name *= 'Postman' && focused"
       "98:name *= 'Postman' && !focused"
-      "85:name *= 'Cisco'"
+      "100:name *= 'Cisco' && focused"
+      "90:name *= 'Cisco' && !focused"
     ];
+
+    settings = {
+      invert-color-include = [
+        "class_g = 'PacketTracer'"
+      ];
+    };
   };
 
   services.gromit-mpx = {

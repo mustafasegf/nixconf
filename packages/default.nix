@@ -364,5 +364,8 @@
     microsoft-edge
     prefetch-npm-deps
     go-swag
+    ciscoPacketTracer8
+    gns3-gui
+    gns3-server
   ];
 }
