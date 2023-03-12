@@ -18,6 +18,7 @@
       formulahendry.auto-close-tag
       formulahendry.auto-rename-tag
       formulahendry.code-runner
+      prisma.prisma
       github.copilot
       graphql.vscode-graphql
       irongeek.vscode-env
