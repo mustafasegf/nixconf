@@ -367,5 +367,7 @@
     ciscoPacketTracer8
     gns3-gui
     gns3-server
+    xdg-user-dirs
+    helvum
   ];
 }

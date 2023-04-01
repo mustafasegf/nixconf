@@ -57,7 +57,7 @@ keys = [
     Key(
         [mod],
         "w",
-        lazy.spawn(browser + " --enable-features=WebUIDarkMode --force-dark-mode"),
+        lazy.spawn(browser + " --enable-features=WebUIDarkMode --force-dark-mode -enable-logging --v=1"),
         desc="launch browser",
     ),
     Key(
