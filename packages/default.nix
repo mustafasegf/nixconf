@@ -369,5 +369,8 @@
     gns3-server
     xdg-user-dirs
     helvum
+    qpwgraph
+    qjackctl
+    ventoy-bin-full
   ];
 }
