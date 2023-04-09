@@ -374,5 +374,6 @@
     ventoy-bin-full
     html-tidy
     pmutils
+    notion-app-enhanced
   ];
 }

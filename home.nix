@@ -44,6 +44,7 @@ in
     configFile = {
       "qtile/config.py".source = ./qtile/config.py;
       "qtile/floating_window_snapping.py".source = ./qtile/floating_window_snapping.py;
+      "qtile/autostart.sh".source = ./qtile/autostart.sh;
 
       "Kvantum/Dracula/Dracula.kvconfig".source = "${dracula-gtk}/kde/kvantum/Dracula-purple-solid/Dracula-purple-solid.kvconfig";
       "Kvantum/Dracula/Dracula.svg".source = "${dracula-gtk}/kde/kvantum/Dracula-purple-solid/Dracula-purple-solid.svg";
