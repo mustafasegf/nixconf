@@ -372,5 +372,7 @@
     qpwgraph
     qjackctl
     ventoy-bin-full
+    html-tidy
+    pmutils
   ];
 }

@@ -258,7 +258,7 @@ screens = [
     # Screen(),
     Screen(top=bar.Bar(init_widget_list(), background="#0000004f", opacity=1, size=30)),
     Screen(top=bar.Bar(init_widget_screen_vertical(), background="#0000004f", opacity=1, size=30)),
-    # Screen(top=bar.Bar(init_widget_screen_vertical(), background="#0000004f", opacity=1, size=30)),
+    Screen(top=bar.Bar(init_widget_screen_vertical(), background="#0000004f", opacity=1, size=30)),
     # Screen(top=bar.Bar(init_widget_screen_vertical(), background="#0000004f", opacity=1, size=30)),
 ]
 
