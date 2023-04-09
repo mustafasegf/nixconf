@@ -10,5 +10,4 @@ slack &
 discord &
 telegram-desktop &
 steam -silent &
-
-# notion-app-enhanced &
+notion-app-enhanced &
