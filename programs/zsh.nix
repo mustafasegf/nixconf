@@ -289,20 +289,11 @@
       function gpob (){gpo "$(git symbolic-ref --short HEAD)"}
       function gpub (){gpu "$(git symbolic-ref --short HEAD)"}
 
-      # Nix
       function update() {
         pushd $HOME/.config/nixpkgs
         sudo nixos-rebuild switch --flake .#
         popd
       }
-
-      function update-test() {
-        pushd $HOME/.config/nixpkgs
-        sudo nixos-rebuild test --flake .#
-        popd
-      }
-
-      alias update-flake='nix flake update --commit-lock-file'
     '';
     shellAliases = {
       # update = "sudo nixos-rebuild switch";

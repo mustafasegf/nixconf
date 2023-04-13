@@ -9,5 +9,5 @@ slack &
 # openrgb -p off
 discord &
 telegram-desktop &
-# steam -silent &
+steam -silent &
 notion-app-enhanced &

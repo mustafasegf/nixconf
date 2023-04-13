@@ -375,7 +375,5 @@
     html-tidy
     pmutils
     notion-app-enhanced
-    rar
-    unrar
   ];
 }

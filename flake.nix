@@ -1,5 +1,5 @@
 {
-  description = "My nixos flake";
+  description = "A very basic flake";
   inputs = {
     # nixpkgs.url = "github:NixOS/nixpkgs/aa1d74709f5dac623adb4d48fdfb27cc2c92a4d4";
     nixpkgs-prev.url = "github:NixOS/nixpkgs/release-21.11";
@@ -13,13 +13,13 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
-    # mesa-git-src = {
-    #   url = "github:chaotic-aur/mesa-mirror/23.0";
-    #   flake = false;
-    # };
+    mesa-git-src = {
+      url = "github:chaotic-aur/mesa-mirror/23.0";
+      flake = false;
+    };
   };
 
-  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-prev, staging-next, nix-ld, home-manager, ... }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-prev, staging-next, mesa-git-src, nix-ld, home-manager, ... }@inputs:
 
     let
       system = "x86_64-linux";
@@ -71,7 +71,7 @@
       inputs.lib = lib;
       inputs.nix-ld = nix-ld;
       inputs.staging-next = staging-next;
-      # inputs.mesa-git-src = mesa-git-src;
+      inputs.mesa-git-src = mesa-git-src;
 
       nixosConfigurations = {
         mustafa-pc = lib.nixosSystem {
@@ -177,8 +177,6 @@
 
 
               # services        
-              powerManagement.enable = false;
-              
               services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];
 
               services.hardware.openrgb = {
@@ -295,10 +293,6 @@
               };
 
               systemd.services.NetworkManager-wait-online.enable = false;
-
-              systemd.targets.suspend.enable = false;
-              systemd.targets.hibernate.enable = false;
-              systemd.targets.hybrid-sleep.enable = false;
 
               systemd.services.tailscale-autoconnect = {
                 description = "Automatic connection to Tailscale";
