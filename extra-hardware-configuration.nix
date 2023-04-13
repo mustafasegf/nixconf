@@ -1,4 +1,11 @@
-{ hardware, pkgs, upkgs, lib, mesa-git-src, staging-next, ... }:
+{ hardware
+, pkgs
+, upkgs
+, lib
+  # , mesa-git-src
+, staging-next
+, ...
+}:
 let
   # # future = staging-next.legacyPackages.${pkgs.system};
   # future = pkgs;
