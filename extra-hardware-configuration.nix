@@ -1,4 +1,4 @@
-{ hardware, pkgs, upkgs, lib, mesa-git-src, staging-next, ... }:
+{ hardware, pkgs, upkgs, lib, staging-next, ... }:
 let
   # # future = staging-next.legacyPackages.${pkgs.system};
   # future = pkgs;
@@ -25,8 +25,8 @@ in
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
-    mesaPackage = upkgs.mesa_23;
-    mesaPackage32 = upkgs.pkgsi686Linux.mesa_23;
+    package = upkgs.mesa_23;
+    package32 = upkgs.pkgsi686Linux.mesa_23;
     extraPackages = [ upkgs.mesa_23.opencl ];
   };
 

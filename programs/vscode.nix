@@ -36,7 +36,6 @@
       ms-vscode.cpptools
       ms-vscode.makefile-tools
       ms-vsliveshare.vsliveshare
-      msjsdiag.debugger-for-chrome
       oderwat.indent-rainbow
       twxs.cmake
       vadimcn.vscode-lldb
