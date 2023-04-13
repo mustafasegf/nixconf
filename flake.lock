@@ -21,23 +21,6 @@
         "type": "github"
       }
     },
-    "mesa-git-src": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1679722958,
-        "narHash": "sha256-kMCIwq2K+hIy2zXLmUTphljxckZgzNKNIYBhudAOIYU=",
-        "owner": "chaotic-aur",
-        "repo": "mesa-mirror",
-        "rev": "8797c8a2f6a61e3c3b1926044369bfbfcf1083b1",
-        "type": "github"
-      },
-      "original": {
-        "owner": "chaotic-aur",
-        "ref": "23.0",
-        "repo": "mesa-mirror",
-        "type": "github"
-      }
-    },
     "nix-ld": {
       "inputs": {
         "nixpkgs": [
@@ -110,7 +93,6 @@
     "root": {
       "inputs": {
         "home-manager": "home-manager",
-        "mesa-git-src": "mesa-git-src",
         "nix-ld": "nix-ld",
         "nixpkgs": "nixpkgs",
         "nixpkgs-prev": "nixpkgs-prev",
