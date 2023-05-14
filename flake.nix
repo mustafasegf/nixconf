@@ -11,6 +11,9 @@
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-ld.url = "github:Mic92/nix-ld";
+    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
+
     # mesa-git-src = {
     #   url = "github:chaotic-aur/mesa-mirror/23.0";
     #   flake = false;
@@ -25,6 +28,7 @@
     , staging-next
       # , mesa-git-src
     , home-manager
+    , nix-ld
     , ...
     }@inputs:
 
@@ -365,6 +369,7 @@
             {
               home-manager.users.mustafa = (import ./home.nix inputs);
             }
+            nix-ld.nixosModules.nix-ld
           ];
         };
       };
