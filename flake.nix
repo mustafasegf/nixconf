@@ -10,8 +10,6 @@
     # home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
-    nix-ld.url = "github:Mic92/nix-ld";
-    nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
     # mesa-git-src = {
     #   url = "github:chaotic-aur/mesa-mirror/23.0";
@@ -26,7 +24,6 @@
     , nixpkgs-prev
     , staging-next
       # , mesa-git-src
-    , nix-ld
     , home-manager
     , ...
     }@inputs:
@@ -62,24 +59,10 @@
     in
     rec
     {
-      # homeConfigurations = {
-      #   "mustafa" = home-manager.lib.homeManagerConfiguration {
-      #     inherit system pkgs;
-      #     username = "mustafa";
-      #     homeDirectory = "/home/mustafa";
-      #     configuration = {
-      #       imports = [
-      #         ./home.nix
-      #       ];
-      #     };
-      #   };
-      # };
-
       inputs.pkgs = pkgs;
       inputs.upkgs = upkgs;
       inputs.ppkgs = ppkgs;
       inputs.lib = lib;
-      inputs.nix-ld = nix-ld;
       inputs.staging-next = staging-next;
       # inputs.mesa-git-src = mesa-git-src;
 
@@ -92,7 +75,6 @@
             ./qtile/qtile.nix
             ./penrose.nix
             (import ./extra-hardware-configuration.nix (inputs // { inherit (self) hardware; }))
-            nix-ld.nixosModules.nix-ld
             ({ config, ... }: {
 
               system.stateVersion = "22.11";
@@ -190,7 +172,7 @@
               services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];
 
               services.hardware.openrgb = {
-                enable = false;
+                enable = true;
                 motherboard = "amd";
               };
 
@@ -201,9 +183,26 @@
               services.blueman.enable = true;
               services.picom.enable = true;
 
+              services.tumbler.enable = true;
+              services.gvfs.enable = true;
+
+
               programs.noisetorch.enable = true;
               programs.dconf.enable = true;
               programs.zsh.enable = true;
+              programs.nix-ld.enable = true;
+
+              programs.nix-ld.libraries = with pkgs; [
+                stdenv.cc.cc
+                zlib
+                fuse3
+                icu
+                zlib
+                nss
+                openssl
+                curl
+                expat
+              ];
 
               # security
               security.rtkit.enable = true;

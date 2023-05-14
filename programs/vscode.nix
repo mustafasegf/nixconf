@@ -36,7 +36,6 @@
       ms-vscode.cpptools
       ms-vscode.makefile-tools
       ms-vsliveshare.vsliveshare
-      msjsdiag.debugger-for-chrome
       oderwat.indent-rainbow
       twxs.cmake
       vadimcn.vscode-lldb
@@ -71,6 +70,7 @@
         "java" = " javac -d javaclass $fileName; if ($?) {java -cp javaclass $fileNameWithoutExt}";
       };
       "editor.formatOnSave" = true;
+      "editor.fontSize" = 12;
       "workbench.startupEditor" = "newUntitledFile";
       "files.autoSave" = "afterDelay";
       "editor.suggestSelection" = "first";

@@ -236,6 +236,7 @@
     xfce.thunar
     xfce.thunar-volman
     xfce.thunar-archive-plugin
+    xfce.tumbler
     gvfs
     udisks
     usermount
@@ -377,5 +378,9 @@
     notion-app-enhanced
     rar
     unrar
+    unigine-valley
+    unigine-heaven
+    unigine-superposition
+    phoronix-test-suite
   ];
 }

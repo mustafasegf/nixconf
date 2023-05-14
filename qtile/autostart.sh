@@ -5,7 +5,7 @@ copyq &
 gromit-mpx &
 noisetorch -i &
 thunderbird &
-slack &
+# slack &
 # openrgb -p off
 discord &
 telegram-desktop &
