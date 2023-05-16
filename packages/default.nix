@@ -382,5 +382,6 @@
     unigine-heaven
     unigine-superposition
     phoronix-test-suite
+    smem
   ];
 }
