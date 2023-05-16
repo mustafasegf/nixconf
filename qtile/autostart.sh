@@ -6,8 +6,9 @@ gromit-mpx &
 noisetorch -i &
 thunderbird &
 # slack &
-# openrgb -p off
+openrgb -p off
 discord &
 telegram-desktop &
 # steam -silent &
+recuetime &
 notion-app-enhanced &
