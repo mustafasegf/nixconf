@@ -134,6 +134,7 @@
         ps.seaborn
         ps.plotly
         ps.statsmodels
+        ps.opencv4
 
       ])
     )
@@ -383,5 +384,10 @@
     unigine-superposition
     phoronix-test-suite
     smem
+    protobuf
+    grpc-tools
+    protoc-gen-go
+    protoc-gen-doc
+    protoc-gen-rust
   ];
 }
