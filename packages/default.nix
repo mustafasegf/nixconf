@@ -392,5 +392,6 @@
     teams
     solaar
     logitech-udev-rules
+    vagrant
   ];
 }
