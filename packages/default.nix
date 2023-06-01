@@ -142,7 +142,7 @@
     rustup
     go
     gofumpt
-    nodejs-16_x
+    nodejs
     nodePackages.npm
     nodePackages.pnpm
     nodePackages.sass
@@ -389,5 +389,8 @@
     protoc-gen-go
     protoc-gen-doc
     protoc-gen-rust
+    teams
+    solaar
+    logitech-udev-rules
   ];
 }

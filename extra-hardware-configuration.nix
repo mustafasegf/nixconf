@@ -32,9 +32,11 @@ in
   hardware.opengl = {
     enable = true;
     driSupport32Bit = true;
-    mesaPackage = upkgs.mesa_23;
-    mesaPackage32 = upkgs.pkgsi686Linux.mesa_23;
-    extraPackages = [ upkgs.mesa_23.opencl ];
+    # mesaPackage = upkgs.mesa_23;
+    # mesaPackage32 = upkgs.pkgsi686Linux.mesa_23;
+    package = upkgs.mesa.drivers;
+    package32 = upkgs.pkgsi686Linux.mesa.drivers;
+    extraPackages = [ upkgs.mesa.opencl ];
   };
 
   # Creates a second boot entry without latest drivers
