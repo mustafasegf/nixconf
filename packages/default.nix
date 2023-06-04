@@ -399,5 +399,13 @@
     redis
     termshark
     wireshark
+
+    ((vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: rec {
+      src = (builtins.fetchTarball {
+        url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+        sha256 = "1b8lf6qqq6868kqzc35482ksfvzfxfhdpn2lisksjrji1qyiz06l";
+      });
+      version = "latest";
+    }))
   ];
 }
