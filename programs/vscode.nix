@@ -13,7 +13,7 @@
       bradlc.vscode-tailwindcss
       davidanson.vscode-markdownlint
       dracula-theme.theme-dracula
-      eg2.vscode-npm-script
+      # eg2.vscode-npm-script
       esbenp.prettier-vscode
       formulahendry.auto-close-tag
       formulahendry.auto-rename-tag
@@ -170,10 +170,10 @@
       "editor.detectIndentation" = false;
       "editor.insertSpaces" = true;
       "[python]" = {
-        "editor.tabSize" = 4;
-        "editor.formatOnType" = true;
+        "editor.tabsize" = 4;
+        "editor.formatontype" = true;
       };
-      "editor.tabSize" = 2;
+      "editor.tabsize" = 2;
       "bracketPairColorizer.scopeLineCSS" = [
         "borderStyle = solid"
         "borderWidth = 2px"
@@ -252,6 +252,7 @@
         "markdown" = false;
       };
       "cmake.configureOnOpen" = true;
+      "update.showReleaseNotes" = false;
     };
   };
 }

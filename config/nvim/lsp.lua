@@ -108,7 +108,7 @@ require("null-ls").setup({
 		formatting.clang_format,
 		formatting.shfmt,
 		formatting.fourmolu,
-		formatting.statix,
+		-- formatting.statix,
 	},
 })
 
