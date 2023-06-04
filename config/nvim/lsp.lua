@@ -154,7 +154,7 @@ local servers = {
 	"graphql",
 	"dockerls",
 	"bashls",
-	"sqls",
+	-- "sqls",
 	"jdtls",
 	"svelte",
 	"astro",

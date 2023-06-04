@@ -393,5 +393,11 @@
     solaar
     logitech-udev-rules
     vagrant
+    lutris
+    tetrio-desktop
+    tmate
+    redis
+    termshark
+    wireshark
   ];
 }

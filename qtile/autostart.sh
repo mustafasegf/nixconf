@@ -8,7 +8,7 @@ thunderbird &
 # slack &
 openrgb -p off
 discord &
-telegram-desktop &
+# telegram-desktop &
 # steam -silent &
 recuetime &
 notion-app-enhanced &
