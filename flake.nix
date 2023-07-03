@@ -2,7 +2,7 @@
   description = "My NixOS Flake Configuration";
   inputs = {
     # nixpkgs.url = "github:NixOS/nixpkgs/aa1d74709f5dac623adb4d48fdfb27cc2c92a4d4";
-    nixpkgs-prev.url = "github:NixOS/nixpkgs/release-21.11";
+    nixpkgs-prev.url = "github:NixOS/nixpkgs/release-23.05";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     staging-next.url = "github:NixOS/nixpkgs/staging-next";
@@ -119,6 +119,12 @@
                 useXkbConfig = true; # use xkbOptions in tty.
               };
 
+              qt = {
+                enable = true;
+                platformTheme = "lxqt";
+                style = "adwaita-dark";
+              };
+
               xdg = {
                 portal = {
                   enable = true;
@@ -126,7 +132,7 @@
                     xdg-desktop-portal-wlr
                     xdg-desktop-portal-gtk
                     xdg-desktop-portal
-                    xdg-desktop-portal-gnome
+                    # xdg-desktop-portal-gnome
                     libsForQt5.xdg-desktop-portal-kde
                     lxqt.xdg-desktop-portal-lxqt
                   ];
@@ -163,7 +169,7 @@
                 PAGER = "less";
                 BROWSER = "google-chrome-stable";
                 # QT_QPA_PLATFORMTHEME = "qt5ct";
-                QT_QPA_PLATFORMTHEME = "lxqt";
+                # QT_QPA_PLATFORMTHEME = "lxqt";
                 GTK_USE_PORTAL = "1";
                 MANPAGER = "nvim +Man!";
                 TERMINAL = "kitty";

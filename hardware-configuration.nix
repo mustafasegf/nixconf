@@ -9,17 +9,17 @@
       (modulesPath + "/installer/scan/not-detected.nix")
     ];
 
-  boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_1.override {
-    argsOverride = rec {
-      src = pkgs.fetchurl {
-        url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
-        sha256 = "/tCth9Qvg6cM4Bn/KAC8MKhV5nLnK/bVSgFNmNNE9mU=";
-      };
-      version = "6.2.8";
-      modDirVersion = "6.2.8";
-    };
-  });
-  # boot.kernelPackages = pkgs.linuxPackages_latest;
+  # boot.kernelPackages = pkgs.linuxPackagesFor (pkgs.linux_6_1.override {
+  #   argsOverride = rec {
+  #     src = pkgs.fetchurl {
+  #       url = "mirror://kernel/linux/kernel/v6.x/linux-${version}.tar.xz";
+  #       sha256 = "/tCth9Qvg6cM4Bn/KAC8MKhV5nLnK/bVSgFNmNNE9mU=";
+  #     };
+  #     version = "6.2.8";
+  #     modDirVersion = "6.2.8";
+  #   };
+  # });
+  boot.kernelPackages = pkgs.linuxPackages_latest;
   # boot.kernelPackages = pkgs.linuxPackages_testing;
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" ];

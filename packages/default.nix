@@ -195,6 +195,7 @@
     sqls
     ##jdtls
     nodePackages.svelte-language-server
+    nodePackages.grammarly-languageserver
     ##astro
     ##prisma
 
@@ -258,7 +259,7 @@
       extraPkgs = pkgs: [ pkgs.xorg.libxshmfence pkgs.libsecret ];
     })
 
-    jdk11
+    jdk17
     rclone
 
     llvmPackages_latest.llvm
@@ -300,7 +301,6 @@
     man-pages-posix
     upkgs.soundux
     fwupd
-    prismlauncher
     gnome.seahorse
     xorg.xkbcomp
     xorg.xkbutils
@@ -339,7 +339,7 @@
     vulkan-tools
     clinfo
     firefox
-    ppkgs.blender
+    blender
     nix-prefetch-scripts
     gnome.file-roller
     libsForQt5.ark
@@ -399,6 +399,8 @@
     redis
     termshark
     wireshark
+    imagemagick
+    poppler_utils
 
     ((vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: rec {
       src = (builtins.fetchTarball {
@@ -407,5 +409,21 @@
       });
       version = "latest";
     }))
+    pomodoro
+    prismlauncher
+    calibre
+    gimp-with-plugins
+    mediainfo
+    rust-script
+    djvu2pdf
+    djvulibre
+    yarn
+    colorpicker
+    cargo-tarpaulin
+    # mods
+    glow
+    gum
+    lxappearance
+    lxqt.lxqt-config
   ];
 }

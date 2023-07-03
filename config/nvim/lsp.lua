@@ -121,6 +121,19 @@ lsp.diagnosticls.setup({
 -- Setup lspconfig.
 local capabilities = require("cmp_nvim_lsp").default_capabilities(vim.lsp.protocol.make_client_capabilities())
 
+capabilities.textDocument.foldingRange = {
+	dynamicRegistration = false,
+	lineFoldingOnly = true,
+}
+-- local language_servers = require("lspconfig").util.available_servers() -- or list servers manually like {'gopls', 'clangd'}
+-- for _, ls in ipairs(language_servers) do
+-- 	require("lspconfig")[ls].setup({
+-- 		capabilities = capabilities,
+-- 		-- you can add other fields for setting up lsp server in this table
+-- 	})
+-- end
+require("ufo").setup()
+
 require("lsp-inlayhints").setup()
 vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
 vim.api.nvim_create_autocmd("LspAttach", {
@@ -160,7 +173,8 @@ local servers = {
 	"astro",
 	"prismals",
 	"rnix",
-  "ocamllsp"
+	"ocamllsp",
+	"grammarly",
 }
 
 for _, server in ipairs(servers) do

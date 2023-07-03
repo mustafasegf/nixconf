@@ -10,7 +10,7 @@
 
     enableAutosuggestions = true;
     enableCompletion = true;
-    enableSyntaxHighlighting = true;
+    syntaxHighlighting.enable = true;
     defaultKeymap = "viins";
     envExtra =
       # let RUSTC_VERSION = pkgs.lib.strings.removeSuffix "\n" pkgs.lib.readFile ./rust-toolchain;
@@ -303,6 +303,11 @@
       }
 
       alias update-flake='nix flake update --commit-lock-file'
+
+      function tmem () {
+        smem -t -k -c pss -P "$@"
+      }
+
     '';
     shellAliases = {
       # update = "sudo nixos-rebuild switch";

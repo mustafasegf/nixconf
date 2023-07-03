@@ -66,6 +66,7 @@
         luasnip
         lspkind-nvim
         null-ls-nvim
+        markdown-preview-nvim
         {
           plugin = (pluginGit "lvimuser" "lsp-inlayhints.nvim" "master" "0fx0swsagjdng9m9x73wkfqnk464qk63q9wi32rhywllbm7gsflf");
           type = "lua";
@@ -109,6 +110,13 @@
           config = builtins.readFile ../config/nvim/indentline.lua;
         }
         nvim-ts-rainbow
+        promise-async
+        {
+          plugin = nvim-ufo;
+          type = "lua";
+          config = builtins.readFile ../config/nvim/fold.lua;
+        }
+
         {
           plugin = lualine-nvim;
           type = "lua";

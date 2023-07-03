@@ -80,8 +80,8 @@ in
     fadeDelta = 4;
 
     opacityRules = [
-      "100:name *= 'Chrome' && focused"
-      "95:name *= 'Chrome' && !focused"
+      # "100:name *= 'Chrome' && focused"
+      # "95:name *= 'Chrome' && !focused"
       "100:class_g *= 'discord' && focused"
       "95:class_g *= 'discord' && !focused"
       "95:name *= 'Code' && !focused"
