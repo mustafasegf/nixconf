@@ -132,7 +132,7 @@ capabilities.textDocument.foldingRange = {
 -- 		-- you can add other fields for setting up lsp server in this table
 -- 	})
 -- end
-require("ufo").setup()
+-- require("ufo").setup()
 
 require("lsp-inlayhints").setup()
 vim.api.nvim_create_augroup("LspAttach_inlayhints", {})

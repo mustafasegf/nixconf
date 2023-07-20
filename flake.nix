@@ -6,6 +6,8 @@
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     staging-next.url = "github:NixOS/nixpkgs/staging-next";
+    nixpkgs-master.url = "github:NixOS/nixpkgs/master";
+    nixpkgs-rocm.url = "github:mustafasegf/nixpkgs/rocm";
 
     # home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.url = "github:nix-community/home-manager";
@@ -25,7 +27,9 @@
     , nixpkgs
     , nixpkgs-unstable
     , nixpkgs-prev
+    , nixpkgs-rocm
     , staging-next
+    , nixpkgs-master
       # , mesa-git-src
     , home-manager
     , nix-ld
@@ -59,6 +63,28 @@
         };
       };
 
+      rocm-pkgs = import nixpkgs-rocm {
+        inherit system;
+        config = {
+          allowunfree = true;
+        };
+      };
+
+      staging-pkgs = import staging-next {
+        inherit system;
+        config = {
+          allowunfree = true;
+        };
+      };
+
+      mpkgs = import nixpkgs-master {
+        inherit system;
+        config = {
+          allowunfree = true;
+        };
+      };
+
+
       lib = nixpkgs.lib;
     in
     rec
@@ -66,8 +92,11 @@
       inputs.pkgs = pkgs;
       inputs.upkgs = upkgs;
       inputs.ppkgs = ppkgs;
+      inputs.staging-pkgs = staging-pkgs;
+      inputs.mpkgs = mpkgs;
       inputs.lib = lib;
       inputs.staging-next = staging-next;
+      inputs.rocm-pkgs = rocm-pkgs;
       # inputs.mesa-git-src = mesa-git-src;
 
       nixosConfigurations = {
@@ -128,15 +157,19 @@
               xdg = {
                 portal = {
                   enable = true;
-                  extraPortals = with pkgs; [
-                    xdg-desktop-portal-wlr
-                    xdg-desktop-portal-gtk
-                    xdg-desktop-portal
-                    # xdg-desktop-portal-gnome
-                    libsForQt5.xdg-desktop-portal-kde
-                    lxqt.xdg-desktop-portal-lxqt
+                  xdgOpenUsePortal = true;
+                  lxqt.styles = with pkgs; [
+                    pkgs.libsForQt5.qtstyleplugin-kvantum
                   ];
-                  # gtkUsePortal = true;
+                  lxqt.enable = true;
+                  extraPortals = with pkgs; [
+                    #   xdg-desktop-portal-wlr
+                    xdg-desktop-portal-gtk
+                    #   xdg-desktop-portal
+                    #   # xdg-desktop-portal-gnome
+                    # libsForQt5.xdg-desktop-portal-kde
+                    #   lxqt.xdg-desktop-portal-lxqt
+                  ];
                 };
               };
 
@@ -169,10 +202,11 @@
                 PAGER = "less";
                 BROWSER = "google-chrome-stable";
                 # QT_QPA_PLATFORMTHEME = "qt5ct";
-                # QT_QPA_PLATFORMTHEME = "lxqt";
+                QT_QPA_PLATFORMTHEME = "lxqt";
                 GTK_USE_PORTAL = "1";
                 MANPAGER = "nvim +Man!";
                 TERMINAL = "kitty";
+                GDK_SCALE = "1";
               };
 
               environment.systemPackages = (import ./packages inputs).packages;
@@ -325,6 +359,13 @@
 
               systemd.services.NetworkManager-wait-online.enable = false;
 
+
+              # Enable xrdp
+              services.xrdp.enable = true; # use remote_logout and remote_unlock
+              services.xrdp.defaultWindowManager = "qtile";
+              systemd.services.pcscd.enable = false;
+              systemd.sockets.pcscd.enable = false;
+
               systemd.services.tailscale-autoconnect = {
                 description = "Automatic connection to Tailscale";
 
@@ -352,6 +393,59 @@
                 '';
               };
 
+              systemd.services."libvirt-nosleep@" = {
+                enable = true;
+                description = ''Preventing sleep while libvirt domain "%i" is running'';
+
+                serviceConfig = {
+                  Type = "simple";
+                  ExecStart = ''${pkgs.systemd}/bin/systemd-inhibit --what=sleep --why=" Libvirt domain \"%i\" is running" --who=%U --mode=block sleep infinity'';
+
+                };
+              };
+
+              systemd.services.libvirtd = {
+                enable = true;
+                path =
+                  let
+                    env = pkgs.buildEnv {
+                      name = "qemu-hook-env";
+                      paths = with pkgs; [
+                        bash
+                        libvirt
+                        kmod
+                        systemd
+                        ripgrep
+                        sd
+                        pciutils
+                        procps
+                        gawk
+
+                      ];
+                    };
+                  in
+                  [ env ];
+
+                preStart =
+                  ''
+                    mkdir -p /var/lib/libvirt/hooks
+                    mkdir -p /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin
+                    mkdir -p /var/lib/libvirt/hooks/qemu.d/win10/release/end
+                    mkdir -p /var/lib/libvirt/vgabios
+      
+                    ln -sf /home/mustafa/.config/qemu/qemu /var/lib/libvirt/hooks/qemu
+                    ln -sf /home/mustafa/.config/qemu/kvm.conf /var/lib/libvirt/hooks/kvm.conf
+                    ln -sf /home/mustafa/.config/qemu/start.sh /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin/start.sh
+                    ln -sf /home/mustafa/.config/qemu/stop.sh /var/lib/libvirt/hooks/qemu.d/win10/release/end/stop.sh
+                    # ln -sf /home/mustafa/.config/qemu/patched.rom /var/lib/libvirt/vgabios/patched.rom
+      
+                    chmod +x /var/lib/libvirt/hooks/qemu
+                    chmod +x /var/lib/libvirt/hooks/kvm.conf
+                    chmod +x /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin/start.sh
+                    chmod +x /var/lib/libvirt/hooks/qemu.d/win10/release/end/stop.sh
+                  '';
+              };
+
               # documentation
               documentation.man.generateCaches = true;
               documentation.dev.enable = true;
@@ -364,7 +458,13 @@
                   enable = false;
                   enableExtensionPack = true;
                 };
-                libvirtd.enable = true;
+                libvirtd = {
+                  enable = true;
+                  onBoot = "ignore";
+                  onShutdown = "shutdown";
+                  qemu.ovmf.enable = true;
+                  qemu.runAsRoot = true;
+                };
               };
 
               # user
@@ -393,3 +493,4 @@
       };
     };
 }
+

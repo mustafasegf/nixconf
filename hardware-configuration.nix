@@ -25,6 +25,7 @@
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" ];
   boot.initrd.kernelModules = [ "amdgpu" ];
   boot.kernelModules = [ "kvm-amd" "i2c-dev" "i2c-piix4" "hid-playstasion" "v4l2loopback" ];
+  boot.kernelParams = [ "amd_iommu=on" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback.out ];
 
   boot.supportedFilesystems = lib.mkForce [ "btrfs" "reiserfs" "vfat" "f2fs" "ntfs" "cifs" ];

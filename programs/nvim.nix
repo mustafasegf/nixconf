@@ -80,7 +80,14 @@
         {
           plugin = (pluginGit "mechatroner" "rainbow_csv" "master" "kNjEjIOyWViQ6hLyTwP9no7ZF0Iv/TGW0oXPlBM4eu4=");
         }
+        {
+          plugin = (pluginGit "kiyoon" "jupynium.nvim" "master" "HJrg+Jun4CxXKBgKEQGnF/EjyrXjJMwLexCCrnXA0+Y=");
+          type = "lua";
+          config = builtins.readFile ../config/nvim/jupyter.lua;
+        }
+        dressing-nvim
         rust-tools-nvim
+        nvim-notify
 
         #file tree
         {
@@ -221,6 +228,7 @@
         popup-nvim
         plenary-nvim
         registers-nvim
+        suda-vim
         {
           plugin = harpoon;
           type = "lua";
@@ -229,7 +237,18 @@
         vim-sneak
 
         {
-          plugin = nvim-treesitter.withAllGrammars;
+          plugin = (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars ++ [
+            (pkgs.tree-sitter.buildGrammar {
+              language = "wgsl";
+              version = "40259f3";
+              src = pkgs.fetchFromGitHub {
+                owner = "szebniok";
+                repo = "tree-sitter-wgsl";
+                rev = "40259f3c77ea856841a4e0c4c807705f3e4a2b65";
+                sha256 = "sha256-voLkcJ/062hzipb3Ak/mgQvFbrLUJdnXq1IupzjMJXA=";
+              };
+            })
+          ]));
           type = "lua";
           config = builtins.readFile ../config/nvim/treesitter.lua;
         }

@@ -358,6 +358,7 @@
         { name = "plugins/gcloud"; tags = [ from:oh-my-zsh ]; }
         { name = "plugins/aws"; tags = [ from:oh-my-zsh ]; }
         { name = "sobolevn/wakatime-zsh-plugin"; }
+        { name = "ellie/atuin"; }
       ];
     };
   };

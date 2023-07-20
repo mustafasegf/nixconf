@@ -1,4 +1,4 @@
-{ ppkgs, pkgs, upkgs, ... }: {
+{ ppkgs, pkgs, upkgs, rocm-pkgs, staging-pkgs, mpkgs, ... }: {
   packages = with pkgs; [
     vim
     neovim
@@ -124,6 +124,7 @@
             ]
         )
         ps.jupyterlab
+        ps.jupyter_console
         ps.ipykernel
         ps.pandas
         ps.scikitlearn
@@ -135,7 +136,7 @@
         ps.plotly
         ps.statsmodels
         ps.opencv4
-
+        (ps.torchWithRocm.override { })
       ])
     )
     poetry
@@ -425,5 +426,46 @@
     gum
     lxappearance
     lxqt.lxqt-config
+    geckodriver
+    (
+      buildGoModule rec {
+        pname = "mods";
+        version = "0.2.0";
+
+        src = fetchFromGitHub {
+          owner = "charmbracelet";
+          repo = "mods";
+          rev = "v${version}";
+          hash = "sha256-jOvXT/KAfSN9E4ZgntCbTu05VJu1jhGtv6gEgLStd98=";
+        };
+
+        vendorHash = "sha256-GNGX8dyTtzRSUznEV/do1H7GEf6nYf0w+CLCZfkktfg=";
+
+        ldflags = [ "-s" "-w" "-X=main.version=${version}" ];
+
+        passthru = {
+          updateScript = gitUpdater {
+            rev-prefix = "v";
+            ignoredVersions = ".(rc|beta).*";
+          };
+
+          tests.version = testers.testVersion {
+            package = mods;
+          };
+        };
+
+        meta = with lib; {
+          description = "AI on the command line";
+          homepage = "https://github.com/charmbracelet/mods";
+          license = licenses.mit;
+          maintainers = with maintainers; [ dit7ya ];
+        };
+      }
+    )
+    atuin
+    gImageReader
+    patchelf
+    libguestfs
+    gpm
   ];
 }

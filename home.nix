@@ -82,13 +82,13 @@ in
     opacityRules = [
       # "100:name *= 'Chrome' && focused"
       # "95:name *= 'Chrome' && !focused"
-      "100:class_g *= 'discord' && focused"
-      "95:class_g *= 'discord' && !focused"
-      "95:name *= 'Code' && !focused"
-      "100:name *= 'Postman' && focused"
-      "98:name *= 'Postman' && !focused"
-      "100:name *= 'Cisco' && focused"
-      "90:name *= 'Cisco' && !focused"
+      # "100:class_g *= 'discord' && focused"
+      # "95:class_g *= 'discord' && !focused"
+      # "95:name *= 'Code' && !focused"
+      # "100:name *= 'Postman' && focused"
+      # "98:name *= 'Postman' && !focused"
+      # "100:name *= 'Cisco' && focused"
+      # "90:name *= 'Cisco' && !focused"
     ];
 
     settings = {
