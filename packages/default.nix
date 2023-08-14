@@ -1,4 +1,11 @@
-{ ppkgs, pkgs, upkgs, rocm-pkgs, staging-pkgs, mpkgs, ... }: {
+{ ppkgs
+, pkgs
+, upkgs
+, rocm-pkgs
+, staging-pkgs
+, mpkgs
+, ...
+}: {
   packages = with pkgs; [
     vim
     neovim
@@ -96,33 +103,33 @@
             "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE="
             [ wirelesstools ps.setuptools ps.cffi ]
         )
-        (
-          packagePypi
-            "qtile"
-            "0.22.1"
-            "sha256-J8PLTXQjEWIs9aJ4Fnw76Z6kdafe9dQe6GC9PoZHj4s="
-            [
-              pkg-config
-              libinput
-              wayland
-              wlroots
-              libxkbcommon
-              ps.setuptools-scm
-              ps.xcffib
-              (ps.cairocffi.override { withXcffib = true; })
-              ps.setuptools
-              ps.python-dateutil
-              ps.dbus-python
-              ps.dbus-next
-              ps.mpd2
-              ps.psutil
-              ps.pyxdg
-              ps.pygobject3
-              ps.pywayland
-              ps.pywlroots
-              ps.xkbcommon
-            ]
-        )
+        # (
+        #   packagePypi
+        #     "qtile"
+        #     "0.22.1"
+        #     "sha256-J8PLTXQjEWIs9aJ4Fnw76Z6kdafe9dQe6GC9PoZHj4s="
+        #     [
+        #       pkg-config
+        #       libinput
+        #       wayland
+        #       wlroots
+        #       libxkbcommon
+        #       ps.setuptools-scm
+        #       ps.xcffib
+        #       (ps.cairocffi.override { withXcffib = true; })
+        #       ps.setuptools
+        #       ps.python-dateutil
+        #       ps.dbus-python
+        #       ps.dbus-next
+        #       ps.mpd2
+        #       ps.psutil
+        #       ps.pyxdg
+        #       ps.pygobject3
+        #       ps.pywayland
+        #       ps.pywlroots
+        #       ps.xkbcommon
+        #     ]
+        # )
         ps.jupyterlab
         ps.jupyter_console
         ps.ipykernel
@@ -136,7 +143,7 @@
         ps.plotly
         ps.statsmodels
         ps.opencv4
-        (ps.torchWithRocm.override { })
+        # (ps.torchWithRocm.override { })
       ])
     )
     poetry
@@ -427,45 +434,18 @@
     lxappearance
     lxqt.lxqt-config
     geckodriver
-    (
-      buildGoModule rec {
-        pname = "mods";
-        version = "0.2.0";
-
-        src = fetchFromGitHub {
-          owner = "charmbracelet";
-          repo = "mods";
-          rev = "v${version}";
-          hash = "sha256-jOvXT/KAfSN9E4ZgntCbTu05VJu1jhGtv6gEgLStd98=";
-        };
-
-        vendorHash = "sha256-GNGX8dyTtzRSUznEV/do1H7GEf6nYf0w+CLCZfkktfg=";
-
-        ldflags = [ "-s" "-w" "-X=main.version=${version}" ];
-
-        passthru = {
-          updateScript = gitUpdater {
-            rev-prefix = "v";
-            ignoredVersions = ".(rc|beta).*";
-          };
-
-          tests.version = testers.testVersion {
-            package = mods;
-          };
-        };
-
-        meta = with lib; {
-          description = "AI on the command line";
-          homepage = "https://github.com/charmbracelet/mods";
-          license = licenses.mit;
-          maintainers = with maintainers; [ dit7ya ];
-        };
-      }
-    )
+    mods
     atuin
     gImageReader
     patchelf
     libguestfs
     gpm
+    scrot
+    (google-chrome-dev.overrideAttrs (old: {
+      commandLineArgs = "--enable-features=Vulkan,UseSkiaRenderer";
+    }))
+    bunyan-rs
+    cloudflare-warp
+    iotop
   ];
 }

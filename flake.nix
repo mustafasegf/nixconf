@@ -225,7 +225,7 @@
               services.printing.enable = true;
 
               services.blueman.enable = true;
-              services.picom.enable = true;
+              services.picom.enable = false;
 
               services.tumbler.enable = true;
               services.gvfs.enable = true;
@@ -258,6 +258,10 @@
 
               services.gnome.gnome-keyring.enable = true;
               services.openssh.enable = true;
+
+              # services.cloudflare-warp = {
+              #   enable = true;
+              # };
 
               services.xserver = {
                 enable = true;
@@ -296,15 +300,25 @@
                 windowManager = {
                   qtile = {
                     enable = true;
-                    extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
+                    # extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
                     backend = "x11";
                     # configFile = ./qtile/config.py;
                   };
 
                   penrose = {
-                    enable = false;
+                    enable = true;
                     path = ''/home/mustafa/project/penrose-wm/target/release/penrose-wm'';
                   };
+
+                  i3 = {
+                    enable = false;
+                    extraPackages = with pkgs; [
+                      i3status # gives you the default i3 status bar
+                      i3lock #default i3 screen locker
+                      i3blocks #if you are planning on using i3blocks over i3status
+                    ];
+                  };
+
                 };
               };
 

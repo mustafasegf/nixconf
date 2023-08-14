@@ -31,6 +31,7 @@ import subprocess
 from libqtile import bar, layout, widget, hook
 from libqtile.config import Click, Drag, Group, Key, Match, Screen
 from libqtile.lazy import lazy
+from time import sleep
 import os
 
 from floating_window_snapping import move_snap_window
@@ -264,8 +265,8 @@ screens = [
 
 # Drag floating layouts.
 mouse = [
-    # Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
-    Drag([mod], "Button1", move_snap_window(snap_dist=20), start=lazy.window.get_position()),
+    Drag([mod], "Button1", lazy.window.set_position_floating(), start=lazy.window.get_position()),
+    # Drag([mod], "Button1", move_snap_window(snap_dist=20), start=lazy.window.get_position()),
     Drag([mod], "Button3", lazy.window.set_size_floating(), start=lazy.window.get_size()),
     Click([mod], "Button2", lazy.window.bring_to_front()),
     Click([mod, "shift"], "Button2", lazy.window.toggle_minimize()),
@@ -276,6 +277,7 @@ mouse = [
 def auto_start():
     # subprocess.call([home+ '/script/monitor.sh'])
     # lazy.spawn(home+ '/script/monitor.sh')
+    sleep(5)
     subprocess.call([home + '/.config/qtile/autostart.sh'])
     # subprocess.call(['/etc/nixos/autostart.sh'])
     # pass

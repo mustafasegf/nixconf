@@ -1,6 +1,5 @@
 #!/run/current-system/sw/bin/bash
-picom &
-nitrogen --restore &
+# picom &
 copyq &
 gromit-mpx &
 noisetorch -i &
@@ -12,3 +11,5 @@ telegram-desktop &
 # steam -silent &
 recuetime &
 notion-app-enhanced &
+/home/mustafa/script/4k-2-4k.sh &
+nitrogen --restore &

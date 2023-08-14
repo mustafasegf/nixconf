@@ -42,7 +42,7 @@ in
   xdg = {
     enable = true;
     configFile = {
-      "qtile/config.py".source = ./qtile/config.py;
+      # "qtile/config.py".source = ./qtile/config.py;
       "qtile/floating_window_snapping.py".source = ./qtile/floating_window_snapping.py;
       "qtile/autostart.sh".source = ./qtile/autostart.sh;
 
@@ -55,6 +55,17 @@ in
       "gtk-2.0/gtkrc".source = ./config/dracula/gtk-2.0/gtkrc-2.0;
 
     };
+
+    desktopEntries.ocr = {
+      name = "OCR image";
+      exec = "${pkgs.writeScript "ocr" ''
+                ${pkgs.xfce.xfce4-screenshooter}/bin/xfce4-screenshooter -r --save /tmp/ocr-tmp.png
+                ${pkgs.tesseract}/bin/tesseract /tmp/ocr-tmp.png /tmp/ocr-out
+                cat /tmp/ocr-out.txt | ${pkgs.xclip}/bin/xclip -sel clip
+                rm /tmp/ocr-tmp.png
+              ''}";
+    };
+
   };
 
   # home.file = {
@@ -71,7 +82,7 @@ in
   };
 
   services.picom = {
-    enable = true;
+    enable = false;
     backend = "glx";
     vSync = false;
     shadow = false;

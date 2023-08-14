@@ -175,6 +175,7 @@ local servers = {
 	"rnix",
 	"ocamllsp",
 	"grammarly",
+  "wgsl_analyzer"
 }
 
 for _, server in ipairs(servers) do
