@@ -447,5 +447,8 @@
     bunyan-rs
     cloudflare-warp
     iotop
+    cargo-generate
+    deno
+    bun
   ];
 }
