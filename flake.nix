@@ -211,6 +211,15 @@
 
               environment.systemPackages = (import ./packages inputs).packages;
 
+              environment.etc."X11/xorg.conf.d/10-tablet.conf".source = pkgs.writeText "10-tablet.conf" ''
+                Section "InputClass"
+                Identifier "Tablet"
+                Driver "wacom"
+                MatchDevicePath "/dev/input/event*"
+                MatchUSBID "256c:006d"
+                EndSection
+              '';
+
 
               # services        
               services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];
@@ -219,6 +228,7 @@
                 enable = true;
                 motherboard = "amd";
               };
+
 
               services.udisks2.enable = true;
               services.tailscale.enable = true;
@@ -266,6 +276,7 @@
               services.xserver = {
                 enable = true;
                 digimend.enable = true;
+                wacom.enable = true;
                 videoDrivers = [ "modesetting" ];
                 # videoDrivers = [ "amdgpu" ];
 
