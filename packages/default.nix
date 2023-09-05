@@ -450,5 +450,7 @@
     cargo-generate
     deno
     bun
+    ghc
+    winbox
   ];
 }
