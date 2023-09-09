@@ -311,6 +311,7 @@
                 windowManager = {
                   qtile = {
                     enable = true;
+                    package = ppkgs.qtile;
                     extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
                     backend = "x11";
                     # configFile = ./qtile/config.py;
