@@ -452,5 +452,9 @@
     bun
     ghc
     winbox
+    libcamera
+    pandoc
+    texlive.combined.scheme-full
+    tor-browser-bundle-bin
   ];
 }
