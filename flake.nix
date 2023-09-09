@@ -305,7 +305,10 @@
                         keycode 202 = F24 F24 F24
                       '';
                     in
-                    ''gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh'';
+                    ''sleep 3 && ${pkgs.xorg.xmodmap}/bin/xmodmap ${functionkey} &&
+                    gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh
+                    '';
+
                 };
 
                 windowManager = {
