@@ -80,11 +80,11 @@
     yt-dlp
     (
       let
-        packagePypi = name: ver: ref: deps: python310.pkgs.buildPythonPackage rec {
+        packagePypi = name: ver: ref: deps: python311.pkgs.buildPythonPackage rec {
           pname = name;
           version = ver;
 
-          src = python310.pkgs.fetchPypi {
+          src = python311.pkgs.fetchPypi {
             inherit pname version;
             hash = ref;
           };
@@ -94,7 +94,7 @@
           doCheck = false;
         };
       in
-      python310.withPackages (ps: [
+      python311.withPackages (ps: [
         # sha from nix store prefetch-file 
         (
           packagePypi
@@ -131,6 +131,7 @@
         #     ]
         # )
         ps.jupyterlab
+        ps.notebook
         ps.jupyter_console
         ps.ipykernel
         ps.pandas
@@ -456,5 +457,7 @@
     pandoc
     texlive.combined.scheme-full
     tor-browser-bundle-bin
+    nixpacks
+    license-cli
   ];
 }
