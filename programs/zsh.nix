@@ -330,6 +330,10 @@
 
       mans = '' man -k  . | cut -d " " -f 1 | fzf -m --preview "man {1}" '';
       m = "make";
+      v = "nvim";
+      ".." = "cd ..";
+      "..." = "cd ../..";
+      "...." = "cd ../../..";
     };
 
     history = {

@@ -4,7 +4,7 @@
 , ...
 }: {
   xdg.mimeApps = {
-    enable = true;
+    enable = false;
     defaultApplications = {
       "text/html" = "google-chrome.desktop";
       "text/calendar" = "userapp-Thunderbird-OM4EI1.desktop";
