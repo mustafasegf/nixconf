@@ -361,7 +361,7 @@
     alacritty
     xournalpp
     du-dust
-    exa
+    eza
     exercism
 
     dune_3
@@ -459,5 +459,12 @@
     tor-browser-bundle-bin
     nixpacks
     license-cli
+    fim
+    ascii-image-converter
+    # atlas
+    postgresql
+    dive
+    pspp
+    w3m
   ];
 }
