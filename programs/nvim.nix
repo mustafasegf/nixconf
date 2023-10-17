@@ -116,7 +116,7 @@
           type = "lua";
           config = builtins.readFile ../config/nvim/indentline.lua;
         }
-        nvim-ts-rainbow
+        rainbow-delimiters-nvim
         promise-async
         {
           plugin = nvim-ufo;
@@ -236,6 +236,7 @@
         }
         vim-sneak
 
+        playground
         {
           plugin = (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars ++ [
             (pkgs.tree-sitter.buildGrammar {
@@ -248,7 +249,8 @@
                 sha256 = "sha256-voLkcJ/062hzipb3Ak/mgQvFbrLUJdnXq1IupzjMJXA=";
               };
             })
-          ]));
+          ]
+          ));
           type = "lua";
           config = builtins.readFile ../config/nvim/treesitter.lua;
         }

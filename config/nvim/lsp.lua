@@ -167,14 +167,14 @@ local servers = {
 	"graphql",
 	"dockerls",
 	"bashls",
-	-- "sqls",
+	"sqlls",
 	"jdtls",
 	"svelte",
 	"astro",
 	"prismals",
 	"rnix",
 	"ocamllsp",
-	"grammarly",
+	-- "grammarly",
 	"wgsl_analyzer",
 }
 
