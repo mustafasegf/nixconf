@@ -30,3 +30,9 @@ vim.o.pumblend = 15
 vim.o.mouse = "a"
 vim.o.winbar = "%=%{expand('%:~:.')}"
 vim.cmd("syntax on")
+
+vim.api.nvim_create_user_command("BufOnly", function()
+	pcall(function()
+		vim.cmd("%bd|e#|bd#")
+	end)
+end, { desc = "Close all buffer except this buffer" })
