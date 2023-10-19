@@ -388,9 +388,11 @@
     notion-app-enhanced
     rar
     unrar
-    unigine-valley
-    unigine-heaven
-    unigine-superposition
+
+    # there's cve
+    # unigine-valley
+    # unigine-heaven
+    # unigine-superposition
     phoronix-test-suite
     smem
     protobuf
@@ -398,7 +400,7 @@
     protoc-gen-go
     protoc-gen-doc
     protoc-gen-rust
-    teams
+    # teams
     solaar
     logitech-udev-rules
     vagrant
@@ -466,5 +468,6 @@
     dive
     pspp
     w3m
+    xdragon
   ];
 }

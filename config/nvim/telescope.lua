@@ -14,4 +14,4 @@ vim.keymap.set(
 local telescope = require("telescope")
 telescope.load_extension("dap")
 -- telescope.load_extension("session-lens")
-telescope.load_extension("harpoon")
+-- telescope.load_extension("harpoon")
