@@ -7,7 +7,6 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     staging-next.url = "github:NixOS/nixpkgs/staging-next";
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
-    nixpkgs-rocm.url = "github:mustafasegf/nixpkgs/rocm";
 
     # home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.url = "github:nix-community/home-manager";
@@ -27,7 +26,6 @@
     , nixpkgs
     , nixpkgs-unstable
     , nixpkgs-prev
-    , nixpkgs-rocm
     , staging-next
     , nixpkgs-master
       # , mesa-git-src
@@ -63,13 +61,6 @@
         };
       };
 
-      rocm-pkgs = import nixpkgs-rocm {
-        inherit system;
-        config = {
-          allowunfree = true;
-        };
-      };
-
       staging-pkgs = import staging-next {
         inherit system;
         config = {
@@ -96,7 +87,6 @@
       inputs.mpkgs = mpkgs;
       inputs.lib = lib;
       inputs.staging-next = staging-next;
-      inputs.rocm-pkgs = rocm-pkgs;
       # inputs.mesa-git-src = mesa-git-src;
 
       nixosConfigurations = {
@@ -482,20 +472,36 @@
 
               # virtualisation
 
-              virtualisation = {
-                docker.enable = true;
-                virtualbox.host = {
-                  enable = false;
-                  enableExtensionPack = true;
+              virtualisation =
+                {
+                  docker = {
+                    enable = true;
+                    daemon.settings = {
+                      metrics-addr = "127.0.0.1:9323";
+                      default-address-pools = [
+                        {
+                          base = "172.17.0.0/12";
+                          size = 24;
+                        }
+                        {
+                          base = "192.168.0.0/16";
+                          size = 24;
+                        }
+                      ];
+                    };
+                  };
+                  virtualbox.host = {
+                    enable = false;
+                    enableExtensionPack = true;
+                  };
+                  libvirtd = {
+                    enable = true;
+                    onBoot = "ignore";
+                    onShutdown = "shutdown";
+                    qemu.ovmf.enable = true;
+                    qemu.runAsRoot = true;
+                  };
                 };
-                libvirtd = {
-                  enable = true;
-                  onBoot = "ignore";
-                  onShutdown = "shutdown";
-                  qemu.ovmf.enable = true;
-                  qemu.runAsRoot = true;
-                };
-              };
 
               # user
 
@@ -505,7 +511,7 @@
               users.users.mustafa = {
                 shell = pkgs.zsh;
                 isNormalUser = true;
-                extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" ];
+                extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" "render" ];
                 openssh.authorizedKeys.keys = [
                   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNEKM6YnhuLcLfy5FkCt+rX1M10vMS00zynI6tsta1s mustafa.segf@gmail.com"
                 ];

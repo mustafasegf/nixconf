@@ -1,7 +1,6 @@
 { ppkgs
 , pkgs
 , upkgs
-, rocm-pkgs
 , staging-pkgs
 , mpkgs
 , ...
@@ -144,7 +143,9 @@
         ps.plotly
         ps.statsmodels
         ps.opencv4
-        # (ps.torchWithRocm.override { })
+        ps.torchWithRocm
+        ps.scikit-image
+        # ps.torchvision
       ])
     )
     poetry
@@ -469,5 +470,8 @@
     pspp
     w3m
     xdragon
+    rocmPackages.rocminfo
+    comma
+    cargo-watch
   ];
 }
