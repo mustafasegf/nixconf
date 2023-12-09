@@ -40,6 +40,7 @@
       twxs.cmake
       vadimcn.vscode-lldb
       vscjava.vscode-java-dependency
+      ocamllabs.ocaml-platform
       (WakaTime.vscode-wakatime.overrideAttrs (old: {
         postPatch = ''
           mkdir wakatime-cli

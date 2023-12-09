@@ -201,7 +201,7 @@ in
     enableAliases = false;
     settings = {
       layout = "grid";
-      blocks = [ "permission" "user" "group" "date" "size" "name" ];
+      blocks = [ "permission" "user" "group" "date" "size" "git" "name" ];
       color.when = "auto";
       date = "+%d %m(%b) %Y %a";
       recursion = {
@@ -228,6 +228,7 @@ in
       init.defaultBranch = "master";
       pull.rebase = false;
       pull.ff = true;
+      # http.postBuffer = "157286400";
     };
   };
 

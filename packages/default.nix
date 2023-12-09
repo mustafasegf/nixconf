@@ -3,8 +3,27 @@
 , upkgs
 , staging-pkgs
 , mpkgs
+, lib
 , ...
-}: {
+}: rec {
+  ollama-rocm = pkgs.ollama.override {
+    llama-cpp = pkgs.llama-cpp.override {
+      rocmSupport = true;
+      openblasSupport = false;
+    };
+  };
+
+  ollama-ocl = pkgs.ollama.override {
+    llama-cpp = pkgs.llama-cpp.override {
+      openclSupport = true;
+      openblasSupport = false;
+    };
+  };
+
+  shellAliases = {
+    ollama-rocm = lib.getExe ollama-rocm;
+    ollama-ocl = lib.getExe ollama-ocl;
+  };
   packages = with pkgs; [
     vim
     neovim
@@ -445,9 +464,6 @@
     libguestfs
     gpm
     scrot
-    (google-chrome-dev.overrideAttrs (old: {
-      commandLineArgs = "--enable-features=Vulkan,UseSkiaRenderer";
-    }))
     bunyan-rs
     cloudflare-warp
     iotop
@@ -473,5 +489,11 @@
     rocmPackages.rocminfo
     comma
     cargo-watch
+    powertop
+    yazi
+    vesktop
+    ollama
+    smartmontools
+    nvme-cli
   ];
 }

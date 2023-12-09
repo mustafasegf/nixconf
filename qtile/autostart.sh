@@ -6,7 +6,8 @@ noisetorch -i &
 thunderbird &
 # slack &
 openrgb -p off
-discord &
+vencorddesktop &
+# discord &
 telegram-desktop &
 # steam -silent &
 recuetime &

@@ -200,7 +200,7 @@
               };
 
               environment.systemPackages = (import ./packages inputs).packages;
-
+              environment.shellAliases = (import ./packages inputs).shellAliases;
               environment.etc."X11/xorg.conf.d/10-tablet.conf".source = pkgs.writeText "10-tablet.conf" ''
                 Section "InputClass"
                 Identifier "Tablet"
@@ -477,7 +477,7 @@
                   docker = {
                     enable = true;
                     daemon.settings = {
-                      metrics-addr = "127.0.0.1:9323";
+                      metrics-addr = "0.0.0.0:9323";
                       default-address-pools = [
                         {
                           base = "172.17.0.0/12";
@@ -502,6 +502,9 @@
                     qemu.runAsRoot = true;
                   };
                 };
+
+              systemd.services.warp-svc.enable = true;
+              systemd.packages = with pkgs; [ cloudflare-warp ];
 
               # user
 
