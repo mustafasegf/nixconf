@@ -15,6 +15,11 @@
     nix-ld.url = "github:Mic92/nix-ld";
     nix-ld.inputs.nixpkgs.follows = "nixpkgs";
 
+    nix-index-database.url = "github:Mic92/nix-index-database";
+    nix-index-database.inputs.nixpkgs.follows = "nixpkgs";
+
+    firefox.url = "github:nix-community/flake-firefox-nightly";
+
     # mesa-git-src = {
     #   url = "github:chaotic-aur/mesa-mirror/23.0";
     #   flake = false;
@@ -28,9 +33,11 @@
     , nixpkgs-prev
     , staging-next
     , nixpkgs-master
+    , firefox
       # , mesa-git-src
     , home-manager
     , nix-ld
+    , nix-index-database
     , ...
     }@inputs:
 
@@ -75,6 +82,13 @@
         };
       };
 
+      # firefoxpkgs = import firefox {
+      #   inherit system;
+      #   config = {
+      #     allowUnfree = true;
+      #   };
+      # };
+
 
       lib = nixpkgs.lib;
     in
@@ -87,6 +101,7 @@
       inputs.mpkgs = mpkgs;
       inputs.lib = lib;
       inputs.staging-next = staging-next;
+      # inputs.firefoxpkgs = firefoxpkgs;
       # inputs.mesa-git-src = mesa-git-src;
 
       nixosConfigurations = {
@@ -98,6 +113,8 @@
             ./qtile/qtile.nix
             ./penrose.nix
             (import ./extra-hardware-configuration.nix (inputs // { inherit (self) hardware; }))
+            nix-index-database.nixosModules.nix-index
+            nix-ld.nixosModules.nix-ld
             ({ config, ... }: {
 
               system.stateVersion = "22.11";
@@ -151,6 +168,7 @@
                   lxqt.styles = with pkgs; [
                     pkgs.libsForQt5.qtstyleplugin-kvantum
                   ];
+                  config.common.default = "*";
                   lxqt.enable = true;
                   extraPortals = with pkgs; [
                     #   xdg-desktop-portal-wlr
@@ -199,7 +217,9 @@
                 GDK_SCALE = "1";
               };
 
-              environment.systemPackages = (import ./packages inputs).packages;
+              environment.systemPackages = (import ./packages inputs).packages 
+              ++ [ firefox.packages.${system}.firefox-nightly-bin ]
+              ;
               environment.shellAliases = (import ./packages inputs).shellAliases;
               environment.etc."X11/xorg.conf.d/10-tablet.conf".source = pkgs.writeText "10-tablet.conf" ''
                 Section "InputClass"
@@ -229,13 +249,22 @@
 
               services.tumbler.enable = true;
               services.gvfs.enable = true;
+              services.flatpak.enable = true;
+
               programs.wireshark.enable = true;
 
 
               programs.noisetorch.enable = true;
               programs.dconf.enable = true;
               programs.zsh.enable = true;
-              programs.nix-ld.enable = true;
+              programs.nix-ld.dev.enable = true;
+
+              environment.extraInit = ''
+                # Do not want this in the environment. NixOS always sets it and does not
+                # provide any option not to, so I must unset it myself via the
+                # environment.extraInit option.
+                unset -v SSH_ASKPASS
+              '';
 
 
               programs.nix-ld.libraries = with pkgs; [
@@ -248,7 +277,15 @@
                 openssl
                 curl
                 expat
+
+                xorg.libXcursor
+                xorg.libXrandr
+                xorg.libXi
+                xorg.libX11
+
               ];
+
+              programs.command-not-found.enable = false;
 
               # security
               security.rtkit.enable = true;
@@ -526,7 +563,6 @@
             {
               home-manager.users.mustafa = (import ./home.nix inputs);
             }
-            nix-ld.nixosModules.nix-ld
           ];
         };
       };
