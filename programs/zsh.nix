@@ -14,7 +14,7 @@
     defaultKeymap = "viins";
     envExtra =
       # let RUSTC_VERSION = pkgs.lib.strings.removeSuffix "\n" pkgs.lib.readFile ./rust-toolchain;
-      let RUSTC_VERSION = "stable";
+      let RUSTC_VERSION = "nightly";
       in
       ''
         #XDG 
