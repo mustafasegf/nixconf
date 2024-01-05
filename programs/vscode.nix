@@ -64,8 +64,8 @@
       {
         publisher = "GitHub";
         name = "copilot-chat";
-        version = "0.8.2023090801";
-        sha256 = "sha256-Ra1ofK2nyRNcyOzk2XNjjtdgZujjYbBSNzENtQi8hnI=";
+        version = "0.11.2023111001";
+        sha256 = "sha256-sBDvqqyq0R0ZyS81G61fI9Vd860RIjhNzCqY0bdz1mg=";
       }
     ];
 
