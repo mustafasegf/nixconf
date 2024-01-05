@@ -239,16 +239,30 @@
         playground
         {
           plugin = (nvim-treesitter.withPlugins (_: nvim-treesitter.allGrammars ++ [
-            (pkgs.tree-sitter.buildGrammar {
-              language = "wgsl";
-              version = "40259f3";
-              src = pkgs.fetchFromGitHub {
-                owner = "szebniok";
-                repo = "tree-sitter-wgsl";
-                rev = "40259f3c77ea856841a4e0c4c807705f3e4a2b65";
-                sha256 = "sha256-voLkcJ/062hzipb3Ak/mgQvFbrLUJdnXq1IupzjMJXA=";
-              };
-            })
+            nvim-treesitter-parsers.wgsl
+            nvim-treesitter-parsers.astro
+
+            # (pkgs.tree-sitter.buildGrammar
+            #   {
+            #     language = "wgsl";
+            #     version = "40259f3";
+            #     src = pkgs.fetchFromGitHub {
+            #       owner = "szebniok";
+            #       repo = "tree-sitter-wgsl";
+            #       rev = "40259f3c77ea856841a4e0c4c807705f3e4a2b65";
+            #       sha256 = "sha256-voLkcJ/062hzipb3Ak/mgQvFbrLUJdnXq1IupzjMJXA=";
+            #     };
+            #   })
+            # (pkgs.tree-sitter.buildGrammar {
+            #   language = "astro";
+            #   version = "e122a8f";
+            #   src = pkgs.fetchFromGitHub {
+            #     owner = "virchau13";
+            #     repo = "tree-sitter-astro";
+            #     rev = "e122a8fcd07e808a7b873bfadc2667834067daf1";
+            #     sha256 = "sha256-iCVRTX2fMW1g40rHcJEwwE+tfwun+reIaj5y4AFgmKk=";
+            #   };
+            # })
           ]
           ));
           type = "lua";
