@@ -4,27 +4,30 @@
 , staging-pkgs
 , mpkgs
 , lib
+# , firefoxpkgs
 , ...
 }: rec {
-  ollama-rocm = pkgs.ollama.override {
-    llama-cpp = pkgs.llama-cpp.override {
-      rocmSupport = true;
-      openblasSupport = false;
-    };
-  };
-
-  ollama-ocl = pkgs.ollama.override {
-    llama-cpp = pkgs.llama-cpp.override {
-      openclSupport = true;
-      openblasSupport = false;
-    };
-  };
+  # ollama-rocm = pkgs.ollama.override {
+  #   llama-cpp = pkgs.llama-cpp.override {
+  #     rocmSupport = true;
+  #     openblasSupport = false;
+  #   };
+  # };
+  #
+  # ollama-ocl = pkgs.ollama.override {
+  #   llama-cpp = pkgs.llama-cpp.override {
+  #     openclSupport = true;
+  #     openblasSupport = false;
+  #   };
+  # };
 
   shellAliases = {
-    ollama-rocm = lib.getExe ollama-rocm;
-    ollama-ocl = lib.getExe ollama-ocl;
+    # ollama-rocm = lib.getExe ollama-rocm;
+    # ollama-ocl = lib.getExe ollama-ocl;
+    steam-nix = lib.getExe pkgs.steam;
   };
   packages = with pkgs; [
+    # ollama
     vim
     neovim
     wget
@@ -164,6 +167,8 @@
         ps.opencv4
         ps.torchWithRocm
         ps.scikit-image
+        ps.imbalanced-learn
+        ps.optuna
         # ps.torchvision
       ])
     )
@@ -225,6 +230,8 @@
     ##jdtls
     nodePackages.svelte-language-server
     nodePackages.grammarly-languageserver
+    nodePackages."@astrojs/language-server"
+    emmet-ls
     ##astro
     ##prisma
 
@@ -278,7 +285,7 @@
     air
     most
     ripgrep
-    steam
+    # steam
     rescuetime
     tailscale
     libsecret
@@ -315,7 +322,7 @@
     libreoffice
     gcc
     gdb
-    gnome.gedit
+    gedit
     libsForQt5.kate
     screenkey
     k6
@@ -492,8 +499,17 @@
     powertop
     yazi
     vesktop
-    ollama
     smartmontools
     nvme-cli
+    chntpw
+    cargo-zigbuild
+    libarchive
+    rpi-imager
+    nix-index
+    distrobox
+    tree
+    termscp
+    quick-lint-js
+    # firefoxpkgs.firefox-nightly-bin
   ];
 }
