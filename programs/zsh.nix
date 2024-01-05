@@ -228,6 +228,9 @@
       '';
 
     initExtraFirst = ''
+      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
+      unset -v SSH_ASKPASS
+
       # tmux auto start config
       # change this
       ZSH_TMUX_AUTOSTART=true
