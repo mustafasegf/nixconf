@@ -176,6 +176,7 @@ local servers = {
 	"ocamllsp",
 	-- "grammarly",
 	"wgsl_analyzer",
+	"quick_lint_js",
 }
 
 for _, server in ipairs(servers) do
