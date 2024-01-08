@@ -4,7 +4,7 @@
 , staging-pkgs
 , mpkgs
 , lib
-# , firefoxpkgs
+  # , firefoxpkgs
 , ...
 }: rec {
   # ollama-rocm = pkgs.ollama.override {
@@ -89,7 +89,32 @@
     radeontop
     scrcpy
     speedtest-cli
-    trashy
+    # trashy
+    (
+      pkgs.rustPlatform.buildRustPackage rec {
+        pname = "trashy";
+        version = "c95b22";
+
+        src = fetchFromGitHub {
+          owner = "oberblastmeister";
+          repo = "trashy";
+          rev = "c95b22c0522f616b8700821540a1e58edcf709eb";
+          hash = "sha256-O4r/bfK33hJ6w7+p+8uqEdREGUhcaEg+Zjh/T7Bm6sY=";
+        };
+
+        cargoHash = "sha256-5BaYjUbPjmjauxlFP0GvT5mFMyrg7Bx7tTcAgQkyQBw=";
+
+        nativeBuildInputs = [ installShellFiles ];
+
+        preFixup = ''
+          installShellCompletion --cmd trash \
+            --bash <($out/bin/trash completions bash) \
+            --fish <($out/bin/trash completions fish) \
+            --zsh <($out/bin/trash completions zsh) \
+        '';
+
+      }
+    )
     wine
     wine64
     winetricks

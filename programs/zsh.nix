@@ -314,7 +314,7 @@
     '';
     shellAliases = {
       # update = "sudo nixos-rebuild switch";
-      rm = "trash";
+      rm = "trash put";
       cat = "bat";
       grep = "rg";
       c = "clear";
