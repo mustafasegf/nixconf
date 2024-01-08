@@ -217,8 +217,8 @@
                 GDK_SCALE = "1";
               };
 
-              environment.systemPackages = (import ./packages inputs).packages 
-              ++ [ firefox.packages.${system}.firefox-nightly-bin ]
+              environment.systemPackages = (import ./packages inputs).packages
+                ++ [ firefox.packages.${system}.firefox-nightly-bin ]
               ;
               environment.shellAliases = (import ./packages inputs).shellAliases;
               environment.etc."X11/xorg.conf.d/10-tablet.conf".source = pkgs.writeText "10-tablet.conf" ''
@@ -483,24 +483,22 @@
                   in
                   [ env ];
 
-                preStart =
-                  ''
-                    mkdir -p /var/lib/libvirt/hooks
-                    mkdir -p /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin
-                    mkdir -p /var/lib/libvirt/hooks/qemu.d/win10/release/end
-                    mkdir -p /var/lib/libvirt/vgabios
-      
-                    ln -sf /home/mustafa/.config/qemu/qemu /var/lib/libvirt/hooks/qemu
-                    ln -sf /home/mustafa/.config/qemu/kvm.conf /var/lib/libvirt/hooks/kvm.conf
-                    ln -sf /home/mustafa/.config/qemu/start.sh /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin/start.sh
-                    ln -sf /home/mustafa/.config/qemu/stop.sh /var/lib/libvirt/hooks/qemu.d/win10/release/end/stop.sh
-                    # ln -sf /home/mustafa/.config/qemu/patched.rom /var/lib/libvirt/vgabios/patched.rom
-      
-                    chmod +x /var/lib/libvirt/hooks/qemu
-                    chmod +x /var/lib/libvirt/hooks/kvm.conf
-                    chmod +x /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin/start.sh
-                    chmod +x /var/lib/libvirt/hooks/qemu.d/win10/release/end/stop.sh
-                  '';
+                # preStart =
+                #   ''
+                #     mkdir -p /var/lib/libvirt/hooks
+                #     mkdir -p /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin
+                #     mkdir -p /var/lib/libvirt/hooks/qemu.d/win10/release/end
+                #     mkdir -p /var/lib/libvirt/vgabios
+                #     ln -sf /home/mustafa/.config/qemu/qemu /var/lib/libvirt/hooks/qemu
+                #     ln -sf /home/mustafa/.config/qemu/kvm.conf /var/lib/libvirt/hooks/kvm.conf
+                #     ln -sf /home/mustafa/.config/qemu/start.sh /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin/start.sh
+                #     ln -sf /home/mustafa/.config/qemu/stop.sh /var/lib/libvirt/hooks/qemu.d/win10/release/end/stop.sh
+                #     # ln -sf /home/mustafa/.config/qemu/patched.rom /var/lib/libvirt/vgabios/patched.rom
+                #     chmod +x /var/lib/libvirt/hooks/qemu
+                #     chmod +x /var/lib/libvirt/hooks/kvm.conf
+                #     chmod +x /var/lib/libvirt/hooks/qemu.d/win10/prepare/begin/start.sh
+                #     chmod +x /var/lib/libvirt/hooks/qemu.d/win10/release/end/stop.sh
+                #   '';
               };
 
               # documentation
