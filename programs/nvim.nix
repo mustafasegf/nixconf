@@ -67,6 +67,8 @@
         lspkind-nvim
         null-ls-nvim
         markdown-preview-nvim
+        nvim-jdtls
+
         {
           plugin = (pluginGit "lvimuser" "lsp-inlayhints.nvim" "master" "0fx0swsagjdng9m9x73wkfqnk464qk63q9wi32rhywllbm7gsflf");
           type = "lua";
@@ -88,6 +90,9 @@
         dressing-nvim
         rust-tools-nvim
         nvim-notify
+        vim-android
+        neoconf-nvim
+
 
         #file tree
         {
@@ -229,12 +234,34 @@
         plenary-nvim
         registers-nvim
         suda-vim
+        nui-nvim
+        {
+          plugin = (pluginGit "amitds1997" "remote-nvim.nvim" "main" "yU9eqb4YSSnJ/tgsqq/P/LQBz/yJCwbQJhPoqYBOlaY=");
+          type = "lua";
+          config = ''require("remote-nvim").setup()'';
+        }
         {
           plugin = harpoon;
           type = "lua";
           config = builtins.readFile ../config/nvim/harpoon.lua;
         }
         vim-sneak
+        {
+          plugin = nvim-config-local;
+          type = "lua";
+          config = builtins.readFile ../config/nvim/local.lua;
+        }
+
+        {
+          plugin = (pluginGit "VonHeikemen" "fine-cmdline.nvim" "main" "w9wwjClkOWk3wCgEiZIFLZRJ/gAfX38x2LnVRaelKD8=");
+          type = "lua";
+          config = "vim.api.nvim_set_keymap('n', ':', '<cmd>FineCmdline<CR>', {noremap = true})";
+        }
+        {
+          plugin = (pluginGit "marilari88" "twoslash-queries.nvim" "main" "QlzfWZg8v0N19SmwPquWjCc/nsWAeOLeri5iMXOIueA=");
+          type = "lua";
+          config = "vim.api.nvim_set_keymap('n', ':', '<cmd>FineCmdline<CR>', {noremap = true})";
+        }
 
         playground
         {

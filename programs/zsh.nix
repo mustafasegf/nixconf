@@ -310,6 +310,9 @@
       function tmem () {
         smem -t -k -c pss -P "$@"
       }
+      function gi() { 
+        curl -sLw \"\\\n\" https://www.toptal.com/developers/gitignore/api/\$@ 
+      }
 
     '';
     shellAliases = {
@@ -331,7 +334,7 @@
       wget = ''wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'';
       xbindkeys = ''xbindkeys -f "$XDG_CONFIG_HOME"/xbindkeys/config'';
 
-      mans = '' man -k  . | cut -d " " -f 1 | fzf -m --preview "man {1}" '';
+      mans = '' man -k  . | cut -d " " -f 1 | fzf -m --preview "man {1}" | xargs man '';
       m = "make";
       v = "nvim";
       ".." = "cd ..";

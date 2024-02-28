@@ -50,6 +50,7 @@
   # still possible to use this option, but it's recommended to use it in conjunction
   # with explicit per-interface declarations with `networking.interfaces.<interface>.useDHCP`.
   networking.useDHCP = lib.mkDefault true;
+  networking.interfaces.enp10s0.wakeOnLan.enable = true;
   # networking.interfaces.br-320b4711a30e.useDHCP = lib.mkDefault true;
   # networking.interfaces.docker0.useDHCP = lib.mkDefault true;
   # networking.interfaces.enp10s0.useDHCP = lib.mkDefault true;

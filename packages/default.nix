@@ -24,8 +24,10 @@
   shellAliases = {
     # ollama-rocm = lib.getExe ollama-rocm;
     # ollama-ocl = lib.getExe ollama-ocl;
-    steam-nix = lib.getExe pkgs.steam;
+    # steam-nix = lib.getExe pkgs.steam;
   };
+  # mpkgs.config.allowUnfree = true;
+
   packages = with pkgs; [
     # ollama
     vim
@@ -221,6 +223,7 @@
     home-manager
     openrgb
     discord
+    discord-ptb
     killall
     libnotify
     noisetorch
@@ -252,7 +255,7 @@
     taplo
     nodePackages.graphql-language-service-cli
     sqls
-    ##jdtls
+    jdt-language-server
     nodePackages.svelte-language-server
     nodePackages.grammarly-languageserver
     nodePackages."@astrojs/language-server"
@@ -310,7 +313,7 @@
     air
     most
     ripgrep
-    # steam
+    steam
     rescuetime
     tailscale
     libsecret
@@ -329,7 +332,7 @@
     zlib.out
     xorriso
     grub2
-    qemu
+    # mpkgs.qemu
     llvmPackages_latest.lld
     SDL2
     SDL2_ttf
@@ -343,7 +346,7 @@
     minecraft
     virtualbox
     virt-manager
-    qemu_full
+    mpkgs.qemu_full
     libreoffice
     gcc
     gdb
@@ -360,7 +363,7 @@
     glade
     man-pages
     man-pages-posix
-    upkgs.soundux
+    # upkgs.soundux
     fwupd
     gnome.seahorse
     xorg.xkbcomp
@@ -503,6 +506,7 @@
     deno
     bun
     ghc
+    cabal-install
     winbox
     libcamera
     pandoc
@@ -524,6 +528,9 @@
     powertop
     yazi
     vesktop
+    # (vesktop.override {
+    #   electron = pkgs.electron_25;
+    # })
     smartmontools
     nvme-cli
     chntpw
@@ -535,6 +542,20 @@
     tree
     termscp
     quick-lint-js
-    # firefoxpkgs.firefox-nightly-bin
+    renderdoc
+    maven
+    bottles
+    godot3
+    godot_4
+    onedrive
+    zig
+    swiProlog
+    inetutils
+    wol
+    subversionClient
+    hexyl
+    bitwarden
+    bitwarden-cli
+    mpkgs.android-studio
   ];
 }

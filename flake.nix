@@ -244,6 +244,7 @@
               services.tailscale.enable = true;
               services.printing.enable = true;
 
+
               services.blueman.enable = true;
               services.picom.enable = false;
 
@@ -258,6 +259,8 @@
               programs.dconf.enable = true;
               programs.zsh.enable = true;
               programs.nix-ld.dev.enable = true;
+
+              programs.adb.enable = true;
 
               environment.extraInit = ''
                 # Do not want this in the environment. NixOS always sets it and does not
@@ -291,6 +294,23 @@
               security.rtkit.enable = true;
               security.sudo.configFile = ''
                 mustafa ALL = NOPASSWD: /sbin/halt, /sbin/reboot, /sbin/poweroff
+              '';
+
+              security.polkit.extraConfig = ''
+                polkit.addRule(function(action, subject) {
+                  if (
+                    subject.isInGroup("users")
+                      && (
+                        action.id == "org.freedesktop.login1.reboot" ||
+                        action.id == "org.freedesktop.login1.reboot-multiple-sessions" ||
+                        action.id == "org.freedesktop.login1.power-off" ||
+                        action.id == "org.freedesktop.login1.power-off-multiple-sessions"
+                      )
+                    )
+                  {
+                    return polkit.Result.YES;
+                  }
+                })
               '';
 
               services.gnome.gnome-keyring.enable = true;
@@ -349,7 +369,7 @@
                   };
 
                   penrose = {
-                    enable = true;
+                    enable = false;
                     path = ''/home/mustafa/project/penrose-wm/target/release/penrose-wm'';
                   };
 
@@ -357,8 +377,8 @@
                     enable = false;
                     extraPackages = with pkgs; [
                       i3status # gives you the default i3 status bar
-                      i3lock #default i3 screen locker
                       i3blocks #if you are planning on using i3blocks over i3status
+                      i3lock #default i3 screen locker
                     ];
                   };
 
@@ -419,9 +439,26 @@
 
               # Enable xrdp
               services.xrdp.enable = true; # use remote_logout and remote_unlock
-              services.xrdp.defaultWindowManager = "qtile";
+              services.xrdp.defaultWindowManager = "{ppkgs.qtile}/bin/qtile -b start x11";
+              services.xrdp.openFirewall = true;
+
               systemd.services.pcscd.enable = false;
               systemd.sockets.pcscd.enable = false;
+              systemd = {
+                user.services.polkit-gnome-authentication-agent-1 = {
+                  description = "polkit-gnome-authentication-agent-1";
+                  wantedBy = [ "graphical-session.target" ];
+                  wants = [ "graphical-session.target" ];
+                  after = [ "graphical-session.target" ];
+                  serviceConfig = {
+                    Type = "simple";
+                    ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+                    Restart = "on-failure";
+                    RestartSec = 1;
+                    TimeoutStopSec = 10;
+                  };
+                };
+              };
 
               systemd.services.tailscale-autoconnect = {
                 description = "Automatic connection to Tailscale";
@@ -549,7 +586,7 @@
               users.users.mustafa = {
                 shell = pkgs.zsh;
                 isNormalUser = true;
-                extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" "render" ];
+                extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" "render" "adbusers" ];
                 openssh.authorizedKeys.keys = [
                   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNEKM6YnhuLcLfy5FkCt+rX1M10vMS00zynI6tsta1s mustafa.segf@gmail.com"
                 ];

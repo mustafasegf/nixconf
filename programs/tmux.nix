@@ -23,15 +23,15 @@
         plugin = continuum;
         extraConfig = ''
           set -g @continuum-restore 'off'
-          set -g @continuum-save-interval '60' # minutes
+          set -g @continuum-save-interval '5' # minutes
         '';
       }
       {
         plugin = open;
       }
-      {
-        plugin = sidebar;
-      }
+      # {
+      #   plugin = sidebar;
+      # }
       {
         plugin = yank;
         extraConfig = ''
@@ -43,9 +43,6 @@
         plugin = copycat;
 
       }
-      # {
-      #   plugin = sensible;
-      # }
       {
         plugin = logging;
       }
