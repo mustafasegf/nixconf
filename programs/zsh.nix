@@ -292,9 +292,9 @@
       function gpob (){gpo "$(git symbolic-ref --short HEAD)"}
       function gpub (){gpu "$(git symbolic-ref --short HEAD)"}
 
-      function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ ;}
+      function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ }
       
-      function gil() { gi list | tr , '\n' | fzf --multi | xargs echo | tr ' ' , | xargs -I {} curl -sLw "\n" 'https://www.toptal.com/developers/gitignore/api/{}' }
+      function gil() { gi list | tr , '\n' | fzf --multi | xargs echo | tr ' ' , | xargs -I {} curl -sLw "\n" 'https://www.toptal.com/developers/gitignore/api/{}' | tee .gitignore }
 
       # Nix
       function update() {
