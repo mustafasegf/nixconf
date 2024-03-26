@@ -20,6 +20,7 @@
       formulahendry.code-runner
       prisma.prisma
       github.copilot
+      github.copilot-chat
       graphql.vscode-graphql
       irongeek.vscode-env
       mechatroner.rainbow-csv
@@ -40,6 +41,7 @@
       twxs.cmake
       vadimcn.vscode-lldb
       vscjava.vscode-java-dependency
+      redhat.java
       ocamllabs.ocaml-platform
       (WakaTime.vscode-wakatime.overrideAttrs (old: {
         postPatch = ''
@@ -61,12 +63,12 @@
         version = "1.17.2";
         sha256 = "sha256-p3SKu9FbtuP6in2dSsr5a0aB5W+YNQ0kMgMJoDYrhcU=";
       }
-      {
-        publisher = "GitHub";
-        name = "copilot-chat";
-        version = "0.11.2023111001";
-        sha256 = "sha256-sBDvqqyq0R0ZyS81G61fI9Vd860RIjhNzCqY0bdz1mg=";
-      }
+      # {
+      #   publisher = "GitHub";
+      #   name = "copilot-chat";
+      #   version = "0.11.2023111001";
+      #   sha256 = "sha256-sBDvqqyq0R0ZyS81G61fI9Vd860RIjhNzCqY0bdz1mg=";
+      # }
     ];
 
     userSettings = {

@@ -2,7 +2,7 @@
   description = "My NixOS Flake Configuration";
   inputs = {
     # nixpkgs.url = "github:NixOS/nixpkgs/aa1d74709f5dac623adb4d48fdfb27cc2c92a4d4";
-    nixpkgs-prev.url = "github:NixOS/nixpkgs/release-23.05";
+    nixpkgs-prev.url = "github:NixOS/nixpkgs/release-23.11";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     staging-next.url = "github:NixOS/nixpkgs/staging-next";
@@ -49,8 +49,8 @@
           allowUnfree = true;
           permittedInsecurePackages = [
             "python-2.7.18.6"
+            "nix-2.16.2"
           ];
-
         };
       };
 
@@ -162,6 +162,7 @@
               };
 
               xdg = {
+                mime.enable = true;
                 portal = {
                   enable = true;
                   xdgOpenUsePortal = true;
@@ -196,6 +197,7 @@
                 keep-outputs = true;
                 keep-derivations = true;
                 experimental-features = [ "nix-command" "flakes" ];
+                substituters = [ "https://cache.komunix.org/" ];
               };
 
               # environment
@@ -253,6 +255,13 @@
               services.flatpak.enable = true;
 
               programs.wireshark.enable = true;
+
+              programs.thunar.enable = true;
+              programs.thunar.plugins = with pkgs.xfce; [
+                thunar-volman
+                thunar-archive-plugin
+                thunar-media-tags-plugin
+              ];
 
 
               programs.noisetorch.enable = true;
@@ -548,6 +557,9 @@
                 {
                   docker = {
                     enable = true;
+                    # package = (ppkgs.docker.override {
+                    #   # docker-compose = ppkgs.docker-compose;
+                    # });
                     daemon.settings = {
                       metrics-addr = "0.0.0.0:9323";
                       default-address-pools = [

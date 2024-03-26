@@ -196,6 +196,8 @@
         ps.scikit-image
         ps.imbalanced-learn
         ps.optuna
+        ps.onnxruntime
+        ps.pillow
         # ps.torchvision
       ])
     )
@@ -257,7 +259,7 @@
     sqls
     jdt-language-server
     nodePackages.svelte-language-server
-    nodePackages.grammarly-languageserver
+    # nodePackages.grammarly-languageserver
     nodePackages."@astrojs/language-server"
     emmet-ls
     ##astro
@@ -298,10 +300,9 @@
     nodePackages.bash-language-server
 
     kdeconnect
-    rnix-lsp
-    xfce.thunar
-    xfce.thunar-volman
-    xfce.thunar-archive-plugin
+    # xfce.thunar
+    # xfce.thunar-volman
+    # xfce.thunar-archive-plugin
     xfce.tumbler
     gvfs
     udisks
@@ -430,7 +431,7 @@
     microsoft-edge
     prefetch-npm-deps
     go-swag
-    ciscoPacketTracer8
+    # ciscoPacketTracer8
     gns3-gui
     gns3-server
     xdg-user-dirs
@@ -478,7 +479,7 @@
     pomodoro
     prismlauncher
     calibre
-    gimp-with-plugins
+    ppkgs.gimp-with-plugins
     mediainfo
     rust-script
     djvu2pdf
@@ -557,5 +558,16 @@
     bitwarden
     bitwarden-cli
     mpkgs.android-studio
+    waifu2x-converter-cpp
+    codux
+    mpkgs.gleam
+    sidequest
+    revanced-cli
+    toilet
+    bacon
+    nixd
+    evcxr
+    deskreen
+    ghostscript
   ];
 }
