@@ -7,6 +7,7 @@
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
     staging-next.url = "github:NixOS/nixpkgs/staging-next";
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
+    # nixpkgs-master.url = "git+ssh://git@github.com/NixOS/nixpkgs.git";
 
     # home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.url = "github:nix-community/home-manager";
@@ -26,37 +27,26 @@
     # };
   };
 
-  outputs =
-    { self
-    , nixpkgs
-    , nixpkgs-unstable
-    , nixpkgs-prev
-    , staging-next
-    , nixpkgs-master
-    , firefox
-      # , mesa-git-src
-    , home-manager
-    , nix-ld
-    , nix-index-database
-    , ...
-    }@inputs:
+  outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-prev, staging-next
+    , nixpkgs-master, firefox
+    # , mesa-git-src
+    , home-manager, nix-ld, nix-index-database, ... }@inputs:
 
     let
       system = "x86_64-linux";
       pkgs = import nixpkgs {
         inherit system;
         config = {
+          rocmSupport = true;
           allowUnfree = true;
-          permittedInsecurePackages = [
-            "python-2.7.18.6"
-            "nix-2.16.2"
-          ];
+          permittedInsecurePackages = [ "python-2.7.18.6" "nix-2.16.2" ];
         };
       };
 
       upkgs = import nixpkgs-unstable {
         inherit system;
         config = {
+          rocmSupport = true;
           allowunfree = true;
         };
       };
@@ -64,6 +54,7 @@
       ppkgs = import nixpkgs-prev {
         inherit system;
         config = {
+          rocmSupport = true;
           allowunfree = true;
         };
       };
@@ -71,6 +62,7 @@
       staging-pkgs = import staging-next {
         inherit system;
         config = {
+          rocmSupport = true;
           allowunfree = true;
         };
       };
@@ -78,6 +70,7 @@
       mpkgs = import nixpkgs-master {
         inherit system;
         config = {
+          rocmSupport = true;
           allowunfree = true;
         };
       };
@@ -89,11 +82,8 @@
       #   };
       # };
 
-
       lib = nixpkgs.lib;
-    in
-    rec
-    {
+    in rec {
       inputs.pkgs = pkgs;
       inputs.upkgs = upkgs;
       inputs.ppkgs = ppkgs;
@@ -112,7 +102,8 @@
             ./hardware-configuration.nix
             ./qtile/qtile.nix
             ./penrose.nix
-            (import ./extra-hardware-configuration.nix (inputs // { inherit (self) hardware; }))
+            (import ./extra-hardware-configuration.nix
+              (inputs // { inherit (self) hardware; }))
             nix-index-database.nixosModules.nix-index
             nix-ld.nixosModules.nix-ld
             ({ config, ... }: {
@@ -166,29 +157,27 @@
                 portal = {
                   enable = true;
                   xdgOpenUsePortal = true;
-                  lxqt.styles = with pkgs; [
-                    pkgs.libsForQt5.qtstyleplugin-kvantum
-                  ];
+                  lxqt.styles = with pkgs;
+                    [ pkgs.libsForQt5.qtstyleplugin-kvantum ];
                   config.common.default = "*";
                   lxqt.enable = true;
-                  extraPortals = with pkgs; [
-                    #   xdg-desktop-portal-wlr
-                    xdg-desktop-portal-gtk
-                    #   xdg-desktop-portal
-                    #   # xdg-desktop-portal-gnome
-                    # libsForQt5.xdg-desktop-portal-kde
-                    #   lxqt.xdg-desktop-portal-lxqt
-                  ];
+                  extraPortals = with pkgs;
+                    [
+                      #   xdg-desktop-portal-wlr
+                      xdg-desktop-portal-gtk
+                      #   xdg-desktop-portal
+                      #   # xdg-desktop-portal-gnome
+                      # libsForQt5.xdg-desktop-portal-kde
+                      #   lxqt.xdg-desktop-portal-lxqt
+                    ];
                 };
               };
-
 
               # nixpkgs
               nixpkgs.overlays = [
                 (self: super: {
-                  nix-direnv = super.nix-direnv.override {
-                    enableFlakes = true;
-                  };
+                  nix-direnv =
+                    super.nix-direnv.override { enableFlakes = true; };
                 })
               ];
 
@@ -197,13 +186,13 @@
                 keep-outputs = true;
                 keep-derivations = true;
                 experimental-features = [ "nix-command" "flakes" ];
-                substituters = [ "https://cache.komunix.org/" ];
+                # substituters = [ "https://cache.komunix.org/" ];
+                substituters = lib.mkForce [ "https://cache.nixos.org" ];
+                fallback = true;
               };
 
               # environment
-              environment.pathsToLink = [
-                "/share/nix-direnv"
-              ];
+              environment.pathsToLink = [ "/share/nix-direnv" ];
 
               environment.variables = {
                 SUDO_EDITOR = "nvim";
@@ -220,32 +209,33 @@
               };
 
               environment.systemPackages = (import ./packages inputs).packages
-                ++ [ firefox.packages.${system}.firefox-nightly-bin ]
-              ;
-              environment.shellAliases = (import ./packages inputs).shellAliases;
-              environment.etc."X11/xorg.conf.d/10-tablet.conf".source = pkgs.writeText "10-tablet.conf" ''
-                Section "InputClass"
-                Identifier "Tablet"
-                Driver "wacom"
-                MatchDevicePath "/dev/input/event*"
-                MatchUSBID "256c:006d"
-                EndSection
-              '';
-
+                ++ [ firefox.packages.${system}.firefox-nightly-bin ];
+              environment.shellAliases =
+                (import ./packages inputs).shellAliases;
+              environment.etc."X11/xorg.conf.d/10-tablet.conf".source =
+                pkgs.writeText "10-tablet.conf" ''
+                  Section "InputClass"
+                  Identifier "Tablet"
+                  Driver "wacom"
+                  MatchDevicePath "/dev/input/event*"
+                  MatchUSBID "256c:006d"
+                  EndSection
+                '';
 
               # services        
-              services.dbus.packages = with pkgs; [ dconf gnome3.gnome-keyring ];
+              services.dbus.packages = with pkgs; [
+                dconf
+                gnome3.gnome-keyring
+              ];
 
               services.hardware.openrgb = {
                 enable = true;
                 motherboard = "amd";
               };
 
-
               services.udisks2.enable = true;
               services.tailscale.enable = true;
               services.printing.enable = true;
-
 
               services.blueman.enable = true;
               services.picom.enable = false;
@@ -263,13 +253,13 @@
                 thunar-media-tags-plugin
               ];
 
-
               programs.noisetorch.enable = true;
               programs.dconf.enable = true;
               programs.zsh.enable = true;
               programs.nix-ld.dev.enable = true;
 
               programs.adb.enable = true;
+              # programs.openvpn3.enable = true;
 
               environment.extraInit = ''
                 # Do not want this in the environment. NixOS always sets it and does not
@@ -277,7 +267,6 @@
                 # environment.extraInit option.
                 unset -v SSH_ASKPASS
               '';
-
 
               programs.nix-ld.libraries = with pkgs; [
                 stdenv.cc.cc
@@ -329,6 +318,12 @@
               #   enable = true;
               # };
 
+              services.openvpn.servers = {
+                uihpc = {
+                  config = "config /home/mustafa/openvpn/hpc12.ovpn ";
+                };
+              };
+
               services.xserver = {
                 enable = true;
                 digimend.enable = true;
@@ -344,27 +339,25 @@
                     enable = true;
                     greeter.enable = true;
                   };
-                  sessionCommands =
-                    let
-                      functionkey = pkgs.writeText "xkb-layout" ''
-                        keycode 191 = F13 F13 F13
-                        keycode 192 = F14 F14 F14
-                        keycode 193 = F15 F15 F15
-                        keycode 194 = F16 F16 F16
-                        keycode 195 = F17 F17 F17
-                        keycode 196 = F18 F18 F18
-                        keycode 197 = F19 F19 F19
-                        keycode 198 = F20 F20 F20
-                        keycode 199 = F21 F21 F21
-                        keycode 200 = F22 F22 F22
-                        keycode 201 = F23 F23 F23
-                        keycode 202 = F24 F24 F24
-                      '';
-                    in
-                    ''
-                      sleep 5 && ${pkgs.xorg.xmodmap}/bin/xmodmap ${functionkey}
-                      # gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh
+                  sessionCommands = let
+                    functionkey = pkgs.writeText "xkb-layout" ''
+                      keycode 191 = F13 F13 F13
+                      keycode 192 = F14 F14 F14
+                      keycode 193 = F15 F15 F15
+                      keycode 194 = F16 F16 F16
+                      keycode 195 = F17 F17 F17
+                      keycode 196 = F18 F18 F18
+                      keycode 197 = F19 F19 F19
+                      keycode 198 = F20 F20 F20
+                      keycode 199 = F21 F21 F21
+                      keycode 200 = F22 F22 F22
+                      keycode 201 = F23 F23 F23
+                      keycode 202 = F24 F24 F24
                     '';
+                  in ''
+                    sleep 5 && ${pkgs.xorg.xmodmap}/bin/xmodmap ${functionkey}
+                    # gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh
+                  '';
 
                 };
 
@@ -372,22 +365,24 @@
                   qtile = {
                     enable = true;
                     package = ppkgs.qtile;
-                    extraSessionCommands = "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
+                    extraSessionCommands =
+                      "gnome-keyring-daemon --start -d --components=pkcs11,secrets,ssh";
                     backend = "x11";
                     # configFile = ./qtile/config.py;
                   };
 
                   penrose = {
                     enable = false;
-                    path = ''/home/mustafa/project/penrose-wm/target/release/penrose-wm'';
+                    path =
+                      "/home/mustafa/project/penrose-wm/target/release/penrose-wm";
                   };
 
                   i3 = {
                     enable = false;
                     extraPackages = with pkgs; [
                       i3status # gives you the default i3 status bar
-                      i3blocks #if you are planning on using i3blocks over i3status
-                      i3lock #default i3 screen locker
+                      i3blocks # if you are planning on using i3blocks over i3status
+                      i3lock # default i3 screen locker
                     ];
                   };
 
@@ -445,10 +440,14 @@
 
               systemd.services.NetworkManager-wait-online.enable = false;
 
+              systemd.tmpfiles.rules = [
+                "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+              ];
 
               # Enable xrdp
               services.xrdp.enable = true; # use remote_logout and remote_unlock
-              services.xrdp.defaultWindowManager = "{ppkgs.qtile}/bin/qtile -b start x11";
+              services.xrdp.defaultWindowManager =
+                "{ppkgs.qtile}/bin/qtile -b start x11";
               services.xrdp.openFirewall = true;
 
               systemd.services.pcscd.enable = false;
@@ -461,7 +460,8 @@
                   after = [ "graphical-session.target" ];
                   serviceConfig = {
                     Type = "simple";
-                    ExecStart = "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
+                    ExecStart =
+                      "${pkgs.polkit_gnome}/libexec/polkit-gnome-authentication-agent-1";
                     Restart = "on-failure";
                     RestartSec = 1;
                     TimeoutStopSec = 10;
@@ -498,36 +498,36 @@
 
               systemd.services."libvirt-nosleep@" = {
                 enable = true;
-                description = ''Preventing sleep while libvirt domain "%i" is running'';
+                description =
+                  ''Preventing sleep while libvirt domain "%i" is running'';
 
                 serviceConfig = {
                   Type = "simple";
-                  ExecStart = ''${pkgs.systemd}/bin/systemd-inhibit --what=sleep --why=" Libvirt domain \"%i\" is running" --who=%U --mode=block sleep infinity'';
+                  ExecStart = ''
+                    ${pkgs.systemd}/bin/systemd-inhibit --what=sleep --why=" Libvirt domain \"%i\" is running" --who=%U --mode=block sleep infinity'';
 
                 };
               };
 
               systemd.services.libvirtd = {
                 enable = true;
-                path =
-                  let
-                    env = pkgs.buildEnv {
-                      name = "qemu-hook-env";
-                      paths = with pkgs; [
-                        bash
-                        libvirt
-                        kmod
-                        systemd
-                        ripgrep
-                        sd
-                        pciutils
-                        procps
-                        gawk
+                path = let
+                  env = pkgs.buildEnv {
+                    name = "qemu-hook-env";
+                    paths = with pkgs; [
+                      bash
+                      libvirt
+                      kmod
+                      systemd
+                      ripgrep
+                      sd
+                      pciutils
+                      procps
+                      gawk
 
-                      ];
-                    };
-                  in
-                  [ env ];
+                    ];
+                  };
+                in [ env ];
 
                 # preStart =
                 #   ''
@@ -553,39 +553,39 @@
 
               # virtualisation
 
-              virtualisation =
-                {
-                  docker = {
-                    enable = true;
-                    # package = (ppkgs.docker.override {
-                    #   # docker-compose = ppkgs.docker-compose;
-                    # });
-                    daemon.settings = {
-                      metrics-addr = "0.0.0.0:9323";
-                      default-address-pools = [
-                        {
-                          base = "172.17.0.0/12";
-                          size = 24;
-                        }
-                        {
-                          base = "192.168.0.0/16";
-                          size = 24;
-                        }
-                      ];
-                    };
-                  };
-                  virtualbox.host = {
-                    enable = false;
-                    enableExtensionPack = true;
-                  };
-                  libvirtd = {
-                    enable = true;
-                    onBoot = "ignore";
-                    onShutdown = "shutdown";
-                    qemu.ovmf.enable = true;
-                    qemu.runAsRoot = true;
+              virtualisation = {
+                docker = {
+                  enable = true;
+                  # package = (ppkgs.docker.override {
+                  #   # docker-compose = ppkgs.docker-compose;
+                  # });
+                  daemon.settings = {
+                    debug = true;
+                    metrics-addr = "0.0.0.0:9323";
+                    default-address-pools = [
+                      {
+                        base = "172.17.0.0/12";
+                        size = 24;
+                      }
+                      {
+                        base = "192.168.0.0/16";
+                        size = 24;
+                      }
+                    ];
                   };
                 };
+                virtualbox.host = {
+                  enable = false;
+                  enableExtensionPack = true;
+                };
+                libvirtd = {
+                  enable = true;
+                  onBoot = "ignore";
+                  onShutdown = "shutdown";
+                  qemu.ovmf.enable = true;
+                  qemu.runAsRoot = true;
+                };
+              };
 
               systemd.services.warp-svc.enable = true;
               systemd.packages = with pkgs; [ cloudflare-warp ];
@@ -598,7 +598,23 @@
               users.users.mustafa = {
                 shell = pkgs.zsh;
                 isNormalUser = true;
-                extraGroups = [ "wheel" "networkmanager" "rtkit" "media" "audio" "sys" "wireshark" "rfkill" "video" "uucp" "docker" "vboxusers" "libvirtd" "render" "adbusers" ];
+                extraGroups = [
+                  "wheel"
+                  "networkmanager"
+                  "rtkit"
+                  "media"
+                  "audio"
+                  "sys"
+                  "wireshark"
+                  "rfkill"
+                  "video"
+                  "uucp"
+                  "docker"
+                  "vboxusers"
+                  "libvirtd"
+                  "render"
+                  "adbusers"
+                ];
                 openssh.authorizedKeys.keys = [
                   "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNEKM6YnhuLcLfy5FkCt+rX1M10vMS00zynI6tsta1s mustafa.segf@gmail.com"
                 ];
@@ -607,12 +623,9 @@
             })
 
             home-manager.nixosModules.home-manager
-            {
-              home-manager.users.mustafa = (import ./home.nix inputs);
-            }
+            { home-manager.users.mustafa = (import ./home.nix inputs); }
           ];
         };
       };
     };
 }
-

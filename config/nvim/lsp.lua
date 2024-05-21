@@ -14,7 +14,9 @@ tabnine:setup({
 local source_mapping = {
 	luasnip = "[Snip]",
 	cmp_tabnine = "[TN]",
+  ["vim-dadbod-completion"] = "[DB]",
 	nvim_lsp = "[LSP]",
+	otter = "[Otter]",
 	buffer = "[Buff]",
 	path = "[Path]",
 }
@@ -37,6 +39,8 @@ cmp.setup({
 		["<CR>"] = cmp.mapping.confirm({ select = false }),
 	}),
 	sources = cmp.config.sources({
+		{ name = "otter" },
+		{ name = "vim-dadbod-completion" },
 		{ name = "luasnip" },
 		{ name = "cmp_tabnine" },
 		{ name = "nvim_lsp" },
@@ -108,6 +112,8 @@ require("null-ls").setup({
 		formatting.clang_format,
 		formatting.shfmt,
 		formatting.fourmolu,
+		formatting.nixfmt,
+		formatting.cmake_format,
 		-- formatting.statix,
 	},
 })
@@ -133,6 +139,10 @@ capabilities.textDocument.foldingRange = {
 -- 	})
 -- end
 -- require("ufo").setup()
+
+-- vim.api.nvim_command(
+-- 	"autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })"
+-- )
 
 require("lsp-inlayhints").setup()
 vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
@@ -167,16 +177,18 @@ local servers = {
 	"graphql",
 	"dockerls",
 	"bashls",
-	"sqlls",
-	"jdtls",
+	-- "sqlls",
+	-- "jdtls",
 	"svelte",
 	"astro",
 	"prismals",
 	"ocamllsp",
-    "nixd",
+	"nixd",
 	-- "grammarly",
 	"wgsl_analyzer",
 	"quick_lint_js",
+	"intelephense",
+  "cmake",
 }
 
 for _, server in ipairs(servers) do
@@ -258,3 +270,21 @@ lsp.jsonls.setup({
 		},
 	},
 })
+
+-- local jdtls = require('jdtls')
+-- jdtls.start_or_attach({})
+
+-- lsp.sqls.setup({
+-- 	capabilities = capabilities,
+-- 	on_attach = function(client, bufnr)
+-- 		require("sqls").on_attach(client, bufnr)
+-- 		on_attach(client, bufnr)
+-- 	end,
+-- 	-- on_attach = on_attach,
+-- })
+
+-- api.nvim_create_user_command('QuartoPreview', quarto.quartoPreview, { nargs = '*' })
+-- api.nvim_create_user_command('QuartoClosePreview', quarto.quartoClosePreview, {})
+-- api.nvim_create_user_command('QuartoActivate', quarto.activate, {})
+-- api.nvim_create_user_command('QuartoHelp', quarto.searchHelp, { nargs = 1 })
+-- vim.api.nvim_create_user_command('QuartoHover', ':lua require"otter".ask_hover()<cr>', {})

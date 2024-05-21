@@ -39,6 +39,7 @@
       show_coretemp = true;
       cpu_core_map = "";
       temp_scale = "celsius";
+      show_swap = false;
     };
   };
 }

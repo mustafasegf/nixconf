@@ -1,12 +1,6 @@
-{ ppkgs
-, pkgs
-, upkgs
-, staging-pkgs
-, mpkgs
-, lib
-  # , firefoxpkgs
-, ...
-}: rec {
+{ ppkgs, pkgs, upkgs, staging-pkgs, mpkgs, lib
+# , firefoxpkgs
+, ... }: rec {
   # ollama-rocm = pkgs.ollama.override {
   #   llama-cpp = pkgs.llama-cpp.override {
   #     rocmSupport = true;
@@ -29,7 +23,6 @@
   # mpkgs.config.allowUnfree = true;
 
   packages = with pkgs; [
-    # ollama
     vim
     neovim
     wget
@@ -92,31 +85,29 @@
     scrcpy
     speedtest-cli
     # trashy
-    (
-      pkgs.rustPlatform.buildRustPackage rec {
-        pname = "trashy";
-        version = "c95b22";
+    (pkgs.rustPlatform.buildRustPackage rec {
+      pname = "trashy";
+      version = "c95b22";
 
-        src = fetchFromGitHub {
-          owner = "oberblastmeister";
-          repo = "trashy";
-          rev = "c95b22c0522f616b8700821540a1e58edcf709eb";
-          hash = "sha256-O4r/bfK33hJ6w7+p+8uqEdREGUhcaEg+Zjh/T7Bm6sY=";
-        };
+      src = fetchFromGitHub {
+        owner = "oberblastmeister";
+        repo = "trashy";
+        rev = "c95b22c0522f616b8700821540a1e58edcf709eb";
+        hash = "sha256-O4r/bfK33hJ6w7+p+8uqEdREGUhcaEg+Zjh/T7Bm6sY=";
+      };
 
-        cargoHash = "sha256-5BaYjUbPjmjauxlFP0GvT5mFMyrg7Bx7tTcAgQkyQBw=";
+      cargoHash = "sha256-5BaYjUbPjmjauxlFP0GvT5mFMyrg7Bx7tTcAgQkyQBw=";
 
-        nativeBuildInputs = [ installShellFiles ];
+      nativeBuildInputs = [ installShellFiles ];
 
-        preFixup = ''
-          installShellCompletion --cmd trash \
-            --bash <($out/bin/trash completions bash) \
-            --fish <($out/bin/trash completions fish) \
-            --zsh <($out/bin/trash completions zsh) \
-        '';
+      preFixup = ''
+        installShellCompletion --cmd trash \
+          --bash <($out/bin/trash completions bash) \
+          --fish <($out/bin/trash completions fish) \
+          --zsh <($out/bin/trash completions zsh) \
+      '';
 
-      }
-    )
+    })
     wine
     wine64
     winetricks
@@ -126,9 +117,9 @@
     xcolor
     youtube-dl
     yt-dlp
-    (
-      let
-        packagePypi = name: ver: ref: deps: python311.pkgs.buildPythonPackage rec {
+    (let
+      packagePypi = name: ver: ref: deps:
+        python311.pkgs.buildPythonPackage rec {
           pname = name;
           version = ver;
 
@@ -137,70 +128,76 @@
             hash = ref;
           };
 
-
           buildInputs = deps;
           doCheck = false;
         };
-      in
-      python311.withPackages (ps: [
-        # sha from nix store prefetch-file 
-        (
-          packagePypi
-            "iwlib"
-            "1.7.0"
-            "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE="
-            [ wirelesstools ps.setuptools ps.cffi ]
-        )
-        # (
-        #   packagePypi
-        #     "qtile"
-        #     "0.22.1"
-        #     "sha256-J8PLTXQjEWIs9aJ4Fnw76Z6kdafe9dQe6GC9PoZHj4s="
-        #     [
-        #       pkg-config
-        #       libinput
-        #       wayland
-        #       wlroots
-        #       libxkbcommon
-        #       ps.setuptools-scm
-        #       ps.xcffib
-        #       (ps.cairocffi.override { withXcffib = true; })
-        #       ps.setuptools
-        #       ps.python-dateutil
-        #       ps.dbus-python
-        #       ps.dbus-next
-        #       ps.mpd2
-        #       ps.psutil
-        #       ps.pyxdg
-        #       ps.pygobject3
-        #       ps.pywayland
-        #       ps.pywlroots
-        #       ps.xkbcommon
-        #     ]
-        # )
-        ps.jupyterlab
-        ps.notebook
-        ps.jupyter_console
-        ps.ipykernel
-        ps.pandas
-        ps.scikitlearn
-        ps.matplotlib
-        ps.numpy
-        ps.scipy
-        ps.pip
-        ps.seaborn
-        ps.plotly
-        ps.statsmodels
-        ps.opencv4
-        ps.torchWithRocm
-        ps.scikit-image
-        ps.imbalanced-learn
-        ps.optuna
-        ps.onnxruntime
-        ps.pillow
-        # ps.torchvision
-      ])
-    )
+    in python311.withPackages (ps: [
+      # sha from nix store prefetch-file 
+      (packagePypi "iwlib" "1.7.0"
+        "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE=" [
+          wirelesstools
+          ps.setuptools
+          ps.cffi
+        ])
+      (packagePypi "Appium-Python-Client" "4.0.0"
+        "sha256-0Ty9bdgdApBwG6RRFF7H6/Wm10Iiva78ErYu9vVqH9Y=" [ ])
+      # (
+      #   packagePypi
+      #     "qtile"
+      #     "0.22.1"
+      #     "sha256-J8PLTXQjEWIs9aJ4Fnw76Z6kdafe9dQe6GC9PoZHj4s="
+      #     [
+      #       pkg-config
+      #       libinput
+      #       wayland
+      #       wlroots
+      #       libxkbcommon
+      #       ps.setuptools-scm
+      #       ps.xcffib
+      #       (ps.cairocffi.override { withXcffib = true; })
+      #       ps.setuptools
+      #       ps.python-dateutil
+      #       ps.dbus-python
+      #       ps.dbus-next
+      #       ps.mpd2
+      #       ps.psutil
+      #       ps.pyxdg
+      #       ps.pygobject3
+      #       ps.pywayland
+      #       ps.pywlroots
+      #       ps.xkbcommon
+      #     ]
+      # )
+      ps.jupyterlab
+      ps.notebook
+      ps.jupyter_console
+      ps.ipykernel
+      ps.pandas
+      ps.scikitlearn
+      ps.matplotlib
+      ps.numpy
+      ps.scipy
+      ps.pip
+      ps.seaborn
+      ps.plotly
+      ps.statsmodels
+      ps.opencv4
+      ps.selenium
+      ps.torch
+      # (packagePypi "pytorch-benchmark" "0.3.6"
+      #   "sha256-HzbBeQlswbXU+cfhdlePZFgre/4kjoSwMcbpVbgKDhI=" [
+      #   ])
+      ps.scikit-image
+      # ps.imbalanced-learn
+      # ps.optuna
+      ps.onnxruntime
+      ps.pillow
+      # ps.keras
+      # ps.tensorflow
+      # ps.numpydoc
+      ps.torchvision
+      # ps.torchaudio
+    ]))
     poetry
     rustup
     go
@@ -432,8 +429,8 @@
     prefetch-npm-deps
     go-swag
     # ciscoPacketTracer8
-    gns3-gui
-    gns3-server
+    # gns3-gui
+    # gns3-server
     xdg-user-dirs
     helvum
     qpwgraph
@@ -471,7 +468,8 @@
 
     ((vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: rec {
       src = (builtins.fetchTarball {
-        url = "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+        url =
+          "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
         sha256 = "1b8lf6qqq6868kqzc35482ksfvzfxfhdpn2lisksjrji1qyiz06l";
       });
       version = "latest";
@@ -569,5 +567,37 @@
     evcxr
     deskreen
     ghostscript
+    php83
+    php83Packages.composer
+    nodePackages.intelephense
+    mangohud
+    upkgs.bruno
+    cargo-flamegraph
+    measureme
+    mold
+    nixfmt
+    # rocmPackages.hipcc
+    rocmPackages.hipify
+    # rocmPackages.hip-common
+    rocmPackages.clr
+    rocmPackages.rocm-smi
+    cudaPackages.cuda_nvcc
+    cudaPackages.cudatoolkit
+    sqls
+    nodePackages.prettier
+    mpkgs.zluda
+    nix-output-monitor
+    openai-whisper
+    mpkgs.ollama
+    semgrep
+    nodePackages.wrangler
+    gfortran
+    gdal
+    colordiff
+    wdiff
+    dwdiff
+    cmake-format
+    cmake-language-server
+    spotify
   ];
 }

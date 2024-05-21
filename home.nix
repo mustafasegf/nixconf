@@ -12,8 +12,7 @@ let
     rev = "8de11976678054f19a9e0ec49a48ea8f9e881a05";
     sha256 = "12wmjynk0ryxgwb0hg4kvhhf886yvjzkp96a5bi9j0ryf3pc9kx7";
   };
-in
-{
+in {
   home.username = "mustafa";
   home.homeDirectory = "/home/mustafa";
   home.stateVersion = "22.11";
@@ -23,8 +22,6 @@ in
   services.kdeconnect.indicator = true;
   services.blueman-applet.enable = true;
   services.easyeffects.enable = true;
-
-
 
   ## no program config yet: neofetch glab dunst flameshot
   imports = [
@@ -38,17 +35,23 @@ in
     (import ./programs/vscode.nix)
   ];
 
-  xresources.extraConfig = builtins.readFile ("${dracula-xresources}/Xresources");
+  xresources.extraConfig =
+    builtins.readFile ("${dracula-xresources}/Xresources");
   xdg = {
     enable = true;
     configFile = {
       # "qtile/config.py".source = ./qtile/config.py;
-      "qtile/floating_window_snapping.py".source = ./qtile/floating_window_snapping.py;
+      "qtile/floating_window_snapping.py".source =
+        ./qtile/floating_window_snapping.py;
       "qtile/autostart.sh".source = ./qtile/autostart.sh;
 
-      "Kvantum/Dracula/Dracula.kvconfig".source = "${dracula-gtk}/kde/kvantum/Dracula-purple-solid/Dracula-purple-solid.kvconfig";
-      "Kvantum/Dracula/Dracula.svg".source = "${dracula-gtk}/kde/kvantum/Dracula-purple-solid/Dracula-purple-solid.svg";
-      "Kvantum/kvantum.kvconfig".text = "[General]\ntheme=Dracula";
+      "Kvantum/Dracula/Dracula.kvconfig".source =
+        "${dracula-gtk}/kde/kvantum/Dracula-purple-solid/Dracula-purple-solid.kvconfig";
+      "Kvantum/Dracula/Dracula.svg".source =
+        "${dracula-gtk}/kde/kvantum/Dracula-purple-solid/Dracula-purple-solid.svg";
+      "Kvantum/kvantum.kvconfig".text = ''
+        [General]
+        theme=Dracula'';
       "lxqt/lxqt.conf".source = ./config/dracula/lxqt/lxqt.conf;
       "lxqt/session.conf".source = ./config/dracula/lxqt/session.conf;
       "gtk-3.0/settings.ini".source = ./config/dracula/gtk-3.0/settings.ini;
@@ -59,11 +62,11 @@ in
     desktopEntries.ocr = {
       name = "OCR image";
       exec = "${pkgs.writeScript "ocr" ''
-                ${pkgs.xfce.xfce4-screenshooter}/bin/xfce4-screenshooter -r --save /tmp/ocr-tmp.png
-                ${pkgs.tesseract}/bin/tesseract /tmp/ocr-tmp.png /tmp/ocr-out
-                cat /tmp/ocr-out.txt | ${pkgs.xclip}/bin/xclip -sel clip
-                rm /tmp/ocr-tmp.png
-              ''}";
+        ${pkgs.xfce.xfce4-screenshooter}/bin/xfce4-screenshooter -r --save /tmp/ocr-tmp.png
+        ${pkgs.tesseract}/bin/tesseract /tmp/ocr-tmp.png /tmp/ocr-out
+        cat /tmp/ocr-out.txt | ${pkgs.xclip}/bin/xclip -sel clip
+        rm /tmp/ocr-tmp.png
+      ''}";
     };
 
   };
@@ -102,11 +105,7 @@ in
       # "90:name *= 'Cisco' && !focused"
     ];
 
-    settings = {
-      invert-color-include = [
-        "class_g = 'PacketTracer'"
-      ];
-    };
+    settings = { invert-color-include = [ "class_g = 'PacketTracer'" ]; };
   };
 
   services.gromit-mpx = {
@@ -163,28 +162,27 @@ in
     };
   };
 
-  programs.fzf =
-    let
-      cmd = "fd --hidden --follow --ignore-file=$HOME/.gitignore --exclude .git";
-    in
-    {
-      enable = true;
-      enableBashIntegration = true;
-      enableZshIntegration = true;
-      defaultOptions = [ "--layout=reverse --inline-info --height=90%" ];
-      defaultCommand = cmd;
+  programs.fzf = let
+    cmd = "fd --hidden --follow --ignore-file=$HOME/.gitignore --exclude .git";
+  in {
+    enable = true;
+    enableBashIntegration = true;
+    enableZshIntegration = true;
+    defaultOptions = [ "--layout=reverse --inline-info --height=90%" ];
+    defaultCommand = cmd;
 
-      fileWidgetCommand = "${cmd} --type f";
-      changeDirWidgetCommand = "${cmd} --type d";
+    fileWidgetCommand = "${cmd} --type f";
+    changeDirWidgetCommand = "${cmd} --type d";
 
-    };
+  };
 
   programs.starship = {
     enable = true;
     enableZshIntegration = true;
     settings = {
       add_newline = true;
-      format = "[$symbol$version]($style)[$directory]($style)[$git_branch]($style)[$git_commit]($style)[$git_state]($style)[$git_status]($style)[$line_break]($style)[$username]($style)[$hostname]($style)[$shlvl]($style)[$jobs]($style)[$time]($style)[$status]($style)[$character]($style)";
+      format =
+        "[$symbol$version]($style)[$directory]($style)[$git_branch]($style)[$git_commit]($style)[$git_state]($style)[$git_status]($style)[$line_break]($style)[$username]($style)[$hostname]($style)[$shlvl]($style)[$jobs]($style)[$time]($style)[$status]($style)[$character]($style)";
       line_break.disabled = true;
       cmd_duration.disabled = true;
       character = {
@@ -245,14 +243,21 @@ in
 
   programs.obs-studio = {
     enable = true;
-    package = upkgs.obs-studio;
+    package = (upkgs.obs-studio.override { ffmpeg = pkgs.ffmpeg_5-full; });
     plugins = with pkgs.obs-studio-plugins; [
       # obs-multi-rtmp
-      # obs-backgroundremoval
+      obs-backgroundremoval
       obs-pipewire-audio-capture
       obs-move-transition
       input-overlay
       obs-vkcapture
+      obs-vaapi
+      obs-tuna
+      obs-transition-table
+      obs-text-pthread
+      obs-source-switcher
+      obs-pipewire-audio-capture
+      input-overlay
     ];
   };
 }
