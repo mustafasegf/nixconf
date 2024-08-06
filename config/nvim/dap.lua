@@ -38,7 +38,7 @@ dap.adapters.codelldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_
 dap.adapters.cppdbg = {
 	id = "cppdbg",
 	type = "executable",
-	command = "/home/mustafa/.local/share/ccptools/extension/debugAdapters/bin/OpenDebugAD7",
+	command = "/home/mustafa/.vscode/extensions/ms-vscode.cpptools/debugAdapters/bin/OpenDebugAD7",
 }
 
 -- dap.adapters.codelldb = {
@@ -71,7 +71,7 @@ dap.configurations.c = {
 		request = "launch",
 		MIMode = "gdb",
 		miDebuggerServerAddress = "localhost:1234",
-		miDebuggerPath = "/usr/bin/gdb",
+		miDebuggerPath = "/run/current-system/sw/bin/gdb",
 		cwd = "${workspaceFolder}",
 		program = function()
 			return vim.fn.input("Path to executable: ", vim.fn.getcwd() .. "/", "file")

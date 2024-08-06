@@ -43,7 +43,7 @@
       vscjava.vscode-java-dependency
       redhat.java
       ocamllabs.ocaml-platform
-      (WakaTime.vscode-wakatime.overrideAttrs (old: {
+      (wakatime.vscode-wakatime.overrideAttrs (old: {
         postPatch = ''
           mkdir wakatime-cli
           ln -s ${pkgs.wakatime}/bin/wakatime ./wakatime-cli/wakatime-cli

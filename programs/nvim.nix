@@ -161,7 +161,12 @@
         type = "lua";
         config = builtins.readFile ../config/nvim/gitsigns.lua;
       }
-      trouble-nvim
+      {
+        plugin = trouble-nvim;
+        type = "lua";
+        config = "require('trouble').setup()";
+      }
+      
 
       #addon app
       vim-dadbod
@@ -185,11 +190,11 @@
       }))
 
       otter-nvim
-      {
-        plugin = rest-nvim;
-        type = "lua";
-        config = builtins.readFile ../config/nvim/rest.lua;
-      }
+      # {
+      #   plugin = rest-nvim;
+      #   type = "lua";
+      #   config = builtins.readFile ../config/nvim/rest.lua;
+      # }
 
       #auto
       cmp-tabnine
@@ -258,7 +263,7 @@
       popup-nvim
       plenary-nvim
       registers-nvim
-      suda-vim
+      vim-suda
       nui-nvim
       {
         plugin = (pluginGit "amitds1997" "remote-nvim.nvim" "main"

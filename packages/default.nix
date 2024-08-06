@@ -54,10 +54,10 @@
     awscli2
     copyq
     cloc
-    dbeaver
+    dbeaver-bin
     dos2unix
     fd
-    ffmpeg_5-full
+    ffmpeg-full
     ffmpegthumbnailer
     find-cursor
     flameshot
@@ -115,7 +115,6 @@
     x11vnc
     xclip
     xcolor
-    youtube-dl
     yt-dlp
     (let
       packagePypi = name: ver: ref: deps:
@@ -183,7 +182,8 @@
       ps.statsmodels
       ps.opencv4
       ps.selenium
-      ps.torch
+      # ps.torch
+
       # (packagePypi "pytorch-benchmark" "0.3.6"
       #   "sha256-HzbBeQlswbXU+cfhdlePZFgre/4kjoSwMcbpVbgKDhI=" [
       #   ])
@@ -195,8 +195,9 @@
       # ps.keras
       # ps.tensorflow
       # ps.numpydoc
-      ps.torchvision
+      # ps.torchvision
       # ps.torchaudio
+      ps.tkinter
     ]))
     poetry
     rustup
@@ -241,7 +242,7 @@
     ##fourmolu
 
     gopls
-    nodePackages.pyright
+    pyright
     upkgs.nodePackages.typescript-language-server
     # nodePackages.typescript
     tflint
@@ -295,6 +296,7 @@
     sumneko-lua-language-server
     nodePackages.diagnostic-languageserver
     nodePackages.bash-language-server
+    nodePackages.prisma
 
     kdeconnect
     # xfce.thunar
@@ -315,8 +317,7 @@
     rescuetime
     tailscale
     libsecret
-    dbeaver
-    beekeeper-studio
+    ppkgs.beekeeper-studio
     (appimage-run.override {
       extraPkgs = pkgs: [ pkgs.xorg.libxshmfence pkgs.libsecret ];
     })
@@ -341,7 +342,7 @@
     SDL2_image
     radare2
     # iaito
-    minecraft
+    # minecraft
     virtualbox
     virt-manager
     mpkgs.qemu_full
@@ -521,7 +522,7 @@
     pspp
     w3m
     xdragon
-    rocmPackages.rocminfo
+    # rocmPackages.rocminfo
     comma
     cargo-watch
     powertop
@@ -577,20 +578,20 @@
     mold
     nixfmt
     # rocmPackages.hipcc
-    rocmPackages.hipify
+    # rocmPackages.hipify
     # rocmPackages.hip-common
-    rocmPackages.clr
-    rocmPackages.rocm-smi
-    cudaPackages.cuda_nvcc
-    cudaPackages.cudatoolkit
+    # rocmPackages.clr
+    # rocmPackages.rocm-smi
+    # cudaPackages.cuda_nvcc
+    # cudaPackages.cudatoolkit
     sqls
     nodePackages.prettier
-    mpkgs.zluda
+    # mpkgs.zluda
     nix-output-monitor
-    openai-whisper
-    mpkgs.ollama
+    # openai-whisper
+    # mpkgs.ollama
     semgrep
-    nodePackages.wrangler
+    # nodePackages.wrangler
     gfortran
     gdal
     colordiff
@@ -599,5 +600,23 @@
     cmake-format
     cmake-language-server
     spotify
+    weechat
+    libsForQt5.konversation
+    git-filter-repo
+    cargo-expand
+    _86Box-with-roms
+    dosbox
+    open-watcom-bin
+    libguestfs
+    vlang
+    cargo-bootimage
+    gf
+    imhex
+    krita
+    cargo-mommy
+    parsec-bin
+    devenv
+    libsForQt5.filelight
+    dmidecode
   ];
 }

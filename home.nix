@@ -243,7 +243,7 @@ in {
 
   programs.obs-studio = {
     enable = true;
-    package = (upkgs.obs-studio.override { ffmpeg = pkgs.ffmpeg_5-full; });
+    package = (upkgs.obs-studio.override { ffmpeg = pkgs.ffmpeg-full; });
     plugins = with pkgs.obs-studio-plugins; [
       # obs-multi-rtmp
       obs-backgroundremoval

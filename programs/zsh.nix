@@ -1,8 +1,4 @@
-{ config
-, pkgs
-, libs
-, ...
-}: {
+{ config, pkgs, libs, ... }: {
 
   programs.zsh = {
     enable = true;
@@ -12,11 +8,13 @@
     enableCompletion = true;
     syntaxHighlighting.enable = true;
     defaultKeymap = "viins";
+
     envExtra =
       # let RUSTC_VERSION = pkgs.lib.strings.removeSuffix "\n" pkgs.lib.readFile ./rust-toolchain;
-      let RUSTC_VERSION = "nightly";
-      in
-      ''
+      let
+        RUSTC_VERSION = "nightly";
+        # bash
+      in ''
         #XDG 
         export XDG_DATA_HOME=$HOME/.local/share
         export XDG_CONFIG_HOME=$HOME/.config
@@ -62,6 +60,9 @@
 
         # misc
         export CHTSH_QUERY_OPTIONS="style=rrt"
+
+        # cargo mommy
+        CARGO_MOMMYS_LITTLE="boy/baby"
 
         # lf icons
         export LF_ICONS="\
@@ -227,102 +228,120 @@
         "
       '';
 
-    initExtraFirst = ''
-      source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
-      unset -v SSH_ASKPASS
+    initExtraFirst = # bash
+      ''
+        source ${pkgs.nix-index}/etc/profile.d/command-not-found.sh
+        unset -v SSH_ASKPASS
 
-      # tmux auto start config
-      # change this
-      ZSH_TMUX_AUTOSTART=true
-      ZSH_TMUX_AUTOSTART_ONCE=false
-      ZSH_TMUX_AUTOCONNECT=true
-      ZSH_TMUX_CONFIG=/home/mustafa/.config/tmux/tmux.conf
+        # tmux auto start config
+        # change this
+        ZSH_TMUX_AUTOSTART=true
+        ZSH_TMUX_AUTOSTART_ONCE=false
+        ZSH_TMUX_AUTOCONNECT=true
+        ZSH_TMUX_CONFIG=/home/mustafa/.config/tmux/tmux.conf
 
-      # vi mode config
-      VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
-      VI_MODE_SET_CURSOR=true
-      MODE_INDICATOR="%F{yellow}+%f"
-      KEYTIMEOUT=15
-      VI_MODE_PROMPT_INFO=true
+        # vi mode config
+        VI_MODE_RESET_PROMPT_ON_MODE_CHANGE=true
+        VI_MODE_SET_CURSOR=true
+        MODE_INDICATOR="%F{yellow}+%f"
+        KEYTIMEOUT=15
+        VI_MODE_PROMPT_INFO=true
 
-      # LF
-      LFCD="$HOME/.config/lf/lfcd.sh"                                
-      #  pre-built binary, make sure to use absolute path
-      if [ -f "$LFCD" ]; then
-          source "$LFCD"
-      fi
+        # LF
+        LFCD="$HOME/.config/lf/lfcd.sh"                                
+        #  pre-built binary, make sure to use absolute path
+        if [ -f "$LFCD" ]; then
+            source "$LFCD"
+        fi
 
-      function mkcdir() {
-          mkdir -p -- "$1" &&
-          cd -P -- "$1"
-      }
+        function mkcdir() {
+            mkdir -p -- "$1" &&
+            cd -P -- "$1"
+        }
 
-      function cdg() { cd "$(git rev-parse --show-toplevel)"  }
+        function cdg() { cd "$(git rev-parse --show-toplevel)"  }
 
-      #Git
-      function gsts (){git status}
-      function gc (){git commit -am "$@"}
-      function ga (){git add "$@"}
-      function gs (){git switch "$@"}
-      function gm (){git merge "$@"}
-      function gcb (){git checkout -b "$@"}
-      function gca (){git commit --amend --no-edit -m "$@"}
-      function gu (){git reset --soft HEAD~1}
-      function gst (){git stash "$@"}
-      function gstp (){git stash pop "$@"}
-      function grmc (){git rm --cached "$@"}
+        #Git
+        function gsts (){git status}
+        function gc (){git commit -am "$@"}
+        function ga (){git add "$@"}
+        function gs (){git switch "$@"}
+        function gm (){git merge "$@"}
+        function gcb (){git checkout -b "$@"}
+        function gca (){git commit --amend --no-edit -m "$@"}
+        function gu (){git reset --soft HEAD~1}
+        function gst (){git stash "$@"}
+        function gstp (){git stash pop "$@"}
+        function grmc (){git rm --cached "$@"}
 
-      function gpo (){git push origin "$@"}
-      function gplo (){git pull origin "$@"}
-      function gpu (){git push upstream "$@"}
-      function gplu (){git pull upstream  "$@"}
+        function gpo (){git push origin "$@"}
+        function gplo (){git pull origin "$@"}
+        function gpu (){git push upstream "$@"}
+        function gplu (){git pull upstream  "$@"}
 
 
-      function gsm (){gs "master"}
+        function gsm (){gs "master"}
 
-      function gpom (){gpo "master"}
-      function gpum (){gpu "master"}
+        function gpom (){gpo "master"}
+        function gpum (){gpu "master"}
 
-      function gplom (){gplo "master"}
-      function gplum (){gplu "master"}
+        function gplom (){gplo "master"}
+        function gplum (){gplu "master"}
 
-      function gplob (){gplo "$(git symbolic-ref --short HEAD)"}
-      function gplub (){gplu "$(git symbolic-ref --short HEAD)"}
+        function gplob (){gplo "$(git symbolic-ref --short HEAD)"}
+        function gplub (){gplu "$(git symbolic-ref --short HEAD)"}
 
-      function gpob (){gpo "$(git symbolic-ref --short HEAD)"}
-      function gpub (){gpu "$(git symbolic-ref --short HEAD)"}
+        function gpob (){gpo "$(git symbolic-ref --short HEAD)"}
+        function gpub (){gpu "$(git symbolic-ref --short HEAD)"}
 
-      function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ }
-      
-      function gil() { gi list | tr , '\n' | fzf --multi | xargs echo | tr ' ' , | xargs -I {} curl -sLw "\n" 'https://www.toptal.com/developers/gitignore/api/{}' | tee .gitignore }
+        function gi() { curl -sLw "\n" https://www.toptal.com/developers/gitignore/api/$@ }
 
-      # Nix
-      function update() {
-        pushd $HOME/.config/nixpkgs
-        sudo nixos-rebuild switch --flake .#
-        popd
-      }
+        function gil() { gi list | tr , '\n' | fzf --multi | xargs echo | tr ' ' , | xargs -I {} curl -sLw "\n" 'https://www.toptal.com/developers/gitignore/api/{}' | tee .gitignore }
 
-      function update-test() {
-        pushd $HOME/.config/nixpkgs
-        sudo nixos-rebuild test --flake .#
-        popd
-      }
+        # Nix
+        function update() {
+          pushd $HOME/.config/nixpkgs
+          sudo nixos-rebuild switch --flake .#
+          popd
+        }
 
-      alias update-flake='nix flake update --commit-lock-file'
+        function update-test() {
+          pushd $HOME/.config/nixpkgs
+          sudo nixos-rebuild test --flake .#
+          popd
+        }
 
-      function tmem () {
-        smem -t -k -c pss -P "$@"
-      }
-      
+        alias update-flake='nix flake update --commit-lock-file'
 
-    '';
+        function tmem () {
+          smem -t -k -c pss -P "$@"
+        }
+
+        function cmw () {
+          cargo watch -x "mommy $@"
+        }
+
+        function cmwr () {
+          cargo watch -x "mommy run $@"
+        }
+
+
+      '';
     shellAliases = {
       # update = "sudo nixos-rebuild switch";
       rm = "trash put";
       cat = "bat";
       grep = "rg";
       c = "clear";
+
+      car = "cargo";
+      cm = "cargo mommy";
+      cmr = "cargo mommy run";
+      cmrr = "cargo mommy run --release";
+      cmb = "cargo mommy build";
+      cmbr = "cargo mommy build --release";
+      cma = "cargo mommy add";
+
 
       ls = "lsd";
       la = "ls -A";
@@ -336,39 +355,87 @@
       wget = ''wget --hsts-file="$XDG_DATA_HOME/wget-hsts"'';
       xbindkeys = ''xbindkeys -f "$XDG_CONFIG_HOME"/xbindkeys/config'';
 
-      mans = '' man -k  . | cut -d " " -f 1 | fzf -m --preview "man {1}" | xargs man '';
+      mans = ''
+        man -k  . | cut -d " " -f 1 | fzf -m --preview "man {1}" | xargs man '';
       m = "make";
-      v = "nvim";
+      # v = "nvim";
       ".." = "cd ..";
       "..." = "cd ../..";
       "...." = "cd ../../..";
+      "....." = "cd ../../../..";
     };
 
-    history = {
-      size = 10000;
-    };
+    history = { size = 100000; };
 
     zplug = {
       enable = true;
       plugins = [
-        { name = "dracula/zsh"; tags = [ "as:theme" ]; }
+        {
+          name = "dracula/zsh";
+          tags = [ "as:theme" ];
+        }
         { name = "agkozak/zsh-z"; }
-        { name = "lib/history"; tags = [ from:oh-my-zsh ]; }
-        { name = "lib/key-bindings"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/tmux"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/vi-mode"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/docker"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/docker-compose"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/sudo"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/copyfile"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/copypath"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/dirhistory"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/history"; tags = [ from:oh-my-zsh ]; }
+        {
+          name = "lib/history";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "lib/key-bindings";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/tmux";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/vi-mode";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/docker";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/docker-compose";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/sudo";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/copyfile";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/copypath";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/dirhistory";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/history";
+          tags = [ "from:oh-my-zsh" ];
+        }
         # { name = "plugins/fzf"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/history-substring-search"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/colored-man-pages"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/gcloud"; tags = [ from:oh-my-zsh ]; }
-        { name = "plugins/aws"; tags = [ from:oh-my-zsh ]; }
+        {
+          name = "plugins/history-substring-search";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/colored-man-pages";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/gcloud";
+          tags = [ "from:oh-my-zsh" ];
+        }
+        {
+          name = "plugins/aws";
+          tags = [ "from:oh-my-zsh" ];
+        }
         { name = "sobolevn/wakatime-zsh-plugin"; }
         { name = "ellie/atuin"; }
       ];

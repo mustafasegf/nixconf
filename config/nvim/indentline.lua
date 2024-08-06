@@ -21,6 +21,9 @@ local highlight = {
 -- end)
 
 require("ibl").setup({
+	exclude = {
+		filetypes = { "help", "terminal", "dashboard", "lazy" },
+	},
 	scope = { enabled = false },
 	indent = { highlight = highlight },
 })

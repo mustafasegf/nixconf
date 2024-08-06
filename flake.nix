@@ -1,7 +1,6 @@
 {
   description = "My NixOS Flake Configuration";
   inputs = {
-    # nixpkgs.url = "github:NixOS/nixpkgs/aa1d74709f5dac623adb4d48fdfb27cc2c92a4d4";
     nixpkgs-prev.url = "github:NixOS/nixpkgs/release-23.11";
     nixpkgs.url = "github:NixOS/nixpkgs/nixos-unstable";
     nixpkgs-unstable.url = "github:NixOS/nixpkgs/nixos-unstable";
@@ -9,7 +8,6 @@
     nixpkgs-master.url = "github:NixOS/nixpkgs/master";
     # nixpkgs-master.url = "git+ssh://git@github.com/NixOS/nixpkgs.git";
 
-    # home-manager.url = "github:nix-community/home-manager/release-21.11";
     home-manager.url = "github:nix-community/home-manager";
     home-manager.inputs.nixpkgs.follows = "nixpkgs";
 
@@ -21,10 +19,8 @@
 
     firefox.url = "github:nix-community/flake-firefox-nightly";
 
-    # mesa-git-src = {
-    #   url = "github:chaotic-aur/mesa-mirror/23.0";
-    #   flake = false;
-    # };
+    flake-parts.url = "github:hercules-ci/flake-parts";
+
   };
 
   outputs = { self, nixpkgs, nixpkgs-unstable, nixpkgs-prev, staging-next
@@ -37,7 +33,7 @@
       pkgs = import nixpkgs {
         inherit system;
         config = {
-          rocmSupport = true;
+          # rocmSupport = true;
           allowUnfree = true;
           permittedInsecurePackages = [ "python-2.7.18.6" "nix-2.16.2" ];
         };
@@ -46,7 +42,7 @@
       upkgs = import nixpkgs-unstable {
         inherit system;
         config = {
-          rocmSupport = true;
+          # rocmSupport = true;
           allowunfree = true;
         };
       };
@@ -54,7 +50,7 @@
       ppkgs = import nixpkgs-prev {
         inherit system;
         config = {
-          rocmSupport = true;
+          # rocmSupport = true;
           allowunfree = true;
         };
       };
@@ -62,7 +58,7 @@
       staging-pkgs = import staging-next {
         inherit system;
         config = {
-          rocmSupport = true;
+          # rocmSupport = true;
           allowunfree = true;
         };
       };
@@ -70,7 +66,7 @@
       mpkgs = import nixpkgs-master {
         inherit system;
         config = {
-          rocmSupport = true;
+          # rocmSupport = true;
           allowunfree = true;
         };
       };
@@ -440,9 +436,9 @@
 
               systemd.services.NetworkManager-wait-online.enable = false;
 
-              systemd.tmpfiles.rules = [
-                "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
-              ];
+              # systemd.tmpfiles.rules = [
+              #   "L+    /opt/rocm/hip   -    -    -     -    ${pkgs.rocmPackages.clr}"
+              # ];
 
               # Enable xrdp
               services.xrdp.enable = true; # use remote_logout and remote_unlock

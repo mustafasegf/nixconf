@@ -1,11 +1,6 @@
-{ hardware
-, pkgs
-, upkgs
-, lib
-  # , mesa-git-src
-, staging-next
-, ...
-}:
+{ hardware, pkgs, upkgs, lib
+# , mesa-git-src
+, staging-next, ... }:
 let
   # # future = staging-next.legacyPackages.${pkgs.system};
   # future = pkgs;
@@ -20,14 +15,12 @@ let
   #
   # mesa-bleeding = mesaGitApplier future;
   # lib32-mesa-bleeding = mesaGitApplier future.pkgsi686Linux;
-in
-{
+in {
 
   hardware.bluetooth = {
     enable = true;
     powerOnBoot = pkgs.lib.mkForce true;
   };
-
 
   hardware.opengl = {
     enable = true;
@@ -36,7 +29,10 @@ in
     # mesaPackage32 = upkgs.pkgsi686Linux.mesa_23;
     package = upkgs.mesa.drivers;
     package32 = upkgs.pkgsi686Linux.mesa.drivers;
-    extraPackages = [ upkgs.mesa.opencl ];
+    extraPackages = [
+      upkgs.mesa.opencl
+      # pkgs.rocmPackages.clr.icd 
+    ];
   };
 
   # Creates a second boot entry without latest drivers
@@ -51,11 +47,11 @@ in
   #   };
   # };
 
-  sound.enable = true;
+  # sound.enable = true;
 
   # network
   networking.firewall.enable = false;
   networking.hostName = "mustafa-pc"; # Define your hostname.
-  networking.networkmanager.enable = true; # Easiest to use and most distros use this by default.
+  networking.networkmanager.enable =
+    true; # Easiest to use and most distros use this by default.
 }
-

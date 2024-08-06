@@ -23,8 +23,8 @@
   # boot.kernelPackages = pkgs.linuxPackages_testing;
 
   boot.initrd.availableKernelModules = [ "nvme" "xhci_pci" "ahci" "usbhid" ];
-  boot.initrd.kernelModules = [ "amdgpu" ];
-  boot.kernelModules = [ "kvm-amd" "i2c-dev" "i2c-piix4" "hid-playstasion" "v4l2loopback" ];
+  boot.initrd.kernelModules = [ "amdgpu" "vfio_pci" "vfio_iommu_type1" "vfio" ];
+  boot.kernelModules = [ "kvm-amd" "i2c-dev" "i2c-piix4" "hid-playstasion" "v4l2loopback" "k10temp" ];
   boot.kernelParams = [ "amd_iommu=on" ];
   boot.extraModulePackages = with config.boot.kernelPackages; [ v4l2loopback.out ];
 
