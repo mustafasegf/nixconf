@@ -125,7 +125,7 @@
               # font
               fonts.packages = with pkgs; [
                 noto-fonts
-                noto-fonts-cjk
+                noto-fonts-cjk-sans
                 noto-fonts-emoji
                 liberation_ttf
                 fira-code
@@ -134,7 +134,7 @@
                 dina-font
                 proggyfonts
                 ibm-plex
-                nerdfonts
+                nerd-fonts.blex-mono
               ];
 
               console = {
@@ -231,7 +231,7 @@
               # services        
               services.dbus.packages = with pkgs; [
                 dconf
-                gnome3.gnome-keyring
+                gnome-keyring
               ];
 
               services.hardware.openrgb = {
@@ -332,7 +332,7 @@
 
               services.xserver = {
                 enable = true;
-                digimend.enable = true;
+                digimend.enable = false; # idk why error 
                 wacom.enable = true;
                 videoDrivers = [ "modesetting" ];
                 # videoDrivers = [ "amdgpu" ];

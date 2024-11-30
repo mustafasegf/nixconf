@@ -299,7 +299,7 @@
     nodePackages.bash-language-server
     # nodePackages.prisma #broken
 
-    kdeconnect
+    plasma5Packages.kdeconnect-kde
     # xfce.thunar
     # xfce.thunar-volman
     # xfce.thunar-archive-plugin
@@ -365,7 +365,7 @@
     man-pages-posix
     # upkgs.soundux
     fwupd
-    gnome.seahorse
+    seahorse
     xorg.xkbcomp
     xorg.xkbutils
     xorg.xmodmap
@@ -405,13 +405,13 @@
     firefox
     blender
     nix-prefetch-scripts
-    gnome.file-roller
+    file-roller
     libsForQt5.ark
     libsForQt5.kdenlive
     qalculate-qt
     libsForQt5.kcalc
     qbittorrent
-    gnome.cheese
+    cheese
     libsForQt5.kamoso
     alacritty
     xournalpp
@@ -458,7 +458,7 @@
     # teams
     solaar
     logitech-udev-rules
-    vagrant
+    (vagrant.override { withLibvirt = false; })
     lutris
     tetrio-desktop
     tmate
@@ -485,7 +485,7 @@
     djvu2pdf
     djvulibre
     yarn
-    colorpicker
+    xcolor
     cargo-tarpaulin
     # mods
     glow

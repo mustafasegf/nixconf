@@ -253,7 +253,7 @@ in {
       obs-vkcapture
       obs-vaapi
       obs-tuna
-      obs-transition-table
+      # obs-transition-table # not working
       obs-text-pthread
       obs-source-switcher
       obs-pipewire-audio-capture
