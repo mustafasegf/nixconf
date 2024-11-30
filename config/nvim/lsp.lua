@@ -189,6 +189,7 @@ local servers = {
 	"quick_lint_js",
 	"intelephense",
   "cmake",
+  "gleam",
 }
 
 for _, server in ipairs(servers) do

@@ -178,7 +178,7 @@
       ps.scipy
       ps.pip
       ps.seaborn
-      ps.plotly
+      # ps.plotly
       ps.statsmodels
       ps.opencv4
       ps.selenium
@@ -222,7 +222,7 @@
     pulseaudio-ctl
     home-manager
     openrgb
-    discord
+    mpkgs.discord
     discord-ptb
     killall
     libnotify
@@ -258,7 +258,8 @@
     jdt-language-server
     nodePackages.svelte-language-server
     # nodePackages.grammarly-languageserver
-    nodePackages."@astrojs/language-server"
+    # nodePackages."@astrojs/language-server"
+    astro-language-server
     emmet-ls
     ##astro
     ##prisma
@@ -296,7 +297,7 @@
     sumneko-lua-language-server
     nodePackages.diagnostic-languageserver
     nodePackages.bash-language-server
-    nodePackages.prisma
+    # nodePackages.prisma #broken
 
     kdeconnect
     # xfce.thunar
@@ -560,6 +561,7 @@
     waifu2x-converter-cpp
     codux
     mpkgs.gleam
+    erlang_26
     sidequest
     revanced-cli
     toilet
@@ -618,5 +620,6 @@
     devenv
     libsForQt5.filelight
     dmidecode
+    inotify-tools
   ];
 }

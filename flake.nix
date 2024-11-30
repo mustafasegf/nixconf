@@ -185,7 +185,17 @@
                 # substituters = [ "https://cache.komunix.org/" ];
                 substituters = lib.mkForce [ "https://cache.nixos.org" ];
                 fallback = true;
+                trusted-users = [ "root" "mustafa" "@wheel" ];
+                # trusted-substituters = [ "https://devenv.cachix.org" ];
+                # trusted-public-keys = [
+                #   "devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw="
+                # ];
               };
+
+              # nix.extraOptions = ''
+              #   extra-trusted-substituters = https://devenv.cachix.org;
+              #   extra-trusted-public-keys = devenv.cachix.org-1:w1cLUi8dv3hnoSPGAuibQv+f9TZLr6cv/Hm9XgU50cw=;
+              # '';
 
               # environment
               environment.pathsToLink = [ "/share/nix-direnv" ];
