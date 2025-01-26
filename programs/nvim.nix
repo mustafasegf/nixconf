@@ -77,11 +77,12 @@
       }
 
       #language spesific
-      {
-        plugin = (pluginGit "ray-x" "go.nvim" "master"
-          "z65o3cOoxWILDKjEUWNTK1X7riQjxAS7BGeo29049Ms=");
-        type = "lua";
-      }
+      ## idk some issues
+      # {
+      #   plugin = (pluginGit "ray-x" "go.nvim" "master"
+      #     "z65o3cOoxWILDKjEUWNTK1X7riQjxAS7BGeo29049Ms=");
+      #   type = "lua";
+      # }
       {
         plugin = (pluginGit "mechatroner" "rainbow_csv" "master"
           "kNjEjIOyWViQ6hLyTwP9no7ZF0Iv/TGW0oXPlBM4eu4=");
@@ -265,12 +266,12 @@
       registers-nvim
       vim-suda
       nui-nvim
-      {
-        plugin = (pluginGit "amitds1997" "remote-nvim.nvim" "main"
-          "yU9eqb4YSSnJ/tgsqq/P/LQBz/yJCwbQJhPoqYBOlaY=");
-        type = "lua";
-        config = ''require("remote-nvim").setup()'';
-      }
+      # {
+      #   plugin = (pluginGit "amitds1997" "remote-nvim.nvim" "main"
+      #     "yU9eqb4YSSnJ/tgsqq/P/LQBz/yJCwbQJhPoqYBOlaY=");
+      #   type = "lua";
+      #   config = ''require("remote-nvim").setup()'';
+      # }
       {
         plugin = harpoon;
         type = "lua";
