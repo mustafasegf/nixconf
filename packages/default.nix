@@ -592,7 +592,7 @@
     nix-output-monitor
     # openai-whisper
     # mpkgs.ollama
-    semgrep
+    # semgrep
     # nodePackages.wrangler
     gfortran
     gdal
@@ -620,6 +620,8 @@
     devenv
     libsForQt5.filelight
     dmidecode
-    inotify-tools
+    inotify-tools 
+    pcsx2
+    chafa
   ];
 }

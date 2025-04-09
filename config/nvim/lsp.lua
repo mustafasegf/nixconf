@@ -90,33 +90,33 @@ end
 local null_ls = require("null-ls")
 local formatting = null_ls.builtins.formatting
 
-require("null-ls").setup({
-	sources = {
-		formatting.stylua,
-		formatting.prettier,
-		formatting.gofumpt,
-		formatting.goimports,
-		formatting.jq,
-		formatting.black.with({
-			args = {
-				"--stdin-filename",
-				"$FILENAME",
-				"--quiet",
-				"-",
-				"--line-length",
-				"110",
-				"--skip-string-normalization",
-			},
-		}),
-		formatting.terrafmt,
-		formatting.clang_format,
-		formatting.shfmt,
-		formatting.fourmolu,
-		formatting.nixfmt,
-		formatting.cmake_format,
-		-- formatting.statix,
-	},
-})
+-- require("null-ls").setup({
+-- 	sources = {
+-- 		formatting.stylua,
+-- 		formatting.prettier,
+-- 		formatting.gofumpt,
+-- 		formatting.goimports,
+-- 		formatting.jq,
+-- 		formatting.black.with({
+-- 			args = {
+-- 				"--stdin-filename",
+-- 				"$FILENAME",
+-- 				"--quiet",
+-- 				"-",
+-- 				"--line-length",
+-- 				"110",
+-- 				"--skip-string-normalization",
+-- 			},
+-- 		}),
+-- 		formatting.terrafmt,
+-- 		formatting.clang_format,
+-- 		formatting.shfmt,
+-- 		formatting.fourmolu,
+-- 		formatting.nixfmt,
+-- 		formatting.cmake_format,
+-- 		-- formatting.statix,
+-- 	},
+-- })
 
 -- vim.api.nvim_exec([[ autocmd BufWritePost,FileWritePost *.go execute 'PrettyTag' | checktime ]], false)
 
@@ -144,22 +144,22 @@ capabilities.textDocument.foldingRange = {
 -- 	"autocmd FileType sql,mysql,plsql lua require('cmp').setup.buffer({ sources = {{ name = 'vim-dadbod-completion' }} })"
 -- )
 
-require("lsp-inlayhints").setup()
-vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
-vim.api.nvim_create_autocmd("LspAttach", {
-	group = "LspAttach_inlayhints",
-	callback = function(args)
-		if not (args.data and args.data.client_id) then
-			return
-		end
+-- require("lsp-inlayhints").setup()
+-- vim.api.nvim_create_augroup("LspAttach_inlayhints", {})
+-- vim.api.nvim_create_autocmd("LspAttach", {
+-- 	group = "LspAttach_inlayhints",
+-- 	callback = function(args)
+-- 		if not (args.data and args.data.client_id) then
+-- 			return
+-- 		end
 
-		local bufnr = args.buf
-		local client = vim.lsp.get_client_by_id(args.data.client_id)
+-- 		local bufnr = args.buf
+-- 		local client = vim.lsp.get_client_by_id(args.data.client_id)
 
-		vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>h", ":lua require('lsp-inlayhints').toggle()<CR>", opts)
-		require("lsp-inlayhints").on_attach(client, bufnr)
-	end,
-})
+-- 		vim.api.nvim_buf_set_keymap(bufnr, "n", "<leader>h", ":lua require('lsp-inlayhints').toggle()<CR>", opts)
+-- 		require("lsp-inlayhints").on_attach(client, bufnr)
+-- 	end,
+-- })
 
 local servers = {
 	"clangd",

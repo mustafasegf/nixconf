@@ -43,12 +43,12 @@
       vscjava.vscode-java-dependency
       redhat.java
       ocamllabs.ocaml-platform
-      (wakatime.vscode-wakatime.overrideAttrs (old: {
-        postPatch = ''
-          mkdir wakatime-cli
-          ln -s ${pkgs.wakatime}/bin/wakatime ./wakatime-cli/wakatime-cli
-        '';
-      }))
+      # (wakatime.vscode-wakatime.overrideAttrs (old: {
+      #   postPatch = ''
+      #     mkdir wakatime-cli
+      #     ln -s ${pkgs.wakatime}/bin/wakatime ./wakatime-cli/wakatime-cli
+      #   '';
+      # }))
 
     ] ++ pkgs.vscode-utils.extensionsFromVscodeMarketplace [
       {
@@ -243,7 +243,7 @@
       "[vue]" = {
         "editor.defaultFormatter" = "esbenp.prettier-vscode";
       };
-      "terminal.integrated.defaultProfile.linux" = "tmux";
+      "terminal.integrated.defaultProfile.linux" = "zsh";
       "explorer.confirmDelete" = false;
       "java.jdt.ls.vmargs" = "-XX:+UseParallelGC -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90 -Dsun.zip.disableMemoryMapping=true -Xmx1G -Xms100m -javaagent:\"/home/mustafa/.vscode/extensions/gabrielbb.vscode-lombok-1.0.1/server/lombok.jar\"";
       "explorer.confirmDragAndDrop" = false;

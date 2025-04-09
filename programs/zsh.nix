@@ -235,9 +235,9 @@
 
         # tmux auto start config
         # change this
-        ZSH_TMUX_AUTOSTART=true
+        ZSH_TMUX_AUTOSTART=false
         ZSH_TMUX_AUTOSTART_ONCE=false
-        ZSH_TMUX_AUTOCONNECT=true
+        ZSH_TMUX_AUTOCONNECT=false
         ZSH_TMUX_CONFIG=/home/mustafa/.config/tmux/tmux.conf
 
         # vi mode config
@@ -258,6 +258,14 @@
             mkdir -p -- "$1" &&
             cd -P -- "$1"
         }
+
+        # check if terminal is xterm-ghostty. then run tmux
+        case "$TERM" in
+            xterm-ghostty|xterm-kitty)
+                tmux new -As0
+                ;;
+        esac
+
 
         function cdg() { cd "$(git rev-parse --show-toplevel)"  }
 
