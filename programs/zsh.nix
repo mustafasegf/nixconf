@@ -261,7 +261,7 @@
 
         # check if terminal is xterm-ghostty. then run tmux
         case "$TERM" in
-            xterm-ghostty|xterm-kitty)
+            xterm-ghostty|xterm-kitty|xterm-256color)
                 tmux new -As0
                 ;;
         esac

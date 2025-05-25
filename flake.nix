@@ -281,6 +281,7 @@
                 icu
                 zlib
                 nss
+                nspr
                 openssl
                 curl
                 expat
@@ -441,7 +442,10 @@
               services.zerotierone = {
                 package = pkgs.zerotierone;
                 enable = true;
-                joinNetworks = [ ];
+                joinNetworks = [
+                  "35c192ce9b045898" # home network
+                  "8850338390eddd9b" # minecraft
+                ];
               };
 
               systemd.services.NetworkManager-wait-online.enable = false;

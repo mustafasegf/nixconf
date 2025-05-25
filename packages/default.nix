@@ -114,6 +114,7 @@
     wireplumber
     x11vnc
     xclip
+    xsel
     xcolor
     yt-dlp
     (let
@@ -197,6 +198,7 @@
       # ps.numpydoc
       # ps.torchvision
       # ps.torchaudio
+      # ps.triton
       ps.tkinter
     ]))
     poetry
@@ -623,5 +625,8 @@
     inotify-tools 
     pcsx2
     chafa
+    nss
+    nspr
+    reveal-md
   ];
 }
