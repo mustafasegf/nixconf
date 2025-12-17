@@ -351,11 +351,11 @@
       cma = "cargo mommy add";
 
 
-      ls = "lsd";
-      la = "ls -A";
+      # ls = "lsd";
+      # la = "ls -A";
       l = "ls -Alh";
-      ll = "ls -Al";
-      lt = "ls --tree";
+      # ll = "ls -Al";
+      # lt = "ls --tree";
       lta = "ls -A --tree";
 
       g = "git";

@@ -196,7 +196,7 @@ in {
 
   programs.lsd = {
     enable = true;
-    enableAliases = false;
+    # enableAliases = false;
     settings = {
       layout = "grid";
       blocks = [ "permission" "user" "group" "date" "size" "git" "name" ];

@@ -74,7 +74,7 @@
     nitrogen
     nmap
     notion-app-enhanced
-    nvtop
+    nvtopPackages.full
     p7zip
     pinta
     postman
@@ -96,7 +96,7 @@
         hash = "sha256-O4r/bfK33hJ6w7+p+8uqEdREGUhcaEg+Zjh/T7Bm6sY=";
       };
 
-      cargoHash = "sha256-5BaYjUbPjmjauxlFP0GvT5mFMyrg7Bx7tTcAgQkyQBw=";
+      cargoHash = "sha256-qrqhIT7FKcRmz9AWAvdbPi1uzVpkGXBJefr3y06n9F0=";
 
       nativeBuildInputs = [ installShellFiles ];
 
@@ -119,7 +119,7 @@
     yt-dlp
     (let
       packagePypi = name: ver: ref: deps:
-        python311.pkgs.buildPythonPackage rec {
+        python3.pkgs.buildPythonPackage rec {
           pname = name;
           version = ver;
 
@@ -131,16 +131,16 @@
           buildInputs = deps;
           doCheck = false;
         };
-    in python311.withPackages (ps: [
+    in python3.withPackages (ps: [
       # sha from nix store prefetch-file 
-      (packagePypi "iwlib" "1.7.0"
-        "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE=" [
-          wirelesstools
-          ps.setuptools
-          ps.cffi
-        ])
-      (packagePypi "Appium-Python-Client" "4.0.0"
-        "sha256-0Ty9bdgdApBwG6RRFF7H6/Wm10Iiva78ErYu9vVqH9Y=" [ ])
+      # (packagePypi "iwlib" "1.7.0"
+      #   "sha256-qAX2WXpw7jABq6jwOft7Lct13BXE54UvVZT9Y3kZbaE=" [
+      #     wirelesstools
+      #     ps.setuptools
+      #     ps.cffi
+      #   ])
+      # (packagePypi "Appium-Python-Client" "4.0.0"
+      #   "sha256-0Ty9bdgdApBwG6RRFF7H6/Wm10Iiva78ErYu9vVqH9Y=" [ ])
       # (
       #   packagePypi
       #     "qtile"
@@ -178,7 +178,7 @@
       ps.numpy
       ps.scipy
       ps.pip
-      ps.seaborn
+      # ps.seaborn
       # ps.plotly
       ps.statsmodels
       ps.opencv4
@@ -348,7 +348,7 @@
     # minecraft
     virtualbox
     virt-manager
-    mpkgs.qemu_full
+    # mpkgs.qemu_full
     libreoffice
     gcc
     gdb
@@ -429,7 +429,7 @@
 
     dotnet-sdk
     wakatime
-    microsoft-edge
+    # microsoft-edge
     prefetch-npm-deps
     go-swag
     # ciscoPacketTracer8
@@ -460,7 +460,7 @@
     # teams
     solaar
     logitech-udev-rules
-    (vagrant.override { withLibvirt = false; })
+    # (vagrant.override { withLibvirt = false; })
     lutris
     tetrio-desktop
     tmate
@@ -470,14 +470,14 @@
     imagemagick
     poppler_utils
 
-    ((vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: rec {
-      src = (builtins.fetchTarball {
-        url =
-          "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
-        sha256 = "1b8lf6qqq6868kqzc35482ksfvzfxfhdpn2lisksjrji1qyiz06l";
-      });
-      version = "latest";
-    }))
+    # ((vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: rec {
+    #   src = (builtins.fetchTarball {
+    #     url =
+    #       "https://code.visualstudio.com/sha/download?build=insider&os=linux-x64";
+    #     sha256 = "1b8lf6qqq6868kqzc35482ksfvzfxfhdpn2lisksjrji1qyiz06l";
+    #   });
+    #   version = "latest";
+    # }))
     pomodoro
     prismlauncher
     calibre
@@ -511,6 +511,7 @@
     ghc
     cabal-install
     winbox
+    winbox4
     libcamera
     pandoc
     texlive.combined.scheme-full
@@ -545,7 +546,7 @@
     tree
     termscp
     quick-lint-js
-    renderdoc
+    # renderdoc
     maven
     bottles
     godot3
@@ -628,5 +629,12 @@
     nss
     nspr
     reveal-md
+    autoconf
+    uv
+    ast-grep
+    # nodePackages."@effect/language-service"
+    tiled
+    aseprite
+    d2
   ];
 }
