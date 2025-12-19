@@ -26,7 +26,8 @@
     vim
     neovim
     wget
-    glxinfo
+    # glxinfo
+    mesa-demos
 
     kitty
     zsh
@@ -80,7 +81,7 @@
     postman
     qpwgraph
     libsForQt5.qt5ct
-    libsForQt5.okular
+    kdePackages.okular
     radeontop
     scrcpy
     speedtest-cli
@@ -170,10 +171,10 @@
       # )
       ps.jupyterlab
       ps.notebook
-      ps.jupyter_console
+      ps.jupyter-console
       ps.ipykernel
       ps.pandas
-      ps.scikitlearn
+      ps.scikit-learn
       ps.matplotlib
       ps.numpy
       ps.scipy
@@ -217,7 +218,7 @@
     pulseaudioFull
     slack
     zoom-us
-    tdesktop
+    telegram-desktop
     google-chrome
     thunderbird
     alsa-utils
@@ -296,12 +297,12 @@
     # }
 
     ##jsonls
-    sumneko-lua-language-server
+    lua-language-server
     nodePackages.diagnostic-languageserver
     nodePackages.bash-language-server
     # nodePackages.prisma #broken
 
-    plasma5Packages.kdeconnect-kde
+    kdePackages.kdeconnect-kde
     # xfce.thunar
     # xfce.thunar-volman
     # xfce.thunar-archive-plugin
@@ -353,7 +354,7 @@
     gcc
     gdb
     gedit
-    libsForQt5.kate
+    kdePackages.kate
     screenkey
     k6
     direnv
@@ -408,16 +409,16 @@
     blender
     nix-prefetch-scripts
     file-roller
-    libsForQt5.ark
-    libsForQt5.kdenlive
+    kdePackages.ark
+    kdePackages.kdenlive
     qalculate-qt
-    libsForQt5.kcalc
+    kdePackages.kcalc
     qbittorrent
     cheese
-    libsForQt5.kamoso
+    kdePackages.kamoso
     alacritty
     xournalpp
-    du-dust
+    dust
     eza
     exercism
 
@@ -428,7 +429,7 @@
     ocamlPackages.ocaml-lsp
 
     dotnet-sdk
-    wakatime
+    wakatime-cli
     # microsoft-edge
     prefetch-npm-deps
     go-swag
@@ -439,7 +440,7 @@
     helvum
     qpwgraph
     qjackctl
-    ventoy-bin-full
+    ventoy
     html-tidy
     pmutils
     notion-app-enhanced
@@ -468,7 +469,7 @@
     termshark
     wireshark
     imagemagick
-    poppler_utils
+    poppler-utils
 
     # ((vscode.override { isInsiders = true; }).overrideAttrs (oldAttrs: rec {
     #   src = (builtins.fetchTarball {
@@ -515,7 +516,7 @@
     libcamera
     pandoc
     texlive.combined.scheme-full
-    tor-browser-bundle-bin
+    tor-browser
     nixpacks
     license-cli
     fim
@@ -525,7 +526,7 @@
     dive
     pspp
     w3m
-    xdragon
+    dragon-drop
     # rocmPackages.rocminfo
     comma
     cargo-watch
@@ -553,12 +554,12 @@
     godot_4
     onedrive
     zig
-    swiProlog
+    swi-prolog
     inetutils
     wol
     subversionClient
     hexyl
-    bitwarden
+    bitwarden-desktop
     bitwarden-cli
     mpkgs.android-studio
     waifu2x-converter-cpp
@@ -606,7 +607,7 @@
     cmake-language-server
     spotify
     weechat
-    libsForQt5.konversation
+    kdePackages.konversation
     git-filter-repo
     cargo-expand
     _86Box-with-roms
@@ -621,7 +622,7 @@
     cargo-mommy
     parsec-bin
     devenv
-    libsForQt5.filelight
+    kdePackages.filelight
     dmidecode
     inotify-tools 
     pcsx2

@@ -94,7 +94,8 @@
         config = builtins.readFile ../config/nvim/jupyter.lua;
       }
       dressing-nvim
-      rust-tools-nvim
+      # rust-tools-nvim
+      rustaceanvim
       nvim-notify
       vim-android
       neoconf-nvim

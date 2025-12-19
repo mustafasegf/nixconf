@@ -50,6 +50,7 @@
             "python-2.7.18.6"
             "nix-2.16.2"
             "ventoy-1.1.05"
+            "ventoy-1.1.07"
           ];
         };
       };
@@ -143,7 +144,7 @@
                 fonts.packages = with pkgs; [
                   noto-fonts
                   noto-fonts-cjk-sans
-                  noto-fonts-emoji
+                  noto-fonts-color-emoji
                   liberation_ttf
                   fira-code
                   fira-code-symbols
@@ -639,7 +640,7 @@
                     enable = true;
                     onBoot = "ignore";
                     onShutdown = "shutdown";
-                    qemu.ovmf.enable = true;
+                    # qemu.ovmf.enable = true;
                     qemu.runAsRoot = true;
                   };
                 };
