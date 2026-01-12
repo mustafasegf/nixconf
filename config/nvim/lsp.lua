@@ -214,20 +214,20 @@ else
 	liblldb_path = liblldb_path .. (this_os == "Linux" and ".so" or ".dylib")
 end
 
-require("rust-tools").setup({
-	server = {
-		on_attach = on_attach,
-		capabilities = capabilities,
-	},
-	tools = {
-		inlay_hints = {
-			auto = false,
-		},
-	},
-	dap = {
-		adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
-	},
-})
+-- require("rust-tools").setup({
+-- 	server = {
+-- 		on_attach = on_attach,
+-- 		capabilities = capabilities,
+-- 	},
+-- 	tools = {
+-- 		inlay_hints = {
+-- 			auto = false,
+-- 		},
+-- 	},
+-- 	dap = {
+-- 		adapter = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path),
+-- 	},
+-- })
 
 lsp.tsserver.setup({
 	capabilities = capabilities,

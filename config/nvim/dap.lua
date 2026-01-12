@@ -34,7 +34,7 @@ end
 
 local dap = require("dap")
 
-dap.adapters.codelldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
+-- dap.adapters.codelldb = require("rust-tools.dap").get_codelldb_adapter(codelldb_path, liblldb_path)
 dap.adapters.cppdbg = {
 	id = "cppdbg",
 	type = "executable",
