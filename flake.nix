@@ -316,7 +316,11 @@
                   xorg.libXcursor
                   xorg.libXi
                   xorg.libxcb
-                  xorg.libX11
+                  xorg.libXtst
+                  xorg.libXScrnSaver
+                  xorg.libXinerama
+                  xorg.libXdmcp
+                  xorg.libXau
 
                   # XCB util modules
                   xorg.xcbutil
@@ -676,6 +680,19 @@
                   openssh.authorizedKeys.keys = [
                     "ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIDNEKM6YnhuLcLfy5FkCt+rX1M10vMS00zynI6tsta1s mustafa.segf@gmail.com"
                   ];
+                };
+
+                users.users.guest = {
+                  isNormalUser = true;
+                  description = "Guest account";
+                  extraGroups = [
+                    "networkmanager"
+                    "docker"
+                  ];
+                  openssh.authorizedKeys.keys = [
+
+                  ];
+
                 };
 
               }

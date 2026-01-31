@@ -637,5 +637,7 @@
     tiled
     aseprite
     d2
+    gvisor
+    hyfetch
   ];
 }
